@@ -108,13 +108,13 @@ export default function ProjectsSection() {
       <div className={`${CONTAINER} mb-[clamp(32px,5vw,64px)]`}>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-[clamp(24px,4vw,77px)] items-start">
           {/* Left: Heading — Cal Sans, 64px at 1920px width, scales fluidly below that */}
-          <div className="lg:col-span-7">
+          <div className="lg:col-span-6">
             <h2 className="text-[clamp(32px,3.33vw,64px)] font-normal leading-none font-display text-near-black tracking-[0px]">
               Projects we have done
             </h2>
           </div>
           {/* Right: Sub-heading — Geist, 24px / line-height 26px at 1920px width */}
-          <div className="lg:col-span-5 lg:pt-3">
+          <div className="lg:col-span-6 lg:pt-3">
             <p className="text-[clamp(16px,1.25vw,24px)] leading-[1.2] font-sans font-normal tracking-[-0.04em] text-body-gray">
               Completed and pilot projects demonstrating speed, quality, and value across building types. Add real projects with photos, scale, and outcomes as they complete.
             </p>
