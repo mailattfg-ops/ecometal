@@ -40,7 +40,11 @@ export default function PublicLayout({
     <div className="flex-1 flex flex-col min-h-screen">
       {/* Navigation Header */}
       <header
-        className="fixed top-0 left-0 right-0 z-50 px-[clamp(16px,4vw,64px)] py-4 flex items-center justify-between transition-all duration-300 pointer-events-none"
+        className={`fixed top-0 left-0 right-0 z-50 px-[clamp(16px,4vw,64px)] py-4 flex items-center justify-between transition-all duration-300 ${
+          isScrolled 
+            ? "bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-200 pointer-events-auto" 
+            : "pointer-events-none"
+        }`}
       >
         {/* Logo / Brand Name */}
         <Link 
@@ -53,20 +57,28 @@ export default function PublicLayout({
             width={210}
             height={52}
             priority
-            className="w-[120px] sm:w-[150px] md:w-[180px] xl:w-[210px] h-auto object-contain"
+            className={`w-[120px] sm:w-[150px] md:w-[180px] xl:w-[210px] h-auto object-contain transition-all duration-300 ${
+              isScrolled ? "brightness-0" : ""
+            }`}
           />
         </Link>
 
         {/* Desktop Navigation Pill (Links + CTA Button inside) */}
         <div 
-          className="hidden lg:flex items-center gap-4 bg-black/60 backdrop-blur-md rounded-full p-[3px] border border-white/10 shadow-lg select-none shrink-0 pointer-events-auto"
+          className={`hidden lg:flex items-center gap-4 rounded-full p-[3px] border transition-all duration-300 select-none shrink-0 pointer-events-auto ${
+            isScrolled 
+              ? "bg-gray-100/80 border-gray-200" 
+              : "bg-black/60 backdrop-blur-md border-white/10 shadow-lg"
+          }`}
         >
           <nav className="flex items-center gap-1 pl-4">
             {navLinks.map((link) => (
               <a
                 key={link.name}
                 href={link.href}
-                className="text-[12px] font-normal text-white/90 hover:text-white px-2.5 py-1 transition-colors duration-200"
+                className={`text-[12px] font-normal px-2.5 py-1 transition-colors duration-200 ${
+                  isScrolled ? "text-gray-600 hover:text-black" : "text-white/90 hover:text-white"
+                }`}
               >
                 {link.name}
               </a>
@@ -74,7 +86,11 @@ export default function PublicLayout({
           </nav>
           <a
             href="#contact"
-            className="bg-white text-black text-[12px] font-semibold px-4 py-1.5 rounded-full hover:bg-white/90 transition select-none shrink-0"
+            className={`text-[12px] font-semibold px-4 py-1.5 rounded-full transition select-none shrink-0 ${
+              isScrolled 
+                ? "bg-brand-navy text-white hover:bg-brand-navy/90" 
+                : "bg-white text-black hover:bg-white/90"
+            }`}
           >
             Get In Touch
           </a>
@@ -83,7 +99,9 @@ export default function PublicLayout({
         {/* Mobile Menu Button */}
         <button
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="lg:hidden p-2 text-white hover:text-brand-gold transition-colors"
+          className={`lg:hidden p-2 transition-colors ${
+            isScrolled ? "text-near-black hover:text-brand-navy" : "text-white hover:text-brand-gold"
+          }`}
           aria-label="Toggle menu"
         >
           {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -91,14 +109,22 @@ export default function PublicLayout({
 
         {/* Mobile Navigation Dropdown */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden absolute top-full left-0 right-0 bg-brand-navy/95 border-b border-white/10 px-6 py-6 transition-all duration-300 pointer-events-auto backdrop-blur-md">
+          <div className={`lg:hidden absolute top-full left-0 right-0 border-b transition-all duration-300 pointer-events-auto backdrop-blur-md ${
+            isScrolled 
+              ? "bg-white/95 border-gray-200" 
+              : "bg-brand-navy/95 border-white/10"
+          } px-6 py-6`}>
             <nav className="flex flex-col space-y-4">
               {navLinks.map((link) => (
                 <a
                   key={link.name}
                   href={link.href}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="text-base font-medium text-gray-300 hover:text-accent-blue py-1.5 border-b border-white/5 transition-colors"
+                  className={`text-base font-medium py-1.5 border-b transition-colors ${
+                    isScrolled 
+                      ? "text-gray-600 hover:text-black border-gray-100" 
+                      : "text-gray-300 hover:text-accent-blue border-white/5"
+                  }`}
                 >
                   {link.name}
                 </a>
@@ -106,7 +132,11 @@ export default function PublicLayout({
               <a
                 href="#contact"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="inline-flex items-center justify-center w-full px-5 py-3 mt-4 rounded-full text-base font-bold bg-white text-dark-gray hover:bg-accent-blue hover:text-white transition-colors shadow-md"
+                className={`inline-flex items-center justify-center w-full px-5 py-3 mt-4 rounded-full text-base font-bold transition-all shadow-md ${
+                  isScrolled 
+                    ? "bg-brand-navy text-white hover:bg-brand-navy/90" 
+                    : "bg-white text-dark-gray hover:bg-accent-blue hover:text-white"
+                }`}
               >
                 Get In Touch
               </a>
