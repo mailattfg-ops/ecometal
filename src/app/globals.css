@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+/* Cal Sans and Geist are already loaded via @fontsource imports in layout.tsx
+   (self-hosted, bundled with the build). The manual @font-face blocks that used
+   to live here pointed at an external CDN (cdn.jsdelivr.net) and declared the
+   wrong font-weight (400) for a file that is actually SemiBold (600) -- if that
+   CDN request was ever blocked or slow, the browser silently fell back to a
+   default system font instead of Cal Sans, which is why headings looked thin.
+   Removed in favor of the reliable local @fontsource versions. */
+
+@theme {
+  --font-sans: 'Geist', 'Plus Jakarta Sans', var(--font-family-sans);
+  --font-display: 'Cal Sans', 'Outfit', var(--font-family-sans);
+
+  --color-brand-navy: #001B51;
+  --color-near-black: #171C26;
+  --color-brand-teal: #395F54;
+  --color-accent-blue: #5176C0;
+  --color-light-blue: #88A4DB;
+  --color-brand-gold: #BB8543;
+  --color-body-gray: #676F7E;
+  --color-mid-gray: #828282;
+  --color-muted-gray: #8E8E8E;
+  --color-light-gray: #B8B8B8;
+  --color-off-white: #DFE9EA;
+  --color-dark-gray: #111111;
+
+  --animate-fade-in: fade-in 0.6s ease-out forwards;
+  --animate-slide-up: slide-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slide-up {
+    from {
+      transform: translateY(20px);
+      opacity: 0;
+    }
+
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: #fdfdfd;
+  color: #1f2937;
+  scroll-behavior: smooth;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-display);
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: var(--color-brand-navy);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--color-brand-gold);
+  border-radius: 3px;
+}

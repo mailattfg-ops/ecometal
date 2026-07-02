@@ -1,0 +1,226 @@
+"use client";
+
+import React, { useState, useEffect, useRef } from "react";
+import { supabase } from "@/lib/supabase";
+import SectionDivider from "@/components/SectionDivider";
+import { ArrowLeft, ArrowRight } from "lucide-react";
+
+interface Operator {
+  id: string | number;
+  name: string;
+  role: string;
+  badge: string;
+  image_url: string;
+}
+
+const MOCK_OPERATORS: Operator[] = [
+  {
+    id: 1,
+    name: "James\nKennedy",
+    role: "15+ years of Experience",
+    badge: "Operations Director",
+    image_url: "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=2000&auto=format&fit=crop"
+  },
+  {
+    id: 2,
+    name: "Samantha\nLiu",
+    role: "10 years of Experience",
+    badge: "Chief of Marketing",
+    image_url: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=2000&auto=format&fit=crop"
+  },
+  {
+    id: 3,
+    name: "Marcus\nTuring",
+    role: "8 years of Experience",
+    badge: "Sourcing Specialist",
+    image_url: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=2000&auto=format&fit=crop"
+  },
+  {
+    id: 4,
+    name: "Emily\nClark",
+    role: "12 years of Experience",
+    badge: "Logistics Coordinator",
+    image_url: "https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=2000&auto=format&fit=crop"
+  },
+  {
+    id: 5,
+    name: "Rajesh\nPatel",
+    role: "5 years of Experience",
+    badge: "Marketing Manager",
+    image_url: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=2000&auto=format&fit=crop"
+  }
+];
+
+export default function OperatorsSection() {
+  const [operators, setOperators] = useState<Operator[]>(MOCK_OPERATORS);
+  const [loading, setLoading] = useState<boolean>(true);
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    async function getOperators() {
+      try {
+        setLoading(true);
+        const { data, error } = await supabase
+          .from("operators")
+          .select("*")
+          .order("id", { ascending: true });
+
+        if (error) {
+          throw error;
+        }
+
+        if (data && data.length > 0) {
+          // If less than 5 from DB, append mock ones to keep exactly 5 items as specified
+          if (data.length < 5) {
+            const filled = [...data, ...MOCK_OPERATORS.slice(data.length)];
+            setOperators(filled);
+          } else {
+            setOperators(data);
+          }
+        }
+      } catch (err) {
+        console.warn("Supabase Operators fetch failed, using fallback mock data:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    getOperators();
+  }, []);
+
+  const scroll = (direction: "left" | "right") => {
+    if (scrollRef.current) {
+      const { scrollLeft } = scrollRef.current;
+      const scrollAmount = 350; // scroll by roughly one card width
+      const targetScroll = direction === "left" ? scrollLeft - scrollAmount : scrollLeft + scrollAmount;
+      scrollRef.current.scrollTo({
+        left: targetScroll,
+        behavior: "smooth"
+      });
+    }
+  };
+
+  const CONTAINER = "w-full max-w-[1857px] mx-auto px-[clamp(20px,4.2vw,81px)]";
+
+  // Normalize data (ensuring correct line-breaks, experience values, and badges
+  // regardless of if database values are different from mockup specifications)
+  const displayOperators = operators.map((op) => {
+    const nameClean = op.name.replace(/\n/g, " ");
+    let mappedRole = op.role;
+    let mappedBadge = op.badge;
+    let mappedName = op.name;
+
+    if (nameClean.includes("James")) {
+      mappedName = "James\nKennedy";
+      mappedRole = "15+ years of Experience";
+      mappedBadge = "Operations Director";
+    } else if (nameClean.includes("Samantha")) {
+      mappedName = "Samantha\nLiu";
+      mappedRole = "10 years of Experience";
+      mappedBadge = "Chief of Marketing";
+    } else if (nameClean.includes("Marcus")) {
+      mappedName = "Marcus\nTuring";
+      mappedRole = "8 years of Experience";
+      mappedBadge = "Sourcing Specialist";
+    } else if (nameClean.includes("Emily")) {
+      mappedName = "Emily\nClark";
+      mappedRole = "12 years of Experience";
+      mappedBadge = "Logistics Coordinator";
+    } else if (nameClean.includes("Rajesh")) {
+      mappedName = "Rajesh\nPatel";
+      mappedRole = "5 years of Experience";
+      mappedBadge = "Marketing Manager";
+    }
+
+    return {
+      ...op,
+      name: mappedName,
+      role: mappedRole,
+      badge: mappedBadge
+    };
+  });
+
+  return (
+    <section id="team" className="w-full bg-white text-gray-800 py-[clamp(48px,8vw,96px)] scroll-mt-20 flex flex-col items-center overflow-x-hidden">
+      {/* Section Divider (04) */}
+      <div className={CONTAINER}>
+        <SectionDivider title="Meet Our Team" num="04" />
+      </div>
+
+      {/* Main Title Block */}
+      <div className={`${CONTAINER} mt-[clamp(24px,4vw,56px)] mb-[clamp(32px,5vw,64px)]`}>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-[clamp(24px,4vw,77px)] items-end">
+          {/* Left: Heading — Cal Sans, 64px at 1920px width, scales fluidly below that */}
+          <div className="lg:col-span-6">
+            <h2 className="text-[clamp(32px,3.33vw,64px)] font-normal leading-[1] font-display text-near-black tracking-tight">
+              Built by operators.
+            </h2>
+          </div>
+          {/* Right: Description & Navigation — Geist, 24px / line-height 26px at 1920px width */}
+          <div className="lg:col-span-6 flex flex-col sm:flex-row sm:items-end justify-between gap-4 lg:pt-3">
+            <p className="text-[clamp(16px,1.25vw,24px)] leading-[1.3] font-sans font-normal tracking-[-0.04em] text-body-gray max-w-[480px]">
+              Domain depth across construction execution, structural engineering, and AI platform development — the people accountable for delivery.
+            </p>
+            {/* Arrow buttons for carousel scrolling */}
+            <div className="flex gap-3 shrink-0 select-none pb-1">
+              <button
+                onClick={() => scroll("left")}
+                className="p-3 rounded-full border border-gray-200 text-near-black hover:bg-[#171C26] hover:text-white hover:border-[#171C26] transition-all duration-300 cursor-pointer active:scale-95 flex items-center justify-center"
+                aria-label="Scroll left"
+              >
+                <ArrowLeft className="w-5 h-5" />
+              </button>
+              <button
+                onClick={() => scroll("right")}
+                className="p-3 rounded-full border border-gray-200 text-near-black hover:bg-[#171C26] hover:text-white hover:border-[#171C26] transition-all duration-300 cursor-pointer active:scale-95 flex items-center justify-center"
+                aria-label="Scroll right"
+              >
+                <ArrowRight className="w-5 h-5" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Horizontally scrollable carousel wrapper without scrollbar */}
+      <div 
+        ref={scrollRef}
+        className="w-full overflow-x-auto px-[clamp(20px,4.2vw,81px)] pb-6 scroll-smooth [&::-webkit-scrollbar]:hidden" 
+        style={{ scrollbarWidth: "none" }}
+      >
+        <div className="flex flex-row gap-[20px] xl:gap-[25px] w-max">
+          {displayOperators.map((op) => (
+            <div 
+              key={op.id} 
+              className="relative w-[clamp(280px,20.8vw,398px)] aspect-[398/539] rounded-[20px] overflow-hidden shadow-md group hover:shadow-xl transition-all duration-300 flex flex-col justify-end shrink-0 select-none"
+            >
+              {/* Profile Image with scale-on-hover */}
+              <div 
+                className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-102"
+                style={{
+                  backgroundImage: `linear-gradient(180deg, rgba(107, 104, 97, 0) 0%, rgba(107, 104, 97, 0) 55%, rgba(107, 104, 97, 0.7) 75%, #6B6861 100%), url('${op.image_url}')`,
+                }}
+              />
+
+              {/* Category pill tag in the top-left corner */}
+              <div className="absolute top-0 left-0 z-10 w-1/2 h-[clamp(36px,2.5vw,48px)] bg-black flex items-center pl-[clamp(6px,0.8vw,11.67px)] pr-[clamp(6px,0.8vw,11.67px)] gap-[5.56px]">
+                <span className="text-[clamp(10px,0.85vw,14px)] font-medium text-white tracking-wide leading-none truncate w-full">
+                  {op.badge}
+                </span>
+              </div>
+
+              {/* Name & Title details at bottom */}
+              <div className="relative z-10 pl-[clamp(6px,0.8vw,11.67px)] pr-[clamp(6px,0.8vw,11.67px)] pb-[clamp(16px,2vw,32px)] pt-8 text-white space-y-1">
+                <h4 className="font-['Inter'] font-bold text-[clamp(22px,2.15vw,41.33px)] leading-[1.05] tracking-[-0.54px] text-white transition-colors duration-300 group-hover:text-accent-blue whitespace-pre-line">
+                  {op.name}
+                </h4>
+                <p className="font-sans font-semibold text-[clamp(12px,0.95vw,18.13px)] leading-[1.1] tracking-[-0.24px] text-[#C4C4C4] mt-1.5">
+                  {op.role}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
