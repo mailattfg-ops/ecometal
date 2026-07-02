@@ -26,22 +26,35 @@ export default function ComplianceSection() {
   ];
 
   return (
-    <section id="quality" className="w-full bg-[#FAFBFD] text-gray-800 py-[clamp(48px,8vw,96px)] scroll-mt-20 flex flex-col items-center overflow-x-hidden">
+    <section 
+      id="quality" 
+      className="relative w-full text-white py-[clamp(48px,8vw,96px)] scroll-mt-20 flex flex-col items-center overflow-hidden"
+      style={{
+        backgroundImage: "url('/compliance-bg.jpg')",
+        backgroundAttachment: "fixed",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat"
+      }}
+    >
+      {/* Dark overlay for text readability */}
+      <div className="absolute inset-0 bg-[#001B51]/85 backdrop-blur-[1px] z-0" />
+
       {/* Section Divider */}
-      <div className={CONTAINER}>
+      <div className={`${CONTAINER} relative z-10`}>
         <SectionDivider title="Compliance & Trust" num="13" />
       </div>
 
       {/* Main Title Block */}
-      <div className={`${CONTAINER} mt-[clamp(24px,4vw,56px)] mb-[clamp(32px,5vw,64px)]`}>
+      <div className={`${CONTAINER} relative z-10 mt-[clamp(24px,4vw,56px)] mb-[clamp(32px,5vw,64px)]`}>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-[clamp(24px,4vw,77px)] items-start">
           <div className="lg:col-span-6">
-            <h2 className="text-[clamp(32px,3.33vw,64px)] font-bold leading-[1.05] font-display text-near-black tracking-tight">
-              Built to <span className="text-brand-navy">standard.</span>
+            <h2 className="text-[clamp(32px,3.33vw,64px)] font-bold leading-[1.05] font-display text-white tracking-tight">
+              Built to <span className="text-brand-gold">standard.</span>
             </h2>
           </div>
           <div className="lg:col-span-6 lg:pt-3">
-            <p className="text-[clamp(16px,1.25vw,24px)] leading-[1.2] font-sans font-normal tracking-[-0.04em] text-body-gray">
+            <p className="text-[clamp(16px,1.25vw,24px)] leading-[1.2] font-sans font-normal tracking-[-0.04em] text-white/80">
               Our systems are designed to recognised structural, fire, and building standards, with compliance built into the design and quality verified through controlled processes and independent assessment.
             </p>
           </div>
@@ -49,17 +62,17 @@ export default function ComplianceSection() {
       </div>
 
       {/* Codes Grid */}
-      <div className={`${CONTAINER} mb-12`}>
+      <div className={`${CONTAINER} relative z-10 mb-12`}>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {codes.map((item, idx) => (
             <div 
               key={idx} 
-              className="p-6 rounded-2xl bg-white border border-gray-150 hover:shadow-md hover:border-brand-navy/20 transition-all duration-300"
+              className="p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-brand-gold/50 hover:bg-white/10 transition-all duration-300"
             >
               <div className="text-[15px] font-mono font-bold text-brand-gold mb-2">
                 {item.code}
               </div>
-              <p className="text-[13px] md:text-[14px] font-sans font-normal text-body-gray">
+              <p className="text-[13px] md:text-[14px] font-sans font-normal text-white/70">
                 {item.desc}
               </p>
             </div>
@@ -68,17 +81,17 @@ export default function ComplianceSection() {
       </div>
 
       {/* Trust Blocks */}
-      <div className={`${CONTAINER} mb-12`}>
+      <div className={`${CONTAINER} relative z-10 mb-12`}>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {trusts.map((trust, idx) => (
             <div 
               key={idx} 
-              className="p-6 rounded-2xl border border-dashed border-gray-300 hover:border-brand-gold hover:bg-white hover:shadow-sm transition-all duration-300 text-center flex flex-col justify-center min-h-[140px]"
+              className="p-6 rounded-2xl border border-dashed border-white/20 hover:border-brand-gold hover:bg-white/5 transition-all duration-300 text-center flex flex-col justify-center min-h-[140px]"
             >
-              <h4 className="text-[14px] font-sans font-bold text-near-black mb-2">
+              <h4 className="text-[14px] font-sans font-bold text-white mb-2">
                 {trust.title}
               </h4>
-              <p className="text-[12px] font-sans font-normal text-mid-gray leading-relaxed">
+              <p className="text-[12px] font-sans font-normal text-white/65 leading-relaxed">
                 {trust.desc}
               </p>
             </div>
@@ -87,8 +100,8 @@ export default function ComplianceSection() {
       </div>
 
       {/* Note Callout */}
-      <div className={CONTAINER}>
-        <div className="p-6 rounded-2xl bg-[#F0F4FA]/50 border-l-[4px] border-l-brand-navy text-[13px] md:text-[14px] font-sans font-normal text-body-gray leading-relaxed">
+      <div className={`${CONTAINER} relative z-10`}>
+        <div className="p-6 rounded-2xl bg-white/5 border border-white/10 border-l-[4px] border-l-brand-gold text-[13px] md:text-[14px] font-sans font-normal text-white/80 leading-relaxed">
           Our systems are designed to applicable structural codes and undergo independent structural testing and performance appraisal as part of bringing engineered building systems to market. Specific certifications and validations will be listed here as each is formalised.
         </div>
       </div>
