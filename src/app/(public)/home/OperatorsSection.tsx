@@ -140,7 +140,7 @@ export default function OperatorsSection() {
   });
 
   return (
-    <section id="team" className="w-full bg-white text-gray-800 py-[clamp(48px,8vw,96px)] scroll-mt-20 flex flex-col items-center overflow-x-hidden">
+    <section id="team" className="w-full bg-white text-gray-800 pt-0 pb-[clamp(48px,8vw,96px)] scroll-mt-20 flex flex-col items-center overflow-x-hidden">
       {/* Section Divider (04) */}
       <div className={CONTAINER}>
         <SectionDivider title="Meet Our Team" num="04" />
