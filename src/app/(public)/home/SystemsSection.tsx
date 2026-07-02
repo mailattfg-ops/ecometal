@@ -30,7 +30,13 @@ export default function SystemsSection() {
   return (
     <section
       id="systems"
-      className="relative w-full min-h-screen lg:h-screen bg-brand-navy text-white overflow-hidden flex flex-col lg:flex-row items-stretch scroll-mt-20"
+      className="relative w-full min-h-screen lg:h-screen text-white overflow-hidden flex flex-col lg:flex-row items-stretch scroll-mt-20"
+      style={{
+        backgroundImage: "url('/systems-bg.png')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat"
+      }}
     >
       {/* LEFT COLUMN — width fixed at 45% on desktop, full-width on mobile */}
       <div className="w-full lg:w-[45%] shrink-0 flex flex-col justify-center py-12 lg:py-0 px-[clamp(20px,4vw,80px)] relative z-10">
