@@ -30,10 +30,10 @@ export default function SystemsSection() {
   return (
     <section
       id="systems"
-      className="relative w-full h-screen bg-brand-navy text-white overflow-hidden flex flex-row items-stretch scroll-mt-20"
+      className="relative w-full min-h-screen lg:h-screen bg-brand-navy text-white overflow-hidden flex flex-col lg:flex-row items-stretch scroll-mt-20"
     >
-      {/* LEFT COLUMN — width fixed at 45%, all sizing scaled to viewport height via clamp() so it always fits one screen */}
-      <div className="w-[45%] shrink-0 flex flex-col justify-center px-[clamp(24px,4vw,80px)] relative z-10">
+      {/* LEFT COLUMN — width fixed at 45% on desktop, full-width on mobile */}
+      <div className="w-full lg:w-[45%] shrink-0 flex flex-col justify-center py-12 lg:py-0 px-[clamp(20px,4vw,80px)] relative z-10">
         {/* Section divider */}
         <div className="w-full flex flex-col mb-[clamp(16px,4vh,56px)] select-none">
           <div className="w-full h-[1px] bg-white/15 mb-[clamp(10px,1.5vh,20px)]" />
@@ -73,19 +73,28 @@ export default function SystemsSection() {
       </div>
 
       {/* RIGHT COLUMN — image, gradient now only fades the seam (first ~28%) so most of the photo stays fully crisp */}
-      <div className="relative w-[55%] h-full shrink-0 overflow-hidden">
+      <div className="relative w-full h-[350px] sm:h-[450px] lg:w-[55%] lg:h-full shrink-0 overflow-hidden">
         <Image
           src="/systems.jpg"
           alt="Systems Building"
           fill
-          sizes="55vw"
+          sizes="(max-width: 1024px) 100vw, 55vw"
           className="absolute inset-0 w-full h-full object-cover"
         />
+        {/* Desktop seam-fader */}
         <div
-          className="absolute inset-0 pointer-events-none"
+          className="absolute inset-0 pointer-events-none hidden lg:block"
           style={{
             background:
               "linear-gradient(to right, #001B51 0%, rgba(0,27,81,0.55) 10%, rgba(0,27,81,0) 28%)",
+          }}
+        />
+        {/* Mobile seam-fader */}
+        <div
+          className="absolute inset-0 pointer-events-none block lg:hidden"
+          style={{
+            background:
+              "linear-gradient(to bottom, #001B51 0%, rgba(0,27,81,0.55) 10%, rgba(0,27,81,0) 28%)",
           }}
         />
       </div>

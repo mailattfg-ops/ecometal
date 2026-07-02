@@ -124,7 +124,7 @@ export default function ProjectsSection() {
 
       {/* Full-bleed Image Panel — width fluid up to 1945px, height scales via aspect-ratio
           instead of a fixed 942px, so nothing gets clipped or pushed off-screen on smaller viewports */}
-      <div className="relative w-full max-w-[1945px] aspect-[1945/942] overflow-hidden shadow-sm flex flex-col justify-end group">
+      <div className="relative w-full max-w-[1945px] aspect-[16/10] sm:aspect-[1945/942] min-h-[450px] sm:min-h-0 overflow-hidden shadow-sm flex flex-col justify-end group">
 
         {/* Photographic background fill — select-none lives here only, so it stops the
             photo itself from being drag-selected without blocking the text/links below */}

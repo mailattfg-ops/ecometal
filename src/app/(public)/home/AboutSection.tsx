@@ -37,13 +37,13 @@ export default function AboutSection() {
             </p>
             <div className="w-full flex flex-col sm:flex-row gap-6 items-stretch shrink-0">
               <div
-                className="w-[320px] h-[280px] rounded-[16px] bg-cover bg-center shadow-sm shrink-0"
+                className="w-full sm:w-[320px] h-[280px] rounded-[16px] bg-cover bg-center shadow-sm shrink-0"
                 style={{
                   backgroundImage: `url('/about-1.jpg')`,
                 }}
               />
               <div
-                className="w-[280px] h-[280px] rounded-[16px] bg-cover bg-center shadow-sm shrink-0"
+                className="w-full sm:w-[280px] h-[280px] rounded-[16px] bg-cover bg-center shadow-sm shrink-0"
                 style={{
                   backgroundImage: `url('/about-2.jpg')`,
                 }}
