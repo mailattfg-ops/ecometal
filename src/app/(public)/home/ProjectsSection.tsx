@@ -20,7 +20,7 @@ interface Project {
 const MOCK_PROJECTS: Project[] = [
   {
     id: 1,
-    title: "Residential Construction",
+    title: "Residential\nConstruction",
     category: "Residential",
     description: "Modern family home built with premium materials.",
     image_url: "/project-1.jpg",
@@ -109,7 +109,7 @@ export default function ProjectsSection() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-[clamp(24px,4vw,77px)] items-start">
           {/* Left: Heading — Cal Sans, 64px at 1920px width, scales fluidly below that */}
           <div className="lg:col-span-7">
-            <h2 className="text-[clamp(32px,3.33vw,64px)] font-normal leading-[1] font-display text-near-black tracking-tight">
+            <h2 className="text-[clamp(32px,3.33vw,64px)] font-normal leading-none font-display text-near-black tracking-[0px]">
               Projects we have done
             </h2>
           </div>
@@ -179,7 +179,9 @@ export default function ProjectsSection() {
           >
 
             {/* Title — scaled down so it comfortably shares the row with the stats */}
-            <h3 className="text-[clamp(18px,2.1vw,42px)] font-normal font-heading leading-[1.05] tracking-[-0.03em] shrink-0 whitespace-nowrap">
+            {/* <h3 className="text-[clamp(18px,2.1vw,42px)] font-normal font-heading leading-[1.05] tracking-[-0.03em] shrink-0 whitespace-nowrap"> */}
+            <h3 className="text-[clamp(18px,2.1vw,42px)] font-normal font-heading leading-[1.05] tracking-[-0.03em] shrink-0 whitespace-pre-line">
+
               {activeProject.title}
             </h3>
 
