@@ -50,9 +50,38 @@ export default function CompareSection() {
 
       {/* Comparison Table Container */}
       <div className={`${CONTAINER} mb-[clamp(48px,6vw,80px)]`}>
-        {/* Desktop View: Grid Table */}
-        <div className="hidden lg:block w-full border border-gray-200 rounded-2xl bg-white shadow-sm overflow-hidden">
-          <table className="w-full border-collapse text-[14px] md:text-[15px] font-sans">
+        {/* Mobile View — Stacked Cards (Hidden on Desktop) */}
+        <div className="md:hidden space-y-4 w-full">
+          {rows.map((row, idx) => (
+            <div key={idx} className="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm space-y-3">
+              <h3 className="text-[13px] font-mono uppercase tracking-wider text-mid-gray font-semibold border-b border-gray-100 pb-2">
+                {row.param}
+              </h3>
+              <div className="grid grid-cols-2 gap-3">
+                <div className="bg-brand-navy/5 p-3 rounded-xl border border-brand-navy/10 flex flex-col justify-between">
+                  <span className="block text-[9px] font-mono uppercase tracking-wider text-brand-navy font-bold mb-1">
+                    LGS + Foam Concrete
+                  </span>
+                  <span className="text-[13px] font-sans font-bold text-brand-navy leading-snug">
+                    {row.eme}
+                  </span>
+                </div>
+                <div className="bg-[#FBFBFC] p-3 rounded-xl border border-gray-150 flex flex-col justify-between">
+                  <span className="block text-[9px] font-mono uppercase tracking-wider text-mid-gray font-semibold mb-1">
+                    Brick / Concrete
+                  </span>
+                  <span className="text-[13px] font-sans font-medium text-body-gray leading-snug">
+                    {row.trad}
+                  </span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Desktop View — Full Tabular Matrix (Hidden on Mobile) */}
+        <div className="hidden md:block w-full overflow-x-auto border border-gray-200 rounded-2xl bg-white shadow-sm">
+          <table className="w-full min-w-[700px] border-collapse text-[14px] md:text-[15px] font-sans">
             <thead>
               <tr className="bg-gray-50 border-b border-gray-200 text-left">
                 <th className="p-4 md:p-6 font-mono text-[11px] uppercase tracking-wider text-mid-gray font-semibold w-4/12">
@@ -82,35 +111,6 @@ export default function CompareSection() {
               ))}
             </tbody>
           </table>
-        </div>
-
-        {/* Mobile View: Stacked Parameter Cards */}
-        <div className="lg:hidden space-y-4">
-          {rows.map((row, idx) => (
-            <div key={idx} className="p-5 rounded-2xl bg-white border border-gray-150 shadow-sm space-y-3">
-              <h3 className="text-[12px] font-bold text-[#9EA5B4] uppercase tracking-wider font-mono">
-                {row.param}
-              </h3>
-              <div className="grid grid-cols-2 gap-3 pt-1">
-                <div className="bg-brand-navy/5 p-3 rounded-xl border border-brand-navy/10 flex flex-col justify-between">
-                  <span className="block text-[9px] font-mono uppercase tracking-wider text-brand-navy font-bold mb-2">
-                    LGS + Foam Concrete
-                  </span>
-                  <span className="text-[14px] font-bold text-brand-navy leading-tight">
-                    {row.eme}
-                  </span>
-                </div>
-                <div className="bg-gray-50 p-3 rounded-xl border border-gray-200/50 flex flex-col justify-between">
-                  <span className="block text-[9px] font-mono uppercase tracking-wider text-gray-500 font-semibold mb-2">
-                    Brick / Concrete
-                  </span>
-                  <span className="text-[14px] font-semibold text-gray-700 leading-tight">
-                    {row.trad}
-                  </span>
-                </div>
-              </div>
-            </div>
-          ))}
         </div>
       </div>
 
