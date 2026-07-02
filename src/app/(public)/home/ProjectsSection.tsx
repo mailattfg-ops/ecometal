@@ -109,7 +109,7 @@ export default function ProjectsSection() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-[clamp(24px,4vw,77px)] items-start">
           {/* Left: Heading — Cal Sans, 64px at 1920px width, scales fluidly below that */}
           <div className="lg:col-span-6">
-            <h2 className="text-[clamp(32px,3.33vw,64px)] font-normal leading-none font-display text-near-black tracking-[0px]">
+            <h2 className="text-[clamp(32px,3.33vw,64px)] font-bold leading-[1.05] font-display text-near-black tracking-tight">
               Projects we have done
             </h2>
           </div>
