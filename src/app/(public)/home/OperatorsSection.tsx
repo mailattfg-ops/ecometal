@@ -155,28 +155,11 @@ export default function OperatorsSection() {
               Built by operators.
             </h2>
           </div>
-          {/* Right: Description & Navigation — Geist, 24px / line-height 26px at 1920px width */}
-          <div className="lg:col-span-6 flex flex-col sm:flex-row sm:items-end justify-between gap-4 lg:pt-3">
+          {/* Right: Description — Geist, 24px / line-height 26px at 1920px width */}
+          <div className="lg:col-span-6 lg:pt-3">
             <p className="text-[clamp(16px,1.25vw,24px)] leading-[1.3] font-sans font-normal tracking-[-0.04em] text-body-gray max-w-[480px]">
               Domain depth across construction execution, structural engineering, and AI platform development — the people accountable for delivery.
             </p>
-            {/* Arrow buttons for carousel scrolling */}
-            <div className="flex gap-3 shrink-0 select-none pb-1">
-              <button
-                onClick={() => scroll("left")}
-                className="p-3 rounded-full border border-gray-200 text-near-black hover:bg-[#171C26] hover:text-white hover:border-[#171C26] transition-all duration-300 cursor-pointer active:scale-95 flex items-center justify-center"
-                aria-label="Scroll left"
-              >
-                <ArrowLeft className="w-5 h-5" />
-              </button>
-              <button
-                onClick={() => scroll("right")}
-                className="p-3 rounded-full border border-gray-200 text-near-black hover:bg-[#171C26] hover:text-white hover:border-[#171C26] transition-all duration-300 cursor-pointer active:scale-95 flex items-center justify-center"
-                aria-label="Scroll right"
-              >
-                <ArrowRight className="w-5 h-5" />
-              </button>
-            </div>
           </div>
         </div>
       </div>
