@@ -12,13 +12,17 @@ export default function AboutSection() {
     { label: "Standards", value: "IS 811 · 801 · 800 · 1893 · 875 · 2185 · NBC 2016" },
   ];
 
+  const CONTAINER = "w-full max-w-[1857px] mx-auto px-[clamp(20px,4.2vw,81px)]";
+
   return (
     <section id="about" className="py-15 bg-white text-gray-800 scroll-mt-20 flex flex-col items-center">
       {/* 60px height Section Divider */}
-      <SectionDivider title="About Us" num="02" />
+      <div className={CONTAINER}>
+        <SectionDivider title="About Us" num="02" />
+      </div>
 
       {/* Main Container */}
-      <div className="w-full max-w-[1757px] mx-auto px-6">
+      <div className={CONTAINER}>
 
         {/* Two-column layout matching design specifications */}
         <div className="flex flex-col md:flex-row justify-between gap-12 md:gap-6 items-start">
