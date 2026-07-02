@@ -26,8 +26,8 @@ export default function ComplianceSection() {
   ];
 
   return (
-    <section 
-      id="quality" 
+    <section
+      id="quality"
       className="relative w-full text-white py-[clamp(48px,8vw,96px)] scroll-mt-20 flex flex-col items-center overflow-hidden"
       style={{
         backgroundImage: "url('/compliance-bg.jpg')",
@@ -38,7 +38,7 @@ export default function ComplianceSection() {
       }}
     >
       {/* Dark overlay for text readability */}
-      <div className="absolute inset-0 bg-[#001B51]/85 backdrop-blur-[1px] z-0" />
+      <div className="absolute inset-0 bg-[#000000e6]/85 backdrop-blur-[1px] z-0" />
 
       {/* Section Divider */}
       <div className={`${CONTAINER} relative z-10`}>
@@ -65,8 +65,8 @@ export default function ComplianceSection() {
       <div className={`${CONTAINER} relative z-10 mb-12`}>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {codes.map((item, idx) => (
-            <div 
-              key={idx} 
+            <div
+              key={idx}
               className="p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-brand-gold/50 hover:bg-white/10 transition-all duration-300"
             >
               <div className="text-[15px] font-mono font-bold text-brand-gold mb-2">
@@ -84,9 +84,9 @@ export default function ComplianceSection() {
       <div className={`${CONTAINER} relative z-10 mb-12`}>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {trusts.map((trust, idx) => (
-            <div 
-              key={idx} 
-              className="p-6 rounded-2xl border border-dashed border-white/20 hover:border-brand-gold hover:bg-white/5 transition-all duration-300 text-center flex flex-col justify-center min-h-[140px]"
+            <div
+              key={idx}
+              className="bg-[#00000029] p-6 rounded-2xl border border-dashed border-white/20 hover:border-brand-gold hover:bg-white/5 transition-all duration-300 text-center flex flex-col justify-center min-h-[140px]"
             >
               <h4 className="text-[14px] font-sans font-bold text-white mb-2">
                 {trust.title}
