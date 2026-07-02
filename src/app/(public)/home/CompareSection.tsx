@@ -50,61 +50,31 @@ export default function CompareSection() {
 
       {/* Comparison Table Container */}
       <div className={`${CONTAINER} mb-[clamp(48px,6vw,80px)]`}>
-        {/* Mobile View — Stacked Cards (Hidden on Desktop) */}
-        <div className="md:hidden space-y-4 w-full">
-          {rows.map((row, idx) => (
-            <div key={idx} className="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm space-y-3">
-              <h3 className="text-[13px] font-mono uppercase tracking-wider text-mid-gray font-semibold border-b border-gray-100 pb-2">
-                {row.param}
-              </h3>
-              <div className="grid grid-cols-2 gap-3">
-                <div className="bg-brand-navy/5 p-3 rounded-xl border border-brand-navy/10 flex flex-col justify-between">
-                  <span className="block text-[9px] font-mono uppercase tracking-wider text-brand-navy font-bold mb-1">
-                    LGS + Foam Concrete
-                  </span>
-                  <span className="text-[13px] font-sans font-bold text-brand-navy leading-snug">
-                    {row.eme}
-                  </span>
-                </div>
-                <div className="bg-[#FBFBFC] p-3 rounded-xl border border-gray-150 flex flex-col justify-between">
-                  <span className="block text-[9px] font-mono uppercase tracking-wider text-mid-gray font-semibold mb-1">
-                    Brick / Concrete
-                  </span>
-                  <span className="text-[13px] font-sans font-medium text-body-gray leading-snug">
-                    {row.trad}
-                  </span>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Desktop View — Full Tabular Matrix (Hidden on Mobile) */}
-        <div className="hidden md:block w-full overflow-x-auto border border-gray-200 rounded-2xl bg-white shadow-sm">
-          <table className="w-full min-w-[700px] border-collapse text-[14px] md:text-[15px] font-sans">
+        <div className="w-full border border-gray-200 rounded-2xl bg-white shadow-sm overflow-hidden">
+          <table className="w-full border-collapse text-[11px] sm:text-[13px] md:text-[15px] font-sans table-fixed">
             <thead>
               <tr className="bg-gray-50 border-b border-gray-200 text-left">
-                <th className="p-4 md:p-6 font-mono text-[11px] uppercase tracking-wider text-mid-gray font-semibold w-4/12">
+                <th className="p-2.5 sm:p-4 md:p-6 font-mono text-[9px] sm:text-[11px] uppercase tracking-wider text-mid-gray font-semibold w-[38%]">
                   Parameter
                 </th>
-                <th className="p-4 md:p-6 font-mono text-[11px] uppercase tracking-wider text-brand-navy font-bold w-4/12 bg-brand-navy/5">
-                  LGS + foam concrete
+                <th className="p-2.5 sm:p-4 md:p-6 font-mono text-[9px] sm:text-[11px] uppercase tracking-wider text-brand-navy font-bold w-[31%] bg-brand-navy/5">
+                  LGS + <span className="hidden sm:inline">foam concrete</span><span className="inline sm:hidden">FC</span>
                 </th>
-                <th className="p-4 md:p-6 font-mono text-[11px] uppercase tracking-wider text-mid-gray font-semibold w-4/12">
-                  Brick / block + concrete
+                <th className="p-2.5 sm:p-4 md:p-6 font-mono text-[9px] sm:text-[11px] uppercase tracking-wider text-mid-gray font-semibold w-[31%]">
+                  <span className="hidden sm:inline">Brick / block + concrete</span><span className="inline sm:hidden">Traditional</span>
                 </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
               {rows.map((row, idx) => (
                 <tr key={idx} className="hover:bg-gray-50/50 transition-colors duration-150">
-                  <td className="p-4 md:p-6 text-body-gray font-normal">
+                  <td className="p-2.5 sm:p-4 md:p-6 text-body-gray font-normal leading-tight">
                     {row.param}
                   </td>
-                  <td className="p-4 md:p-6 text-brand-navy font-semibold bg-brand-navy/5">
+                  <td className="p-2.5 sm:p-4 md:p-6 text-brand-navy font-semibold bg-brand-navy/5 leading-tight">
                     {row.eme}
                   </td>
-                  <td className="p-4 md:p-6 text-body-gray font-normal">
+                  <td className="p-2.5 sm:p-4 md:p-6 text-body-gray font-normal leading-tight">
                     {row.trad}
                   </td>
                 </tr>
