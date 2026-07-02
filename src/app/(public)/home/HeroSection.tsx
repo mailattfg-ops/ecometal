@@ -13,22 +13,31 @@ export default function HeroSection() {
         className="absolute inset-0 z-0 bg-[url('/hero-bg.jpg')] bg-cover bg-[center_38%] bg-no-repeat"
       />
 
-      {/* ── Gradient overlay: transparent top → dark bottom ── */}
+      {/* ── Radial blur vignette overlay ── */}
       <div
-        className="absolute inset-0 z-[1] bg-[linear-gradient(to_bottom,rgba(0,0,0,0.10)_0%,rgba(0,0,0,0.15)_40%,rgba(0,0,0,0.72)_70%,rgba(0,0,0,0.88)_100%)]"
+        className="absolute inset-0 z-[1] pointer-events-none backdrop-blur-[10px]"
+        style={{
+          maskImage: "radial-gradient(circle at 50% 45%, transparent 35%, black 80%)",
+          WebkitMaskImage: "radial-gradient(circle at 50% 45%, transparent 35%, black 80%)"
+        }}
       />
 
-      {/* ── Bottom content — sits ON TOP of image via z-[2] ── */}
+      {/* ── Gradient overlay: transparent top → dark bottom ── */}
       <div
-        className="absolute bottom-0 left-0 right-0 z-[2] backdrop-blur-0"
+        className="absolute inset-0 z-[2] bg-[linear-gradient(to_bottom,rgba(0,0,0,0.10)_0%,rgba(0,0,0,0.15)_40%,rgba(0,0,0,0.72)_70%,rgba(0,0,0,0.88)_100%)]"
+      />
+
+      {/* ── Bottom content — sits ON TOP of image via z-[3] ── */}
+      <div
+        className="absolute bottom-0 left-0 right-0 z-[3] backdrop-blur-0"
       >
         <div
           className="w-full mx-auto px-8 lg:px-14 pb-[clamp(32px,5vh,64px)]"
         >
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-6 items-end">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-y-6 items-end w-full">
 
             {/* Left — Headline */}
-            <div>
+            <div className="lg:col-span-6">
               <h1
                 className="text-[clamp(32px,3.8vw,58px)] leading-[1.05] font-bold font-display m-0 p-0 bg-gradient-to-r from-[#FFE270] to-[#DA8B0C] bg-clip-text text-transparent"
               >
@@ -38,12 +47,12 @@ export default function HeroSection() {
               </h1>
             </div>
 
-            {/* Right — Body + Buttons */}
+            {/* Right — Body + Buttons (Pushed further right via col-start-8) */}
             <div
-              className="flex flex-col gap-[clamp(16px,2vh,24px)]"
+              className="lg:col-span-5 lg:col-start-8 flex flex-col gap-[clamp(16px,2vh,24px)]"
             >
               <p
-                className="text-[clamp(13px,1vw,16px)] text-[rgba(255,255,255,0.82)] leading-[1.5] m-0 font-normal tracking-[-0.01em] max-w-[520px]"
+                className="text-[clamp(13px,1vw,16px)] text-[rgba(255,255,255,0.82)] leading-[1.5] m-0 font-normal tracking-[-0.01em]"
               >
                 One factory. One model. One integrated system — for every building type.
                 We combine Light Gauge Steel framing, foam concrete, and an AI
