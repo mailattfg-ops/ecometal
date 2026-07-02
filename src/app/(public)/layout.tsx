@@ -26,12 +26,14 @@ export default function PublicLayout({
   }, []);
 
   const navLinks = [
-    { name: "About Us", href: "#about" },
+    { name: "About", href: "#about" },
+    { name: "Market", href: "#market" },
     { name: "Systems", href: "#systems" },
-    { name: "Process", href: "#about" },
+    { name: "Process", href: "#process" },
     { name: "Projects", href: "#projects" },
-    { name: "Applications", href: "#systems" },
-    { name: "Compliance", href: "#contact" },
+    { name: "Team", href: "#team" },
+    { name: "Compliance", href: "#quality" },
+    { name: "FAQ", href: "#faq" },
   ];
 
   return (
@@ -141,7 +143,7 @@ export default function PublicLayout({
             <ul className="space-y-2 text-sm text-white/75">
               <li><Link href="#" className="hover:text-white transition-colors">Home</Link></li>
               <li><Link href="#about" className="hover:text-white transition-colors">About</Link></li>
-              <li><Link href="#about" className="hover:text-white transition-colors">Market</Link></li>
+              <li><Link href="#market" className="hover:text-white transition-colors">Market</Link></li>
               <li><Link href="#systems" className="hover:text-white transition-colors">Systems</Link></li>
             </ul>
           </div>
@@ -150,10 +152,12 @@ export default function PublicLayout({
           <div className="space-y-4">
             <h4 className="text-sm font-semibold text-white tracking-wider">Projects and process</h4>
             <ul className="space-y-2 text-sm text-white/75">
-              <li><Link href="#about" className="hover:text-white transition-colors">Process</Link></li>
+              <li><Link href="#process" className="hover:text-white transition-colors">Process</Link></li>
               <li><Link href="#projects" className="hover:text-white transition-colors">Projects</Link></li>
-              <li><Link href="#systems" className="hover:text-white transition-colors">Applications</Link></li>
-              <li><Link href="#contact" className="hover:text-white transition-colors">Compliance</Link></li>
+              <li><Link href="#apps" className="hover:text-white transition-colors">Applications</Link></li>
+              <li><Link href="#quality" className="hover:text-white transition-colors">Compliance</Link></li>
+              <li><Link href="#faq" className="hover:text-white transition-colors">FAQ</Link></li>
+              <li><Link href="#resources" className="hover:text-white transition-colors">Resources</Link></li>
             </ul>
           </div>
 
