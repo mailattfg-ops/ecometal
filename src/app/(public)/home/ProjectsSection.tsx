@@ -98,7 +98,7 @@ export default function ProjectsSection() {
   const CONTAINER = "w-full max-w-[1857px] mx-auto px-[clamp(20px,4.2vw,81px)]";
 
   return (
-    <section id="projects" className="w-full bg-white text-gray-800 pt-[clamp(8px,1.5vw,24px)] pb-[clamp(24px,3vw,48px)] scroll-mt-20 flex flex-col items-center overflow-x-hidden">
+    <section id="projects" className="w-full bg-white text-gray-800 pt-15 pb-15 scroll-mt-20 flex flex-col items-center overflow-x-hidden">
       {/* Section Divider (05) */}
       <div className={CONTAINER}>
         <SectionDivider title="WHY THIS TRIP IS DIFFERENT" num="05" />

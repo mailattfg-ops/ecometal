@@ -40,14 +40,14 @@ export default function ProcessSection() {
   ];
 
   return (
-    <section id="process" className="w-full bg-[#001B51] text-white py-[clamp(48px,8vw,96px)] scroll-mt-20 flex flex-col items-center overflow-x-hidden">
+    <section id="process" className="w-full bg-[#001B51] text-white py-15 scroll-mt-20 flex flex-col items-center overflow-x-hidden">
       {/* Section Divider */}
       <div className={CONTAINER}>
         <SectionDivider title="How We Work" num="07" />
       </div>
 
       {/* Main Title Block */}
-      <div className={`${CONTAINER} mt-[clamp(24px,4vw,56px)] mb-[clamp(32px,5vw,64px)]`}>
+      <div className={`${CONTAINER} mb-[clamp(32px,5vw,64px)]`}>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-[clamp(24px,4vw,77px)] items-start">
           <div className="lg:col-span-6">
             <h2 className="text-[clamp(32px,3.33vw,64px)] font-bold leading-[1.05] font-display text-white tracking-tight">
@@ -66,8 +66,8 @@ export default function ProcessSection() {
       <div className={CONTAINER}>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {steps.map((step) => (
-            <div 
-              key={step.num} 
+            <div
+              key={step.num}
               className="p-8 rounded-2xl bg-white/5 border border-white/10 hover:border-white/20 hover:bg-white/10 transition-all duration-300 flex flex-col min-h-[200px] justify-between group"
             >
               <div>

@@ -26,14 +26,14 @@ export default function CompareSection() {
   ];
 
   return (
-    <section id="compare" className="w-full bg-[#FAFBFD] text-gray-800 py-[clamp(48px,8vw,96px)] scroll-mt-20 flex flex-col items-center overflow-x-hidden">
+    <section id="compare" className="w-full bg-[#FAFBFD] text-gray-800 pt-15 pb-7 scroll-mt-20 flex flex-col items-center overflow-x-hidden">
       {/* Section Divider */}
       <div className={CONTAINER}>
         <SectionDivider title="LGS vs Traditional" num="08" />
       </div>
 
       {/* Main Title Block */}
-      <div className={`${CONTAINER} mt-[clamp(24px,4vw,56px)] mb-[clamp(32px,5vw,64px)]`}>
+      <div className={`${CONTAINER} mb-[clamp(32px,5vw,64px)]`}>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-[clamp(24px,4vw,77px)] items-start">
           <div className="lg:col-span-6">
             <h2 className="text-[clamp(32px,3.33vw,64px)] font-bold leading-[1.05] font-display text-near-black tracking-tight">
@@ -88,8 +88,8 @@ export default function CompareSection() {
       <div className={CONTAINER}>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {highlights.map((stat, idx) => (
-            <div 
-              key={idx} 
+            <div
+              key={idx}
               className="p-6 rounded-2xl border border-gray-100 bg-[#FBFBFC] hover:shadow-md transition-all duration-300 text-center"
             >
               <div className="text-[clamp(32px,2.5vw,48px)] font-bold font-display text-brand-gold leading-none mb-2">

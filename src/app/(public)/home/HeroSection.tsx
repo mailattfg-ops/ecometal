@@ -34,12 +34,12 @@ export default function HeroSection() {
         <div
           className="w-full mx-auto px-8 lg:px-14 pb-[clamp(32px,5vh,64px)]"
         >
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-y-6 items-end w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-y-6 items-start w-full">
 
             {/* Left — Headline */}
-            <div className="lg:col-span-6">
+            <div className="lg:col-span-6 h-full">
               <h1
-                className="text-[clamp(32px,3.8vw,58px)] leading-[1.05] font-bold font-display m-0 p-0 bg-gradient-to-r from-[#FFE270] to-[#DA8B0C] bg-clip-text text-transparent"
+                className="h-full text-[clamp(32px,3.8vw,58px)] leading-[1.05] font-bold font-display m-0 p-0 bg-gradient-to-r from-[#FFE270] to-[#DA8B0C] bg-clip-text text-transparent pb-[clamp(32px,5vh,64px)]"
               >
                 Build better.<br />
                 Build faster.<br />

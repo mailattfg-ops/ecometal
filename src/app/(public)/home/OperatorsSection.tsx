@@ -87,10 +87,50 @@ export default function OperatorsSection() {
     getOperators();
   }, []);
 
+  const isPaused = useRef(false);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (isPaused.current) return;
+      if (scrollRef.current) {
+        const { scrollLeft } = scrollRef.current;
+        const scrollAmount = window.innerWidth < 1024 ? 300 : 346;
+
+        scrollRef.current.scrollTo({
+          left: scrollLeft + scrollAmount,
+          behavior: "smooth"
+        });
+      }
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  // Initialize scroll position to the middle set for seamless looping
+  useEffect(() => {
+    if (scrollRef.current) {
+      const { scrollWidth } = scrollRef.current;
+      scrollRef.current.scrollLeft = scrollWidth / 3;
+    }
+  }, [operators]);
+
+  const handleScroll = () => {
+    if (!scrollRef.current) return;
+    const { scrollLeft, scrollWidth } = scrollRef.current;
+    const singleSetWidth = scrollWidth / 3;
+
+    // Seamlessly loop back to middle if scrolled too far left or right
+    if (scrollLeft >= singleSetWidth * 2) {
+      scrollRef.current.scrollLeft = scrollLeft - singleSetWidth;
+    } else if (scrollLeft <= 5) {
+      scrollRef.current.scrollLeft = scrollLeft + singleSetWidth;
+    }
+  };
+
   const scroll = (direction: "left" | "right") => {
     if (scrollRef.current) {
       const { scrollLeft } = scrollRef.current;
-      const scrollAmount = 350; // scroll by roughly one card width
+      const scrollAmount = window.innerWidth < 1024 ? 300 : 350; // scroll by roughly one card width
       const targetScroll = direction === "left" ? scrollLeft - scrollAmount : scrollLeft + scrollAmount;
       scrollRef.current.scrollTo({
         left: targetScroll,
@@ -139,15 +179,21 @@ export default function OperatorsSection() {
     };
   });
 
+  const loopedOperators = [
+    ...displayOperators.map((op, i) => ({ ...op, uniqueId: `${op.id}-0-${i}` })),
+    ...displayOperators.map((op, i) => ({ ...op, uniqueId: `${op.id}-1-${i}` })),
+    ...displayOperators.map((op, i) => ({ ...op, uniqueId: `${op.id}-2-${i}` })),
+  ];
+
   return (
-    <section id="team" className="w-full bg-white text-gray-800 pt-0 pb-[clamp(48px,8vw,96px)] scroll-mt-20 flex flex-col items-center overflow-x-hidden">
+    <section id="team" className="w-full bg-white text-gray-800 pt-0 pb-15 scroll-mt-20 flex flex-col items-center overflow-x-hidden">
       {/* Section Divider (04) */}
       <div className={CONTAINER}>
         <SectionDivider title="Meet Our Team" num="04" />
       </div>
 
       {/* Main Title Block */}
-      <div className={`${CONTAINER} mt-[clamp(24px,4vw,56px)] mb-[clamp(32px,5vw,64px)]`}>
+      <div className={`${CONTAINER} mb-[clamp(32px,5vw,64px)]`}>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-[clamp(24px,4vw,77px)] items-end">
           {/* Left: Heading — Cal Sans, 64px at 1920px width, scales fluidly below that */}
           <div className="lg:col-span-6">
@@ -165,19 +211,22 @@ export default function OperatorsSection() {
       </div>
 
       {/* Horizontally scrollable carousel wrapper without scrollbar */}
-      <div 
+      <div
         ref={scrollRef}
-        className="w-full overflow-x-auto px-[clamp(20px,4.2vw,81px)] pb-6 scroll-smooth [&::-webkit-scrollbar]:hidden" 
+        onMouseEnter={() => { isPaused.current = true; }}
+        onMouseLeave={() => { isPaused.current = false; }}
+        onScroll={handleScroll}
+        className="w-full overflow-x-auto px-[clamp(20px,4.2vw,81px)] pb-6 scroll-smooth [&::-webkit-scrollbar]:hidden"
         style={{ scrollbarWidth: "none" }}
       >
         <div className="flex flex-row gap-[20px] xl:gap-[25px] w-max">
-          {displayOperators.map((op) => (
-            <div 
-              key={op.id} 
+          {loopedOperators.map((op) => (
+            <div
+              key={op.uniqueId}
               className="relative w-[clamp(280px,20.8vw,398px)] aspect-[398/539] rounded-[20px] overflow-hidden shadow-md group hover:shadow-xl transition-all duration-300 flex flex-col justify-end shrink-0 select-none"
             >
               {/* Profile Image with scale-on-hover */}
-              <div 
+              <div
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-102"
                 style={{
                   backgroundImage: `linear-gradient(180deg, rgba(107, 104, 97, 0) 0%, rgba(107, 104, 97, 0) 55%, rgba(107, 104, 97, 0.7) 75%, #6B6861 100%), url('${op.image_url}')`,

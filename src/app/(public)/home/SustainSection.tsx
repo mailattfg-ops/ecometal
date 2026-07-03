@@ -14,14 +14,14 @@ export default function SustainSection() {
   ];
 
   return (
-    <section id="sustain" className="w-full bg-[#001B51] text-white py-[clamp(48px,8vw,96px)] scroll-mt-20 flex flex-col items-center overflow-x-hidden">
+    <section id="sustain" className="w-full bg-[#001B51] text-white py-15 scroll-mt-20 flex flex-col items-center overflow-x-hidden">
       {/* Section Divider */}
       <div className={CONTAINER}>
         <SectionDivider title="Sustainability" num="12" />
       </div>
 
       {/* Main Title & Content Grid */}
-      <div className={`${CONTAINER} mt-[clamp(24px,4vw,56px)]`}>
+      <div className={`${CONTAINER}`}>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center">
           {/* Left Column Description */}
           <div className="lg:col-span-5 space-y-6">
@@ -36,8 +36,8 @@ export default function SustainSection() {
           {/* Right Column Stats Grid */}
           <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
             {stats.map((stat, idx) => (
-              <div 
-                key={idx} 
+              <div
+                key={idx}
                 className="p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-white/20 transition-all duration-300 flex flex-col justify-between min-h-[140px]"
               >
                 <div className="text-[clamp(28px,2.2vw,38px)] font-bold font-display text-brand-gold leading-none mb-3">

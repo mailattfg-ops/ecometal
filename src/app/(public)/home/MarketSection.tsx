@@ -49,14 +49,14 @@ export default function MarketSection() {
   ];
 
   return (
-    <section id="market" className="w-full bg-white text-gray-800 py-[clamp(48px,8vw,96px)] scroll-mt-20 flex flex-col items-center overflow-x-hidden">
+    <section id="market" className="w-full bg-white text-gray-800 pb-2 scroll-mt-20 flex flex-col items-center overflow-x-hidden">
       {/* Section Divider */}
       <div className={CONTAINER}>
         <SectionDivider title="The Market" num="03" />
       </div>
 
       {/* Main Title Block */}
-      <div className={`${CONTAINER} mt-[clamp(24px,4vw,56px)] mb-[clamp(32px,5vw,64px)]`}>
+      <div className={`${CONTAINER}  mb-[clamp(32px,5vw,64px)]`}>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-[clamp(24px,4vw,77px)] items-start">
           <div className="lg:col-span-6">
             <h2 className="text-[clamp(32px,3.33vw,64px)] font-bold leading-[1.05] font-display text-near-black tracking-tight">
@@ -90,8 +90,8 @@ export default function MarketSection() {
           {/* Right Column Stats */}
           <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
             {stats.map((stat, index) => (
-              <div 
-                key={index} 
+              <div
+                key={index}
                 className="p-6 rounded-2xl border border-gray-100 bg-[#FBFBFC] hover:shadow-md transition-all duration-300 flex flex-col justify-between min-h-[160px]"
               >
                 <div>

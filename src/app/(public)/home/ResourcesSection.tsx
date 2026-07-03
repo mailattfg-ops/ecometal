@@ -26,14 +26,23 @@ export default function ResourcesSection() {
   ];
 
   return (
-    <section id="resources" className="w-full bg-[#001B51] text-white py-[clamp(48px,8vw,96px)] scroll-mt-20 flex flex-col items-center overflow-x-hidden">
+    <section id="resources" className="relative w-full bg-[#001B51] text-white py-15 scroll-mt-20 flex flex-col items-center overflow-x-hidden"
+      style={{
+        backgroundImage: "url('/systems-bg.png')",
+        backgroundAttachment: "fixed",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat"
+      }}>
+      <div className="absolute inset-0 bg-[#0000002b]/85 z-0" />
+
       {/* Section Divider */}
       <div className={CONTAINER}>
         <SectionDivider title="Resources" num="15" />
       </div>
 
       {/* Main Title Block */}
-      <div className={`${CONTAINER} mt-[clamp(24px,4vw,56px)] mb-[clamp(32px,5vw,64px)]`}>
+      <div className={`${CONTAINER} mb-[clamp(32px,5vw,64px)]`}>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-[clamp(24px,4vw,77px)] items-start">
           <div className="lg:col-span-6">
             <h2 className="text-[clamp(32px,3.33vw,64px)] font-bold leading-[1.05] font-display text-white tracking-tight">
@@ -52,8 +61,8 @@ export default function ResourcesSection() {
       <div className={CONTAINER}>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {resources.map((res, index) => (
-            <div 
-              key={index} 
+            <div
+              key={index}
               className="p-8 rounded-2xl bg-white/5 border border-white/10 hover:border-brand-gold/50 hover:bg-white/10 transition-all duration-300 flex flex-col justify-between min-h-[220px] group"
             >
               <div className="space-y-4">

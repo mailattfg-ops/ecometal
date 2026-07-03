@@ -63,14 +63,14 @@ export default function PlatformSection() {
   ];
 
   return (
-    <section id="platform" className="w-full bg-white text-gray-800 py-[clamp(48px,8vw,96px)] scroll-mt-20 flex flex-col items-center overflow-x-hidden">
+    <section id="platform" className="w-full bg-white text-gray-800 py-15 scroll-mt-20 flex flex-col items-center overflow-x-hidden">
       {/* Section Divider */}
       <div className={CONTAINER}>
         <SectionDivider title="Intelligence Layer" num="06" />
       </div>
 
       {/* Main Title Block */}
-      <div className={`${CONTAINER} mt-[clamp(24px,4vw,56px)] mb-[clamp(32px,5vw,64px)]`}>
+      <div className={`${CONTAINER} mb-[clamp(32px,5vw,64px)]`}>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-[clamp(24px,4vw,77px)] items-start">
           <div className="lg:col-span-6">
             <h2 className="text-[clamp(32px,3.33vw,64px)] font-bold leading-[1.05] font-display text-near-black tracking-tight">
@@ -89,8 +89,8 @@ export default function PlatformSection() {
       <div className={`${CONTAINER} mb-[clamp(48px,6vw,80px)]`}>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {cards.map((card, index) => (
-            <div 
-              key={index} 
+            <div
+              key={index}
               className="p-8 rounded-2xl bg-[#FBFBFC] border border-gray-100 border-t-[4px] border-t-near-black hover:border-t-brand-gold hover:shadow-lg transition-all duration-300 flex flex-col min-h-[220px]"
             >
               <h3 className="text-[20px] font-bold font-display text-near-black mb-1">
@@ -111,8 +111,8 @@ export default function PlatformSection() {
       <div className={CONTAINER}>
         <div className="w-full border border-gray-200 rounded-3xl overflow-hidden divide-y divide-gray-200">
           {layers.map((layer) => (
-            <div 
-              key={layer.num} 
+            <div
+              key={layer.num}
               className="p-6 md:p-8 grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-8 items-center bg-[#FAFBFD]/50 hover:bg-[#FBFBFC] transition-colors duration-300 group"
             >
               {/* Layer index */}

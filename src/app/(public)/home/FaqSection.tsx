@@ -45,14 +45,14 @@ export default function FaqSection() {
   };
 
   return (
-    <section id="faq" className="w-full bg-white text-gray-800 py-[clamp(48px,8vw,96px)] scroll-mt-20 flex flex-col items-center overflow-x-hidden">
+    <section id="faq" className="w-full bg-white text-gray-800 py-15 scroll-mt-20 flex flex-col items-center overflow-x-hidden">
       {/* Section Divider */}
       <div className={CONTAINER}>
         <SectionDivider title="Common Questions" num="14" />
       </div>
 
       {/* Main Title Block */}
-      <div className={`${CONTAINER} mt-[clamp(24px,4vw,56px)] mb-[clamp(32px,5vw,64px)]`}>
+      <div className={`${CONTAINER} mb-[clamp(32px,5vw,64px)]`}>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-[clamp(24px,4vw,77px)] items-start">
           <div className="lg:col-span-6">
             <h2 className="text-[clamp(32px,3.33vw,64px)] font-bold leading-[1.05] font-display text-near-black tracking-tight">
@@ -83,10 +83,9 @@ export default function FaqSection() {
                     {isOpen ? <Minus size={20} /> : <Plus size={20} />}
                   </span>
                 </button>
-                <div 
-                  className={`overflow-hidden transition-all duration-300 ${
-                    isOpen ? "max-h-[500px] opacity-100 pb-6" : "max-h-0 opacity-0"
-                  }`}
+                <div
+                  className={`overflow-hidden transition-all duration-300 ${isOpen ? "max-h-[500px] opacity-100 pb-6" : "max-h-0 opacity-0"
+                    }`}
                 >
                   <p className="text-[14px] md:text-[15px] leading-[1.6] font-sans font-normal text-body-gray select-text">
                     {faq.a}

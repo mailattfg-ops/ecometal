@@ -15,7 +15,7 @@ export default function AboutSection() {
   const CONTAINER = "w-full max-w-[1857px] mx-auto px-[clamp(20px,4.2vw,81px)]";
 
   return (
-    <section id="about" className="py-15 bg-white text-gray-800 scroll-mt-20 flex flex-col items-center">
+    <section id="about" className="pt-10 md:pt-15 md:py-15 bg-white text-gray-800 scroll-mt-20 flex flex-col items-center">
       {/* 60px height Section Divider */}
       <div className={CONTAINER}>
         <SectionDivider title="About Us" num="02" />
@@ -25,11 +25,11 @@ export default function AboutSection() {
       <div className={CONTAINER}>
 
         {/* Two-column layout matching design specifications */}
-        <div className="flex flex-col md:flex-row justify-between gap-12 md:gap-6 items-start">
+        <div className="flex flex-col lg:flex-row justify-between gap-12 md:gap-6 items-start">
 
           {/* Left Column (Paragraph Copy + Side-by-Side Images) */}
-          <div className="grid gap-12 w-full md:w-6/12">
-            <p className="w-[95%] text-[16px] md:text-[22px] leading-[120%] tracking-[-0.04em] font-sans font-normal text-[#676F7E] mb-10">
+          <div className="grid gap-4 lg:gap-8 w-full lg:w-8/14">
+            <p className="lg:w-[75%] text-[16px] md:text-[22px] leading-[120%] tracking-[-0.04em] font-sans font-normal text-[#676F7E] lg:mb-10">
               Ecometal Matrix Engineering is a construction technology company building a vertically
               integrated, AI-native steel construction platform — combining steel manufacturing with
               an AI design-to-manufacture engine, real-time site intelligence, and a platform app into
@@ -37,7 +37,7 @@ export default function AboutSection() {
             </p>
             <div className="w-full flex flex-col sm:flex-row gap-6 items-stretch shrink-0">
               <div
-                className="w-full sm:w-[320px] h-[280px] rounded-[16px] bg-cover bg-center shadow-sm shrink-0"
+                className="w-full md:w-[370px] h-[280px] rounded-[16px] bg-cover bg-center shadow-sm shrink-0"
                 style={{
                   backgroundImage: `url('/about-1.jpg')`,
                 }}
@@ -52,8 +52,8 @@ export default function AboutSection() {
           </div>
 
           {/* Right Column (Paragraph Copy + Info Table) */}
-          <div className="grid gap-12 w-full md:w-5/12">
-            <p className="text-[16px] md:text-[22px] leading-[120%] tracking-[-0.04em] font-sans font-normal text-[#676F7E] mb-16">
+          <div className="grid gap-4 lg:gap-12 w-full lg:w-6/14">
+            <p className="text-[16px] md:text-[22px] leading-[120%] tracking-[-0.04em] font-sans font-normal text-[#676F7E] mb-4 lg:mb-16">
               Every building moves from client brief to factory-ready instructions in days — with
               code compliance automated, costs estimated tightly, and site quality monitored
               continuously from first steel delivery to handover.

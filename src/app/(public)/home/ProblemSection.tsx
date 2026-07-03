@@ -40,14 +40,14 @@ export default function ProblemSection() {
   ];
 
   return (
-    <section id="problem" className="w-full bg-[#FAFBFD] text-gray-800 py-[clamp(48px,8vw,96px)] scroll-mt-20 flex flex-col items-center overflow-x-hidden">
+    <section id="problem" className="w-full bg-[#FAFBFD] text-gray-800 pt-15 scroll-mt-20 flex flex-col items-center overflow-x-hidden">
       {/* Section Divider */}
       <div className={CONTAINER}>
         <SectionDivider title="The Problem" num="04" />
       </div>
 
       {/* Main Title Block */}
-      <div className={`${CONTAINER} mt-[clamp(24px,4vw,56px)] mb-[clamp(32px,5vw,64px)]`}>
+      <div className={`${CONTAINER} mb-[clamp(32px,5vw,64px)]`}>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-[clamp(24px,4vw,77px)] items-start">
           <div className="lg:col-span-6">
             <h2 className="text-[clamp(32px,3.33vw,64px)] font-bold leading-[1.05] font-display text-near-black tracking-tight">
@@ -66,8 +66,8 @@ export default function ProblemSection() {
       <div className={CONTAINER}>
         <div className="w-full border-t border-gray-200">
           {crises.map((item) => (
-            <div 
-              key={item.num} 
+            <div
+              key={item.num}
               className="py-8 border-b border-gray-200 grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 items-start group hover:bg-gray-50/50 transition-colors duration-300 px-4 rounded-xl"
             >
               {/* Index Number */}

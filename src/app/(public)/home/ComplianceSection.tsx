@@ -28,7 +28,7 @@ export default function ComplianceSection() {
   return (
     <section
       id="quality"
-      className="relative w-full text-white py-[clamp(48px,8vw,96px)] scroll-mt-20 flex flex-col items-center overflow-hidden"
+      className="relative w-full text-white py-15 scroll-mt-20 flex flex-col items-center overflow-hidden"
       style={{
         backgroundImage: "url('/compliance-bg.jpg')",
         backgroundAttachment: "fixed",
@@ -46,7 +46,7 @@ export default function ComplianceSection() {
       </div>
 
       {/* Main Title Block */}
-      <div className={`${CONTAINER} relative z-10 mt-[clamp(24px,4vw,56px)] mb-[clamp(32px,5vw,64px)]`}>
+      <div className={`${CONTAINER} relative z-10 mb-[clamp(32px,5vw,64px)]`}>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-[clamp(24px,4vw,77px)] items-start">
           <div className="lg:col-span-6">
             <h2 className="text-[clamp(32px,3.33vw,64px)] font-bold leading-[1.05] font-display text-white tracking-tight">
