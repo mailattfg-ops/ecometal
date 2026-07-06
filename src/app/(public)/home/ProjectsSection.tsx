@@ -99,9 +99,9 @@ export default function ProjectsSection() {
 
   return (
     <section id="projects" className="w-full bg-white text-gray-800 pt-15 pb-15 scroll-mt-20 flex flex-col items-center overflow-x-hidden">
-      {/* Section Divider (05) */}
+      {/* Section Divider (07) */}
       <div className={CONTAINER}>
-        <SectionDivider title="WHY THIS TRIP IS DIFFERENT" num="05" />
+        <SectionDivider title="Projects & Case Studies" num="07" />
       </div>
 
       {/* Main Title Block */}

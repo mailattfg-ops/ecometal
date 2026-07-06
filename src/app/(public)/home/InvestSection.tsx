@@ -33,7 +33,7 @@ export default function InvestSection() {
     <section id="invest" className="w-full bg-[#FAFBFD] text-gray-800 py-15 scroll-mt-20 flex flex-col items-center overflow-x-hidden">
       {/* Section Divider */}
       <div className={CONTAINER}>
-        <SectionDivider title="Why EME" num="11" />
+        <SectionDivider title="Why EME" num="09" />
       </div>
 
       {/* Main Title Block */}

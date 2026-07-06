@@ -18,7 +18,7 @@ export default function AboutSection() {
     <section id="about" className="pt-10 md:pt-15 md:py-15 bg-white text-gray-800 scroll-mt-20 flex flex-col items-center">
       {/* 60px height Section Divider */}
       <div className={CONTAINER}>
-        <SectionDivider title="About Us" num="02" />
+        <SectionDivider title="About Us" num="01" />
       </div>
 
       {/* Main Container */}
