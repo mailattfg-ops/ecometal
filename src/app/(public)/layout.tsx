@@ -237,8 +237,8 @@ export default function PublicLayout({
         >
           <svg
             viewBox="0 0 24 24"
-            width="30"
-            height="30"
+            width="34"
+            height="34"
             fill="currentColor"
             className="shrink-0"
           >
