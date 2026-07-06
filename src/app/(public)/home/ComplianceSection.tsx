@@ -42,7 +42,7 @@ export default function ComplianceSection() {
 
       {/* Section Divider */}
       <div className={`${CONTAINER} relative z-10`}>
-        <SectionDivider title="Compliance & Trust" num="08" />
+        <SectionDivider title="Compliance & Trust" num="09" />
       </div>
 
       {/* Main Title Block */}
