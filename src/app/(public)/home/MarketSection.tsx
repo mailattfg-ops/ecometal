@@ -52,7 +52,7 @@ export default function MarketSection() {
     <section id="market" className="w-full bg-white text-gray-800 pb-2 scroll-mt-20 flex flex-col items-center overflow-x-hidden">
       {/* Section Divider */}
       <div className={CONTAINER}>
-        <SectionDivider title="The Market" num="02" />
+        <SectionDivider title="The Market" />
       </div>
 
       {/* Main Title Block */}

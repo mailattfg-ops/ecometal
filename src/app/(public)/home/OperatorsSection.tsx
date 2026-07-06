@@ -187,9 +187,9 @@ export default function OperatorsSection() {
 
   return (
     <section id="team" className="w-full bg-white text-gray-800 pt-0 pb-15 scroll-mt-20 flex flex-col items-center overflow-x-hidden">
-      {/* Section Divider (08) */}
+      {/* Section Divider (07) */}
       <div className={CONTAINER}>
-        <SectionDivider title="Leadership" num="08" />
+        <SectionDivider title="Leadership" num="07" />
       </div>
 
       {/* Main Title Block */}

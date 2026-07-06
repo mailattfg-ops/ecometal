@@ -43,7 +43,7 @@ export default function ProblemSection() {
     <section id="problem" className="w-full bg-[#FAFBFD] text-gray-800 pt-15 scroll-mt-20 flex flex-col items-center overflow-x-hidden">
       {/* Section Divider */}
       <div className={CONTAINER}>
-        <SectionDivider title="The Problem" num="03" />
+        <SectionDivider title="The Problem" />
       </div>
 
       {/* Main Title Block */}

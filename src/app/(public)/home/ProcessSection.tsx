@@ -43,7 +43,7 @@ export default function ProcessSection() {
     <section id="process" className="w-full bg-[#001B51] text-white py-15 scroll-mt-20 flex flex-col items-center overflow-x-hidden">
       {/* Section Divider */}
       <div className={CONTAINER}>
-        <SectionDivider title="How We Work" num="05" />
+        <SectionDivider title="How We Work" num="04" />
       </div>
 
       {/* Main Title Block */}

@@ -29,7 +29,7 @@ export default function CompareSection() {
     <section id="compare" className="w-full bg-[#FAFBFD] text-gray-800 pt-15 pb-7 scroll-mt-20 flex flex-col items-center overflow-x-hidden">
       {/* Section Divider */}
       <div className={CONTAINER}>
-        <SectionDivider title="LGS vs Traditional" num="06" />
+        <SectionDivider title="LGS vs Traditional" num="05" />
       </div>
 
       {/* Main Title Block */}

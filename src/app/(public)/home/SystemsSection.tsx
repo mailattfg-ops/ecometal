@@ -44,7 +44,7 @@ export default function SystemsSection() {
         <div className="w-full flex flex-col mb-[clamp(16px,4vh,56px)] select-none">
           <div className="w-full h-[1px] bg-white/15 mb-[clamp(10px,1.5vh,20px)]" />
           <span className="text-[clamp(11px,1.2vh,15px)] font-display font-semibold text-white/60 uppercase tracking-[0.15em]">
-            Our Systems
+            02 / Systems
           </span>
         </div>
 

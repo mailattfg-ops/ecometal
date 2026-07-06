@@ -48,7 +48,7 @@ export default function FaqSection() {
     <section id="faq" className="w-full bg-white text-gray-800 py-15 scroll-mt-20 flex flex-col items-center overflow-x-hidden">
       {/* Section Divider */}
       <div className={CONTAINER}>
-        <SectionDivider title="Common Questions" num="12" />
+        <SectionDivider title="Common Questions" num="10" />
       </div>
 
       {/* Main Title Block */}

@@ -38,7 +38,7 @@ export default function ResourcesSection() {
 
       {/* Section Divider */}
       <div className={CONTAINER}>
-        <SectionDivider title="Resources" num="13" />
+        <SectionDivider title="Resources" num="11" />
       </div>
 
       {/* Main Title Block */}
