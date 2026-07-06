@@ -105,7 +105,7 @@ export default function PublicLayout({
         {isMobileMenuOpen && (
           <div className={`lg:hidden absolute top-full left-0 right-0 border-b transition-all duration-300 pointer-events-auto backdrop-blur-md ${isScrolled
               ? "bg-white/95 border-gray-200"
-              : "bg-brand-navy/95 border-white/10"
+              : "bg-black/95 border-white/10"
             } px-6 py-6`}>
             <nav className="flex flex-col space-y-4">
               {navLinks.map((link) => (
