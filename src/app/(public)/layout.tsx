@@ -94,7 +94,7 @@ export default function PublicLayout({
         {/* Mobile Menu Button */}
         <button
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className={`lg:hidden p-2 transition-colors ${isScrolled ? "text-near-black hover:text-brand-navy" : "text-white hover:text-brand-gold"
+          className={`lg:hidden p-2 transition-colors pointer-events-auto ${isScrolled ? "text-near-black hover:text-brand-navy" : "text-white hover:text-brand-gold"
             }`}
           aria-label="Toggle menu"
         >
