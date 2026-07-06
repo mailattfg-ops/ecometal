@@ -223,9 +223,14 @@ export default function PublicLayout({
       </footer>
 
       {/* Floating WhatsApp Button with Halo Ripple */}
-      <div className="fixed bottom-6 right-6 z-[9999] w-14 h-14 pointer-events-none flex items-center justify-center">
+      <div className="fixed bottom-6 right-6 z-[9999] w-14 h-14 pointer-events-none flex items-center justify-center group">
         {/* Radar/Ripple Ring */}
         <div className="absolute inset-0 bg-[#25D366]/30 rounded-full animate-whatsapp-ripple pointer-events-none" />
+
+        {/* Hover Tooltip Pill */}
+        <div className="absolute right-full mr-4 bg-white text-brand-navy text-[13px] md:text-[14px] font-sans font-semibold py-2.5 px-5 rounded-full shadow-[0_4px_16px_rgba(0,0,0,0.12)] border border-gray-150 whitespace-nowrap opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 pointer-events-none select-none">
+          Have an enquiry? Chat with us
+        </div>
 
         {/* Main WhatsApp Button */}
         <a
