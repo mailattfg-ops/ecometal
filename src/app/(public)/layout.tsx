@@ -187,7 +187,7 @@ export default function PublicLayout({
             <h4 className="text-sm font-semibold text-white tracking-wider">Contact</h4>
             <div className="space-y-2 text-sm text-white/75 leading-relaxed">
               <p>Email: <a href="mailto:info@ecometalmatrix.com" className="hover:text-white transition-colors">info@ecometalmatrix.com</a></p>
-              <p>WhatsApp: <a href="tel:+919080802406" className="hover:text-white transition-colors">+91 90808 02406</a></p>
+              <p>WhatsApp: <a href="https://wa.me/919080802406?text=Hi!%20I%20have%20an%20enquiry%20about%20Ecometal%20Matrix." target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">+91 90808 02406</a></p>
 
               {/* Inline Social Icons */}
               <div className="flex items-center space-x-3 pt-3">
@@ -229,7 +229,7 @@ export default function PublicLayout({
 
         {/* Main WhatsApp Button */}
         <a
-          href="https://wa.me/919080802406"
+          href="https://wa.me/919080802406?text=Hi!%20I%20have%20an%20enquiry%20about%20Ecometal%20Matrix."
           target="_blank"
           rel="noopener noreferrer"
           className="relative z-10 flex items-center justify-center w-full h-full bg-[#25D366] text-white rounded-full shadow-[0_4px_16px_rgba(37,211,102,0.45)] hover:bg-[#20ba5a] hover:scale-110 active:scale-95 hover:shadow-[0_6px_20px_rgba(37,211,102,0.6)] transition-all duration-300 pointer-events-auto select-none"

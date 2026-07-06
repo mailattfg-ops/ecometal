@@ -73,7 +73,7 @@ export default function HeroSection() {
 
                 {/* Chat on WhatsApp */}
                 <a
-                  href="https://wa.me/919080802406"
+                  href="https://wa.me/919080802406?text=Hi!%20I%20have%20an%20enquiry%20about%20Ecometal%20Matrix."
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-2 h-[clamp(38px,4.5vh,46px)] px-[clamp(16px,1.8vw,26px)] rounded-[10px] border-[1.5px] border-white/20 bg-white/10 text-white text-[clamp(12px,0.85vw,14px)] font-medium no-underline whitespace-nowrap transition-all duration-200 backdrop-blur-[8px] tracking-[-0.01em] hover:bg-white/15 active:scale-98"
