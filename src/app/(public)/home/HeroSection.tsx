@@ -1,17 +1,58 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { MessageSquare } from "lucide-react";
 
+interface HeroSettings {
+  hero_bg_type: "image" | "video";
+  hero_bg_url: string;
+}
+
 export default function HeroSection() {
+  const [settings, setSettings] = useState<HeroSettings>({
+    hero_bg_type: "image",
+    hero_bg_url: "",
+  });
+
+  const [videoError, setVideoError] = useState(false);
+
+  useEffect(() => {
+    fetch("/api/settings")
+      .then((r) => r.json())
+      .then((data) => {
+        setSettings({
+          hero_bg_type: data.hero_bg_type || "image",
+          hero_bg_url: data.hero_bg_url || "",
+        });
+      })
+      .catch(() => {/* silently fall back to defaults */ });
+  }, []);
+
+  const bgUrl = settings.hero_bg_url || "/hero-bg.jpg";
+  const isVideo = settings.hero_bg_type === "video" && !!settings.hero_bg_url && !videoError;
+
   return (
-    <section
-      className="relative w-full h-[100dvh] min-h-[600px] flex flex-col justify-end bg-brand-navy overflow-hidden"
-    >
-      {/* ── Full-bleed background image ── */}
-      <div
-        className="absolute inset-0 z-0 bg-[url('/hero-bg.jpg')] bg-cover bg-[center_38%] bg-no-repeat"
-      />
+    <section className="relative w-full h-[100dvh] min-h-[600px] flex flex-col justify-end bg-brand-navy overflow-hidden">
+
+      {/* ── Full-bleed background ── */}
+      {isVideo ? (
+        <video
+          key={bgUrl}
+          src={bgUrl}
+          autoPlay
+          loop
+          muted
+          playsInline
+          poster="/hero-bg.jpg"
+          onError={() => setVideoError(true)}
+          className="absolute inset-0 z-0 w-full h-full object-cover object-center"
+        />
+      ) : (
+        <div
+          className="absolute inset-0 z-0 bg-cover bg-[center_38%] bg-no-repeat"
+          style={{ backgroundImage: `url('${bgUrl}')` }}
+        />
+      )}
 
       {/* ── Radial blur vignette overlay ── */}
       <div
@@ -28,12 +69,8 @@ export default function HeroSection() {
       />
 
       {/* ── Bottom content — sits ON TOP of image via z-[3] ── */}
-      <div
-        className="absolute bottom-0 left-0 right-0 z-[3] backdrop-blur-0"
-      >
-        <div
-          className="w-full mx-auto px-8 lg:px-14 pb-[clamp(32px,5vh,64px)]"
-        >
+      <div className="absolute bottom-0 left-0 right-0 z-[3] backdrop-blur-0">
+        <div className="w-full mx-auto px-8 lg:px-14 pb-[clamp(32px,5vh,64px)]">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-y-6 items-start w-full">
 
             {/* Left — Headline */}
@@ -47,22 +84,16 @@ export default function HeroSection() {
               </h1>
             </div>
 
-            {/* Right — Body + Buttons (Pushed further right via col-start-8) */}
-            <div
-              className="lg:col-span-5 lg:col-start-8 flex flex-col gap-[clamp(16px,2vh,24px)]"
-            >
-              <p
-                className="text-[clamp(13px,1vw,16px)] text-[rgba(255,255,255,0.82)] leading-[1.5] m-0 font-normal tracking-[-0.01em]"
-              >
+            {/* Right — Body + Buttons */}
+            <div className="h-full justify-center lg:col-span-5 lg:col-start-8 flex flex-col gap-[clamp(16px,2vh,24px)]">
+              <p className="text-[clamp(13px,1vw,16px)] text-[rgba(255,255,255,0.82)] leading-[1.5] m-0 font-normal tracking-[-0.01em]">
                 One factory. One model. One integrated system — for every building type.
                 We combine Light Gauge Steel framing, foam concrete, and an AI
                 design-to-manufacture platform to deliver buildings in weeks, not years.
               </p>
 
               {/* Buttons */}
-              <div
-                className="flex flex-row gap-3.5 flex-wrap"
-              >
+              <div className="flex flex-row gap-3.5 flex-wrap">
                 {/* Get In Touch */}
                 <a
                   href="#contact"

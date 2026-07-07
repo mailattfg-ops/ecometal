@@ -87,22 +87,6 @@ export default function SystemsSection() {
           sizes="(max-width: 1024px) 100vw, 55vw"
           className="absolute inset-0 w-full h-full object-cover"
         />
-        {/* Desktop seam-fader */}
-        <div
-          className="absolute inset-0 pointer-events-none hidden lg:block"
-          style={{
-            background:
-              "linear-gradient(to right, #001B51 0%, rgba(0,27,81,0.55) 10%, rgba(0,27,81,0) 28%)",
-          }}
-        />
-        {/* Mobile seam-fader */}
-        <div
-          className="absolute inset-0 pointer-events-none block lg:hidden"
-          style={{
-            background:
-              "linear-gradient(to bottom, #001B51 0%, rgba(0,27,81,0.55) 10%, rgba(0,27,81,0) 28%)",
-          }}
-        />
       </div>
     </section>
   );

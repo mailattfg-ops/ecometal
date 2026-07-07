@@ -1,8 +1,7 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import SectionDivider from "@/components/SectionDivider";
-import { ArrowLeft, ArrowRight } from "lucide-react";
 
 interface Operator {
   id: string | number;
@@ -52,27 +51,33 @@ const MOCK_OPERATORS: Operator[] = [
 
 export default function OperatorsSection() {
   const [operators, setOperators] = useState<Operator[]>(MOCK_OPERATORS);
+  const [hideTeamImages, setHideTeamImages] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
-  const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    async function getOperators() {
+    async function getData() {
       try {
         setLoading(true);
-        const res = await fetch("/api/operators");
-        if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
-        }
-        const data = await res.json();
+        // Fetch setting and operator records in parallel
+        const [opsRes, settingsRes] = await Promise.all([
+          fetch("/api/operators"),
+          fetch("/api/settings")
+        ]);
 
-        if (data && data.length > 0) {
-          // If less than 5 from DB, append mock ones to keep exactly 5 items as specified
-          if (data.length < 5) {
-            const filled = [...data, ...MOCK_OPERATORS.slice(data.length)];
-            setOperators(filled);
-          } else {
-            setOperators(data);
+        if (opsRes.ok) {
+          const opsData = await opsRes.json();
+          if (opsData && opsData.length > 0) {
+            if (opsData.length < 5) {
+              setOperators([...opsData, ...MOCK_OPERATORS.slice(opsData.length)]);
+            } else {
+              setOperators(opsData);
+            }
           }
+        }
+
+        if (settingsRes.ok) {
+          const settingsData = await settingsRes.json();
+          setHideTeamImages(!!settingsData.hide_team_images);
         }
       } catch (err) {
         console.warn("Database Operators fetch failed, using fallback mock data:", err);
@@ -80,65 +85,12 @@ export default function OperatorsSection() {
         setLoading(false);
       }
     }
-    getOperators();
+    getData();
   }, []);
-
-  const isPaused = useRef(false);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (isPaused.current) return;
-      if (scrollRef.current) {
-        const { scrollLeft } = scrollRef.current;
-        const scrollAmount = window.innerWidth < 1024 ? 300 : 346;
-
-        scrollRef.current.scrollTo({
-          left: scrollLeft + scrollAmount,
-          behavior: "smooth"
-        });
-      }
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  // Initialize scroll position to the middle set for seamless looping
-  useEffect(() => {
-    if (scrollRef.current) {
-      const { scrollWidth } = scrollRef.current;
-      scrollRef.current.scrollLeft = scrollWidth / 3;
-    }
-  }, [operators]);
-
-  const handleScroll = () => {
-    if (!scrollRef.current) return;
-    const { scrollLeft, scrollWidth } = scrollRef.current;
-    const singleSetWidth = scrollWidth / 3;
-
-    // Seamlessly loop back to middle if scrolled too far left or right
-    if (scrollLeft >= singleSetWidth * 2) {
-      scrollRef.current.scrollLeft = scrollLeft - singleSetWidth;
-    } else if (scrollLeft <= 5) {
-      scrollRef.current.scrollLeft = scrollLeft + singleSetWidth;
-    }
-  };
-
-  const scroll = (direction: "left" | "right") => {
-    if (scrollRef.current) {
-      const { scrollLeft } = scrollRef.current;
-      const scrollAmount = window.innerWidth < 1024 ? 300 : 350; // scroll by roughly one card width
-      const targetScroll = direction === "left" ? scrollLeft - scrollAmount : scrollLeft + scrollAmount;
-      scrollRef.current.scrollTo({
-        left: targetScroll,
-        behavior: "smooth"
-      });
-    }
-  };
 
   const CONTAINER = "w-full max-w-[1857px] mx-auto px-[clamp(20px,4.2vw,81px)]";
 
-  // Normalize data (ensuring correct line-breaks, experience values, and badges
-  // regardless of if database values are different from mockup specifications)
+  // Normalize data naming
   const displayOperators = operators.map((op) => {
     const nameClean = op.name.replace(/\n/g, " ");
     let mappedRole = op.role;
@@ -175,15 +127,26 @@ export default function OperatorsSection() {
     };
   });
 
-  const loopedOperators = [
-    ...displayOperators.map((op, i) => ({ ...op, uniqueId: `${op.id}-0-${i}` })),
-    ...displayOperators.map((op, i) => ({ ...op, uniqueId: `${op.id}-1-${i}` })),
-    ...displayOperators.map((op, i) => ({ ...op, uniqueId: `${op.id}-2-${i}` })),
-  ];
+  // Duplicate elements for infinite seamless marquee
+  const marqueeOperators = [...displayOperators, ...displayOperators, ...displayOperators];
 
   return (
     <section id="team" className="w-full bg-white text-gray-800 pt-0 pb-15 scroll-mt-20 flex flex-col items-center overflow-x-hidden">
-      {/* Section Divider (07) */}
+      {/* Dynamic Keyframe Style Definition */}
+      <style dangerouslySetInnerHTML={{ __html: `
+        @keyframes marquee {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-33.333%); }
+        }
+        .animate-marquee-slow {
+          animation: marquee 30s linear infinite;
+        }
+        .animate-marquee-slow:hover {
+          animation-play-state: paused;
+        }
+      `}} />
+
+      {/* Section Divider */}
       <div className={CONTAINER}>
         <SectionDivider title="Leadership" num="07" />
       </div>
@@ -191,13 +154,11 @@ export default function OperatorsSection() {
       {/* Main Title Block */}
       <div className={`${CONTAINER} mb-[clamp(32px,5vw,64px)]`}>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-[clamp(24px,4vw,77px)] items-end">
-          {/* Left: Heading — Cal Sans, 64px at 1920px width, scales fluidly below that */}
           <div className="lg:col-span-6">
             <h2 className="text-[clamp(32px,3.33vw,64px)] font-bold leading-[1.05] font-display text-near-black tracking-tight">
               Built by operators.
             </h2>
           </div>
-          {/* Right: Description — Geist, 24px / line-height 26px at 1920px width */}
           <div className="lg:col-span-6 lg:pt-3">
             <p className="text-[clamp(16px,1.25vw,24px)] leading-[1.3] font-sans font-normal tracking-[-0.04em] text-body-gray max-w-[480px]">
               Domain depth across construction execution, structural engineering, and AI platform development — the people accountable for delivery.
@@ -206,45 +167,61 @@ export default function OperatorsSection() {
         </div>
       </div>
 
-      {/* Horizontally scrollable carousel wrapper without scrollbar */}
-      <div
-        ref={scrollRef}
-        onMouseEnter={() => { isPaused.current = true; }}
-        onMouseLeave={() => { isPaused.current = false; }}
-        onScroll={handleScroll}
-        className="w-full overflow-x-auto px-[clamp(20px,4.2vw,81px)] pb-6 scroll-smooth [&::-webkit-scrollbar]:hidden"
-        style={{ scrollbarWidth: "none" }}
-      >
-        <div className="flex flex-row gap-[20px] xl:gap-[25px] w-max">
-          {loopedOperators.map((op) => (
-            <div
-              key={op.uniqueId}
-              className="relative w-[clamp(280px,20.8vw,398px)] aspect-[398/539] rounded-[20px] overflow-hidden shadow-md group hover:shadow-xl transition-all duration-300 flex flex-col justify-end shrink-0 select-none"
-            >
-              {/* Profile Image with scale-on-hover */}
-              <div
-                className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-102"
-                style={{
-                  backgroundImage: `linear-gradient(180deg, rgba(107, 104, 97, 0) 0%, rgba(107, 104, 97, 0) 55%, rgba(107, 104, 97, 0.7) 75%, #6B6861 100%), url('${op.image_url}')`,
-                }}
-              />
+      {/* Infinite Horizontal Marquee Container */}
+      <div className="w-full overflow-hidden relative">
 
-              {/* Category pill tag in the top-left corner */}
-              <div className="absolute top-0 left-0 z-10 w-1/2 h-[clamp(36px,2.5vw,48px)] bg-black flex items-center pl-[clamp(6px,0.8vw,11.67px)] pr-[clamp(6px,0.8vw,11.67px)] gap-[5.56px]">
-                <span className="text-[clamp(10px,0.85vw,14px)] font-medium text-white tracking-wide leading-none truncate w-full">
-                  {op.badge}
-                </span>
-              </div>
+        <div className="animate-marquee-slow flex flex-row gap-6 w-max py-4 px-6 pointer-events-auto">
+          {marqueeOperators.map((op, idx) => (
+            <div key={`${op.id}-${idx}`}>
+              {hideTeamImages ? (
+                /* Text-only Cards (Images Hidden) */
+                <div className="w-[280px] sm:w-[325px] h-[190px] p-6 rounded-[20px] bg-[#001B51] border border-white/10 hover:border-brand-gold hover:shadow-xl transition-all duration-300 flex flex-col justify-between shrink-0 select-none relative overflow-hidden group">
+                  {/* Top: Badge / Role designation */}
+                  <div className="space-y-1">
+                    <span className="text-[10px] font-mono uppercase tracking-wider text-brand-gold">
+                      {op.badge}
+                    </span>
+                  </div>
+                  
+                  {/* Bottom: Name & Experience details */}
+                  <div className="space-y-1 text-left">
+                    <h4 className="font-['Inter'] font-bold text-xl sm:text-2xl leading-[1.1] text-white group-hover:text-brand-gold transition-colors duration-300 whitespace-pre-line">
+                      {op.name}
+                    </h4>
+                    <p className="font-sans font-normal text-xs text-white/50 mt-1">
+                      {op.role}
+                    </p>
+                  </div>
+                </div>
+              ) : (
+                /* Profile Cards (Images Shown) */
+                <div className="relative w-[280px] sm:w-[346px] aspect-[346/470] rounded-[20px] overflow-hidden shadow-md group hover:shadow-xl transition-all duration-300 flex flex-col justify-end shrink-0 select-none">
+                  {/* Profile image background with overlay */}
+                  <div
+                    className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-102"
+                    style={{
+                      backgroundImage: `linear-gradient(180deg, rgba(107, 104, 97, 0) 0%, rgba(107, 104, 97, 0) 55%, rgba(107, 104, 97, 0.7) 75%, #6B6861 100%), url('${op.image_url}')`,
+                    }}
+                  />
 
-              {/* Name & Title details at bottom */}
-              <div className="relative z-10 pl-[clamp(6px,0.8vw,11.67px)] pr-[clamp(6px,0.8vw,11.67px)] pb-[clamp(16px,2vw,32px)] pt-8 text-white space-y-1">
-                <h4 className="font-['Inter'] font-bold text-[clamp(22px,2.15vw,41.33px)] leading-[1.05] tracking-[-0.54px] text-white transition-colors duration-300 group-hover:text-accent-blue whitespace-pre-line">
-                  {op.name}
-                </h4>
-                <p className="font-sans font-semibold text-[clamp(12px,0.95vw,18.13px)] leading-[1.1] tracking-[-0.24px] text-[#C4C4C4] mt-1.5">
-                  {op.role}
-                </p>
-              </div>
+                  {/* Top corner badge tag */}
+                  <div className="absolute top-0 left-0 z-10 bg-black py-2 px-4 rounded-br-xl max-w-[80%]">
+                    <span className="text-[11px] font-medium text-white tracking-wide leading-none truncate block">
+                      {op.badge}
+                    </span>
+                  </div>
+
+                  {/* Name and Title description */}
+                  <div className="relative z-10 p-5 text-white text-left space-y-1">
+                    <h4 className="font-['Inter'] font-bold text-xl sm:text-2xl leading-[1.1] text-white transition-colors duration-300 group-hover:text-brand-gold whitespace-pre-line">
+                      {op.name}
+                    </h4>
+                    <p className="font-sans font-semibold text-xs sm:text-sm text-[#C4C4C4] mt-1">
+                      {op.role}
+                    </p>
+                  </div>
+                </div>
+              )}
             </div>
           ))}
         </div>

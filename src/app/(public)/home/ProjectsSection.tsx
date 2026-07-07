@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import SectionDivider from "@/components/SectionDivider";
 import { Ruler, MapPin, Calendar, Bed, ArrowRight, ArrowLeft } from "lucide-react";
+import Link from "next/link";
 
 interface Project {
   id: string | number;
@@ -166,57 +167,66 @@ export default function ProjectsSection() {
             No badge, no card background, no border — everything sits directly on the gradient,
             matching the reference layout exactly. */}
         <div className={`relative z-10 ${CONTAINER} text-white p-[clamp(16px,2.5vw,32px)] select-text`}>
-          {/* flex-nowrap forces a single row; overflow-x-auto is a safety net for very
-              narrow screens instead of silently wrapping or clipping content. Scrollbar
-              is hidden for a clean look but the row remains scrollable if truly needed. */}
           <div
-            className="flex flex-nowrap items-end gap-[clamp(16px,3vw,64px)] w-full overflow-x-auto [&::-webkit-scrollbar]:hidden"
-            style={{ scrollbarWidth: "none" }}
+            className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 lg:gap-8 w-full"
           >
+            {/* Left: Title & Description */}
+            <div className="flex flex-col gap-2 max-w-[320px] shrink-0 text-left">
+              <h3 className="text-xl sm:text-3xl font-bold font-display text-white tracking-tight leading-tight">
+                {activeProject.title}
+              </h3>
+              <p className="text-xs sm:text-sm text-white/60 leading-relaxed font-sans font-normal">
+                {activeProject.description}
+              </p>
+            </div>
 
-            {/* Title — scaled down so it comfortably shares the row with the stats */}
-            {/* <h3 className="text-[clamp(18px,2.1vw,42px)] font-normal font-heading leading-[1.05] tracking-[-0.03em] shrink-0 whitespace-nowrap"> */}
-            <h3 className="text-[clamp(18px,2.1vw,42px)] font-normal font-heading leading-[1.05] tracking-[-0.03em] shrink-0 whitespace-pre-line">
+            {/* Center: Stat clusters in a row */}
+            <div className="flex flex-wrap items-center gap-6 sm:gap-8 text-left">
+              {/* Area */}
+              <div className="flex items-center gap-2.5 shrink-0">
+                <Ruler className="w-5 h-5 text-brand-gold shrink-0" />
+                <div className="leading-tight">
+                  <span className="block text-sm sm:text-base font-bold text-white leading-none">{activeProject.area}</span>
+                  <span className="block text-[10px] text-white/50 tracking-wider font-mono uppercase mt-1">Total Area</span>
+                </div>
+              </div>
 
-              {activeProject.title}
-            </h3>
+              {/* Location */}
+              <div className="flex items-center gap-2.5 shrink-0">
+                <MapPin className="w-5 h-5 text-brand-gold shrink-0" />
+                <div className="leading-tight">
+                  <span className="block text-sm sm:text-base font-bold text-white leading-none">{activeProject.location}</span>
+                  <span className="block text-[10px] text-white/50 tracking-wider font-mono uppercase mt-1">Location</span>
+                </div>
+              </div>
 
-            {/* Tagline */}
-            <p className="text-[clamp(11px,1.05vw,20px)] font-heading font-normal leading-[1.2] tracking-[-0.03em] text-[#B3B3B3] max-w-[220px] shrink-0">
-              {activeProject.description}
-            </p>
+              {/* Completion */}
+              <div className="flex items-center gap-2.5 shrink-0">
+                <Calendar className="w-5 h-5 text-brand-gold shrink-0" />
+                <div className="leading-tight">
+                  <span className="block text-sm sm:text-base font-bold text-white leading-none">{activeProject.completion_time}</span>
+                  <span className="block text-[10px] text-white/50 tracking-wider font-mono uppercase mt-1">Time to Complete</span>
+                </div>
+              </div>
 
-            {/* Stat clusters — plain icon + value inline, label below, no box/card behind them */}
-            <div className="flex items-center gap-2 shrink-0 whitespace-nowrap">
-              <Ruler className="w-[clamp(12px,0.9vw,18px)] h-[clamp(12px,0.9vw,18px)] shrink-0" />
-              <div className="leading-none">
-                <span className="block text-[clamp(13px,1.45vw,28px)] font-sans font-medium tracking-[-0.04em] leading-none">{activeProject.area}</span>
-                <span className="block text-[clamp(8px,0.85vw,16px)] font-sans font-normal tracking-[-0.04em] text-[#B3B3B3] mt-1">Total Area</span>
+              {/* Bedrooms */}
+              <div className="flex items-center gap-2.5 shrink-0">
+                <Bed className="w-5 h-5 text-brand-gold shrink-0" />
+                <div className="leading-tight">
+                  <span className="block text-sm sm:text-base font-bold text-white leading-none">{activeProject.bedrooms}</span>
+                  <span className="block text-[10px] text-white/50 tracking-wider font-mono uppercase mt-1">Project Type</span>
+                </div>
               </div>
             </div>
 
-            <div className="flex items-center gap-2 shrink-0 whitespace-nowrap">
-              <MapPin className="w-[clamp(12px,0.9vw,18px)] h-[clamp(12px,0.9vw,18px)] shrink-0" />
-              <div className="leading-none">
-                <span className="block text-[clamp(13px,1.45vw,28px)] font-sans font-medium tracking-[-0.04em] leading-none">{activeProject.location}</span>
-                <span className="block text-[clamp(8px,0.85vw,16px)] font-sans font-normal tracking-[-0.04em] text-[#B3B3B3] mt-1">Location</span>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-2 shrink-0 whitespace-nowrap">
-              <Calendar className="w-[clamp(12px,0.9vw,18px)] h-[clamp(12px,0.9vw,18px)] shrink-0" />
-              <div className="leading-none">
-                <span className="block text-[clamp(13px,1.45vw,28px)] font-sans font-medium tracking-[-0.04em] leading-none">{activeProject.completion_time}</span>
-                <span className="block text-[clamp(8px,0.85vw,16px)] font-sans font-normal tracking-[-0.04em] text-[#B3B3B3] mt-1">Time to Complete</span>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-2 shrink-0 whitespace-nowrap">
-              <Bed className="w-[clamp(12px,0.9vw,18px)] h-[clamp(12px,0.9vw,18px)] shrink-0" />
-              <div className="leading-none">
-                <span className="block text-[clamp(13px,1.45vw,28px)] font-sans font-medium tracking-[-0.04em] leading-none">{activeProject.bedrooms}</span>
-                <span className="block text-[clamp(8px,0.85vw,16px)] font-sans font-normal tracking-[-0.04em] text-[#B3B3B3] mt-1">Project Type</span>
-              </div>
+            {/* Right: View Case Study Button Link */}
+            <div className="shrink-0 flex items-center justify-end w-full lg:w-auto lg:ml-auto">
+              <Link
+                href={`/project/${activeProject.id}`}
+                className="inline-flex items-center justify-center px-6 py-2.5 rounded-full border border-brand-gold text-brand-gold hover:bg-brand-gold hover:text-black font-semibold text-xs tracking-wider shrink-0 cursor-pointer pointer-events-auto transition-all duration-300 shadow-md hover:shadow-brand-gold/20 hover:scale-[1.02]"
+              >
+                View Case Study →
+              </Link>
             </div>
 
           </div>

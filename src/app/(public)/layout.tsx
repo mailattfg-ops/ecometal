@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { Menu, X, PhoneCall, Globe, Linkedin, Instagram } from "lucide-react";
 
@@ -10,6 +11,9 @@ export default function PublicLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const pathname = usePathname();
+  const isProjectDetailPage = pathname?.startsWith("/project/");
+
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -41,7 +45,7 @@ export default function PublicLayout({
       {/* Navigation Header */}
       <header
         className={`fixed top-0 left-0 right-0 z-50 px-[clamp(16px,4vw,64px)] py-4 flex items-center justify-between transition-all duration-300 ${isScrolled
-            ? "bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-200 pointer-events-auto"
+            ? "bg-[#001b51] backdrop-blur-md shadow-md border-b border-white/10 pointer-events-auto"
             : "pointer-events-none"
           }`}
       >
@@ -56,15 +60,18 @@ export default function PublicLayout({
             width={210}
             height={52}
             priority
-            className={`w-[120px] sm:w-[150px] md:w-[180px] xl:w-[210px] h-auto object-contain transition-all duration-300 ${isScrolled ? "brightness-0" : ""
-              }`}
+            className={`w-[120px] sm:w-[150px] md:w-[180px] xl:w-[210px] h-auto object-contain transition-all duration-300 ${
+              isProjectDetailPage && !isScrolled ? "brightness-0" : ""
+            }`}
           />
         </Link>
 
         {/* Desktop Navigation Pill (Links + CTA Button inside) */}
         <div
           className={`hidden lg:flex items-center gap-4 rounded-full p-[3px] border transition-all duration-300 select-none shrink-0 pointer-events-auto ${isScrolled
-              ? "bg-gray-100/80 border-gray-200"
+              ? "bg-black/20 border-white/10"
+              : isProjectDetailPage
+              ? "bg-black/5 border-black/10 shadow-sm"
               : "bg-black/60 backdrop-blur-md border-white/10 shadow-lg"
             }`}
         >
@@ -73,8 +80,13 @@ export default function PublicLayout({
               <a
                 key={link.name}
                 href={link.href}
-                className={`text-[12px] font-normal px-2.5 py-1 transition-colors duration-200 ${isScrolled ? "text-gray-600 hover:text-black" : "text-white/90 hover:text-white"
-                  }`}
+                className={`text-[12px] font-normal px-2.5 py-1 transition-colors duration-200 ${
+                  isScrolled
+                    ? "text-white/90 hover:text-white"
+                    : isProjectDetailPage
+                    ? "text-gray-700 hover:text-black"
+                    : "text-white/90 hover:text-white"
+                }`}
               >
                 {link.name}
               </a>
@@ -83,7 +95,9 @@ export default function PublicLayout({
           <a
             href="#contact"
             className={`text-[12px] font-semibold px-4 py-1.5 rounded-full transition select-none shrink-0 ${isScrolled
-                ? "bg-brand-navy text-white hover:bg-brand-navy/90"
+                ? "bg-brand-gold text-black hover:bg-brand-gold/90"
+                : isProjectDetailPage
+                ? "bg-[#001b51] text-white hover:bg-[#001b51]/90"
                 : "bg-white text-black hover:bg-white/90"
               }`}
           >
@@ -94,8 +108,13 @@ export default function PublicLayout({
         {/* Mobile Menu Button */}
         <button
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className={`lg:hidden p-2 transition-colors pointer-events-auto ${isScrolled ? "text-near-black hover:text-brand-navy" : "text-white hover:text-brand-gold"
-            }`}
+          className={`lg:hidden p-2 transition-colors pointer-events-auto ${
+            isScrolled
+              ? "text-white hover:text-brand-gold"
+              : isProjectDetailPage
+              ? "text-gray-800 hover:text-[#001b51]"
+              : "text-white hover:text-brand-gold"
+          }`}
           aria-label="Toggle menu"
         >
           {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -104,6 +123,8 @@ export default function PublicLayout({
         {/* Mobile Navigation Dropdown */}
         {isMobileMenuOpen && (
           <div className={`lg:hidden absolute top-full left-0 right-0 border-b transition-all duration-300 pointer-events-auto backdrop-blur-md ${isScrolled
+              ? "bg-[#001b51] border-white/10"
+              : isProjectDetailPage
               ? "bg-white/95 border-gray-200"
               : "bg-black/95 border-white/10"
             } px-6 py-6`}>
@@ -114,7 +135,9 @@ export default function PublicLayout({
                   href={link.href}
                   onClick={() => setIsMobileMenuOpen(false)}
                   className={`text-base font-medium py-1.5 border-b transition-colors ${isScrolled
-                      ? "text-gray-600 hover:text-black border-gray-100"
+                      ? "text-white/90 hover:text-brand-gold border-white/10"
+                      : isProjectDetailPage
+                      ? "text-gray-700 hover:text-black border-gray-100"
                       : "text-gray-300 hover:text-accent-blue border-white/5"
                     }`}
                 >
@@ -125,7 +148,9 @@ export default function PublicLayout({
                 href="#contact"
                 onClick={() => setIsMobileMenuOpen(false)}
                 className={`inline-flex items-center justify-center w-full px-5 py-3 mt-4 rounded-full text-base font-bold transition-all shadow-md ${isScrolled
-                    ? "bg-brand-navy text-white hover:bg-brand-navy/90"
+                    ? "bg-brand-gold text-black hover:bg-brand-gold/90"
+                    : isProjectDetailPage
+                    ? "bg-[#001b51] text-white hover:bg-[#001b51]/90"
                     : "bg-white text-dark-gray hover:bg-accent-blue hover:text-white"
                   }`}
               >
