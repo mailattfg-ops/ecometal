@@ -207,7 +207,12 @@ export default function PublicLayout({
 
         {/* Copyright Section */}
         <div className="max-w-[1757px] mx-auto mt-12 pt-8 border-t border-white/10 text-xs text-white/40 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p>© {new Date().getFullYear()} Ecometal Matrix. All rights reserved.</p>
+          <p>
+            © {new Date().getFullYear()} Ecometal Matrix. All rights reserved.{" "}
+            <Link href="/admin" className="hover:text-white underline ml-2 transition-colors">
+              Admin Portal
+            </Link>
+          </p>
           <p>
             Designed and developed by{" "}
             <a
