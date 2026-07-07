@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { supabase } from "@/lib/supabase";
 import SectionDivider from "@/components/SectionDivider";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 
@@ -60,14 +59,11 @@ export default function OperatorsSection() {
     async function getOperators() {
       try {
         setLoading(true);
-        const { data, error } = await supabase
-          .from("operators")
-          .select("*")
-          .order("id", { ascending: true });
-
-        if (error) {
-          throw error;
+        const res = await fetch("/api/operators");
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
         }
+        const data = await res.json();
 
         if (data && data.length > 0) {
           // If less than 5 from DB, append mock ones to keep exactly 5 items as specified
@@ -79,7 +75,7 @@ export default function OperatorsSection() {
           }
         }
       } catch (err) {
-        console.warn("Supabase Operators fetch failed, using fallback mock data:", err);
+        console.warn("Database Operators fetch failed, using fallback mock data:", err);
       } finally {
         setLoading(false);
       }

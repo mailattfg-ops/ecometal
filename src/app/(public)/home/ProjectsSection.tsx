@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { supabase } from "@/lib/supabase";
 import SectionDivider from "@/components/SectionDivider";
 import { Ruler, MapPin, Calendar, Bed, ArrowRight, ArrowLeft } from "lucide-react";
 
@@ -62,20 +61,17 @@ export default function ProjectsSection() {
     async function getProjects() {
       try {
         setLoading(true);
-        const { data, error } = await supabase
-          .from("projects")
-          .select("*")
-          .order("id", { ascending: true });
-
-        if (error) {
-          throw error;
+        const res = await fetch("/api/projects");
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
         }
+        const data = await res.json();
 
         if (data && data.length > 0) {
           setProjects(data);
         }
       } catch (err) {
-        console.warn("Supabase Projects fetch failed, using fallback mock data:", err);
+        console.warn("Database Projects fetch failed, using fallback mock data:", err);
       } finally {
         setLoading(false);
       }
