@@ -60,7 +60,6 @@ export default function PublicLayout({
             width={210}
             height={52}
             priority
-            fetchPriority="high"
             className={`w-[120px] sm:w-[150px] md:w-[180px] xl:w-[210px] h-auto object-contain transition-all duration-300 ${
               isProjectDetailPage && !isScrolled ? "brightness-0" : ""
             }`}
