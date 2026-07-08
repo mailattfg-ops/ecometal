@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-import { Menu, X, PhoneCall, Globe, Linkedin, Instagram } from "lucide-react";
+import { Menu, X, PhoneCall, Globe, Linkedin, Instagram, ArrowUp } from "lucide-react";
 
 export default function PublicLayout({
   children,
@@ -281,6 +281,17 @@ export default function PublicLayout({
           </svg>
         </a>
       </div>
+
+      {/* Scroll to Top Button */}
+      <button
+        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        className={`fixed bottom-[90px] right-7 z-[9998] w-11 h-11 flex items-center justify-center rounded-full bg-white text-[#001B51] shadow-[0_4px_16px_rgba(0,0,0,0.12)] border border-gray-200 transition-all duration-300 hover:scale-110 active:scale-95 ${
+          isScrolled ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 translate-y-4 pointer-events-none"
+        }`}
+        aria-label="Scroll to top"
+      >
+        <ArrowUp size={20} className="stroke-[2.5px]" />
+      </button>
     </div>
   );
 }
