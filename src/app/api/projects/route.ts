@@ -20,20 +20,20 @@ export async function POST(req: Request) {
     const { 
       title, category, description, image_url, area, location, completion_time, bedrooms,
       client_name = '', client_link = '', tagline = '', read_time = '3 min read', download_pdf_url = '',
-      quote_text = '', quote_author = '', quote_role = '', key_benefits = '', project_narrative = '', additional_images = ''
+      quote_text = '', quote_author = '', quote_role = '', key_benefits = '', project_narrative = '', additional_images = '', specifications = []
     } = body;
     
     const res = await query(
       `INSERT INTO public.projects (
         title, category, description, image_url, area, location, completion_time, bedrooms,
         client_name, client_link, tagline, read_time, download_pdf_url,
-        quote_text, quote_author, quote_role, key_benefits, project_narrative, additional_images
+        quote_text, quote_author, quote_role, key_benefits, project_narrative, additional_images, specifications
       )
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19) RETURNING *`,
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20) RETURNING *`,
       [
         title, category, description, image_url, area, location, completion_time, bedrooms,
         client_name, client_link, tagline, read_time, download_pdf_url,
-        quote_text, quote_author, quote_role, key_benefits, project_narrative, additional_images
+        quote_text, quote_author, quote_role, key_benefits, project_narrative, additional_images, JSON.stringify(specifications)
       ]
     );
     return NextResponse.json(res[0]);
@@ -49,19 +49,19 @@ export async function PUT(req: Request) {
     const { 
       id, title, category, description, image_url, area, location, completion_time, bedrooms,
       client_name = '', client_link = '', tagline = '', read_time = '3 min read', download_pdf_url = '',
-      quote_text = '', quote_author = '', quote_role = '', key_benefits = '', project_narrative = '', additional_images = ''
+      quote_text = '', quote_author = '', quote_role = '', key_benefits = '', project_narrative = '', additional_images = '', specifications = []
     } = body;
     
     const res = await query(
       `UPDATE public.projects 
        SET title = $1, category = $2, description = $3, image_url = $4, area = $5, location = $6, completion_time = $7, bedrooms = $8,
            client_name = $9, client_link = $10, tagline = $11, read_time = $12, download_pdf_url = $13,
-           quote_text = $14, quote_author = $15, quote_role = $16, key_benefits = $17, project_narrative = $18, additional_images = $19
-       WHERE id = $20 RETURNING *`,
+           quote_text = $14, quote_author = $15, quote_role = $16, key_benefits = $17, project_narrative = $18, additional_images = $19, specifications = $20
+       WHERE id = $21 RETURNING *`,
       [
         title, category, description, image_url, area, location, completion_time, bedrooms,
         client_name, client_link, tagline, read_time, download_pdf_url,
-        quote_text, quote_author, quote_role, key_benefits, project_narrative, additional_images,
+        quote_text, quote_author, quote_role, key_benefits, project_narrative, additional_images, JSON.stringify(specifications),
         id
       ]
     );

@@ -57,6 +57,9 @@ export default function ProjectsSection() {
   const [projects, setProjects] = useState<Project[]>(MOCK_PROJECTS);
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
+  
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
 
   useEffect(() => {
     async function getProjects() {
@@ -80,6 +83,16 @@ export default function ProjectsSection() {
     getProjects();
   }, []);
 
+  // Auto-slide every 5 seconds
+  useEffect(() => {
+    const timer = setInterval(() => {
+      if (projects.length > 0) {
+        setActiveIndex((prev) => (prev + 1) % projects.length);
+      }
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [projects.length]);
+
   const activeProject = projects[activeIndex] || MOCK_PROJECTS[0];
 
   const handleNext = () => {
@@ -88,6 +101,30 @@ export default function ProjectsSection() {
 
   const handlePrev = () => {
     setActiveIndex((prev) => (prev - 1 + projects.length) % projects.length);
+  };
+
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEndHandler = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+    if (isLeftSwipe) {
+      handleNext();
+    }
+    if (isRightSwipe) {
+      handlePrev();
+    }
   };
 
   // Shared horizontal padding used across the title block and the overlay content
@@ -121,7 +158,12 @@ export default function ProjectsSection() {
 
       {/* Full-bleed Image Panel — width fluid up to 1945px, height scales via aspect-ratio
           instead of a fixed 942px, so nothing gets clipped or pushed off-screen on smaller viewports */}
-      <div className="relative w-full max-w-[1945px] aspect-[16/10] sm:aspect-[1945/942] min-h-[450px] sm:min-h-0 overflow-hidden shadow-sm flex flex-col justify-end group">
+      <div 
+        className="relative w-full max-w-[1945px] aspect-[16/10] sm:aspect-[1945/942] min-h-[450px] sm:min-h-0 overflow-hidden shadow-sm flex flex-col justify-end group"
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEndHandler}
+      >
 
         {/* Photographic background fill — select-none lives here only, so it stops the
             photo itself from being drag-selected without blocking the text/links below */}
@@ -133,7 +175,7 @@ export default function ProjectsSection() {
         />
 
         {/* Navigation Arrows */}
-        <div className="absolute top-1/2 -translate-y-1/2 left-[clamp(12px,2vw,32px)] right-[clamp(12px,2vw,32px)] flex justify-between z-20 pointer-events-none">
+        <div className="absolute top-1/2 -translate-y-1/2 left-[clamp(12px,2vw,32px)] right-[clamp(12px,2vw,32px)] hidden lg:flex justify-between z-20 pointer-events-none">
           <button
             onClick={handlePrev}
             className="p-[clamp(10px,1.2vw,16px)] rounded-full bg-white/20 hover:bg-white/40 text-white transition-all duration-300 pointer-events-auto backdrop-blur-md cursor-pointer border border-white/10"

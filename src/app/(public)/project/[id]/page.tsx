@@ -47,10 +47,11 @@ export default async function ProjectDetailPage({ params }: PageProps) {
     : [];
 
   // Determine dynamic spec values
-  const isCommercial = project.category.toLowerCase().includes("commercial") || project.category.toLowerCase().includes("warehouse");
-  const steelGrade = isCommercial ? "YS 350 / Galvanized Z275" : "YS 550 / High-strength structural steel";
-  const mixDensity = isCommercial ? "1200 kg/m³ cellular lightweight concrete" : "800 kg/m³ structural insulation concrete";
-  const framingType = isCommercial ? "Heavy structural trusses + LGS wall panels" : "Cold-formed LGS stud walls & joists";
+  let specificationsToRender: { label: string, value: string }[] = [];
+  
+  if (project.specifications && Array.isArray(project.specifications) && project.specifications.length > 0) {
+    specificationsToRender = project.specifications;
+  }
 
   return (
     <div className="min-h-screen bg-[#FAFBFD] font-sans">
@@ -226,31 +227,23 @@ export default async function ProjectDetailPage({ params }: PageProps) {
               )}
 
               {/* Material & Technical Specifications */}
-              <div className="space-y-4 pt-6 border-t border-gray-200">
-                <h3 className="text-xl font-bold font-display text-[#001B51]">System Material Specifications</h3>
-                <div className="overflow-hidden border border-gray-200 bg-white rounded-2xl">
-                  <table className="w-full border-collapse text-left text-xs font-mono">
-                    <tbody className="divide-y divide-gray-150">
-                      <tr className="hover:bg-gray-50 transition-colors">
-                        <td className="p-3 text-brand-gold uppercase tracking-wider font-semibold w-[200px]">Framing Design</td>
-                        <td className="p-3 text-gray-700">{framingType}</td>
-                      </tr>
-                      <tr className="hover:bg-gray-50 transition-colors">
-                        <td className="p-3 text-brand-gold uppercase tracking-wider font-semibold">Steel Grade specs</td>
-                        <td className="p-3 text-gray-700">{steelGrade}</td>
-                      </tr>
-                      <tr className="hover:bg-gray-50 transition-colors">
-                        <td className="p-3 text-brand-gold uppercase tracking-wider font-semibold">Infill Screed Density</td>
-                        <td className="p-3 text-gray-700">{mixDensity}</td>
-                      </tr>
-                      <tr className="hover:bg-gray-50 transition-colors">
-                        <td className="p-3 text-brand-gold uppercase tracking-wider font-semibold">Anti-Corrosion</td>
-                        <td className="p-3 text-gray-700">Continuous hot-dip galvanized Zinc coat (Z275 min)</td>
-                      </tr>
-                    </tbody>
-                  </table>
+              {specificationsToRender.length > 0 && (
+                <div className="space-y-4 pt-6 border-t border-gray-200">
+                  <h3 className="text-xl font-bold font-display text-[#001B51]">System Material Specifications</h3>
+                  <div className="overflow-hidden border border-gray-200 bg-white rounded-2xl">
+                    <table className="w-full border-collapse text-left text-xs font-mono">
+                      <tbody className="divide-y divide-gray-150">
+                        {specificationsToRender.map((spec, index) => (
+                          <tr key={index} className="hover:bg-gray-50 transition-colors">
+                            <td className="p-3 text-brand-gold uppercase tracking-wider font-semibold w-[200px]">{spec.label}</td>
+                            <td className="p-3 text-gray-700 whitespace-pre-line">{spec.value}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
-              </div>
+              )}
 
               {/* Source Citations */}
               <div className="pt-6 border-t border-gray-200 space-y-2.5">

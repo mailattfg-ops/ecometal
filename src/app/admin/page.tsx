@@ -25,6 +25,7 @@ interface Project {
   key_benefits?: string;
   project_narrative?: string;
   additional_images?: string;
+  specifications?: { label: string; value: string }[];
 }
 
 interface Operator {
@@ -125,6 +126,7 @@ export default function AdminPage() {
     key_benefits: "",
     project_narrative: "",
     additional_images: "",
+    specifications: [] as { label: string; value: string }[],
   });
   
   // Operator Form Fields
@@ -251,6 +253,12 @@ export default function AdminPage() {
         key_benefits: "",
         project_narrative: "",
         additional_images: "",
+        specifications: [
+          { label: "Framing Design", value: "" },
+          { label: "Steel Grade specs", value: "" },
+          { label: "Infill Screed Density", value: "" },
+          { label: "Anti-Corrosion", value: "" },
+        ],
       });
     } else {
       setEditingType("operator");
@@ -289,6 +297,7 @@ export default function AdminPage() {
         key_benefits: item.key_benefits || "",
         project_narrative: item.project_narrative || "",
         additional_images: item.additional_images || "",
+        specifications: item.specifications || [],
       });
     } else {
       setEditingType("operator");
@@ -933,7 +942,7 @@ export default function AdminPage() {
                         </div>
                         <div className="flex gap-2">
                           <input
-                            type="url"
+                            type="text"
                             required
                             value={projectForm.image_url}
                             onChange={(e) => setProjectForm({ ...projectForm, image_url: e.target.value })}
@@ -1132,6 +1141,68 @@ export default function AdminPage() {
                       </div>
                     </div>
                   </div>
+
+                  {/* Subsection 4: Dynamic System Material Specifications */}
+                  <div className="space-y-4 pt-4 border-t border-white/10">
+                    <div className="flex items-center justify-between border-b border-white/10 pb-1.5">
+                      <h4 className="text-xs font-mono uppercase tracking-wider text-brand-gold">
+                        4. System Material Specifications (Dynamic)
+                      </h4>
+                      <button
+                        type="button"
+                        onClick={() => setProjectForm({ ...projectForm, specifications: [...(projectForm.specifications || []), { label: "", value: "" }] })}
+                        className="text-[10px] font-bold uppercase tracking-wider bg-white/5 hover:bg-white/10 px-3 py-1 rounded-md text-brand-gold transition border border-brand-gold/20 flex items-center gap-1 cursor-pointer"
+                      >
+                        <Plus size={12} /> Add Row
+                      </button>
+                    </div>
+                    
+                    <div className="space-y-3">
+                      {(projectForm.specifications || []).length === 0 && (
+                        <p className="text-xs text-white/40 italic">No specifications added yet.</p>
+                      )}
+                      {(projectForm.specifications || []).map((spec, index) => (
+                        <div key={index} className="flex items-center gap-3">
+                          <input
+                            type="text"
+                            required
+                            value={spec.label}
+                            onChange={(e) => {
+                              const newSpecs = [...(projectForm.specifications || [])];
+                              newSpecs[index].label = e.target.value;
+                              setProjectForm({ ...projectForm, specifications: newSpecs });
+                            }}
+                            placeholder="Label (e.g. Steel Grade)"
+                            className="w-1/3 h-10 px-3 rounded-lg border border-white/10 bg-white/5 text-white placeholder-white/20 focus:border-brand-gold/50 focus:outline-none transition text-sm"
+                          />
+                          <input
+                            type="text"
+                            required
+                            value={spec.value}
+                            onChange={(e) => {
+                              const newSpecs = [...(projectForm.specifications || [])];
+                              newSpecs[index].value = e.target.value;
+                              setProjectForm({ ...projectForm, specifications: newSpecs });
+                            }}
+                            placeholder="Value (e.g. YS 350 / Galvanized Z275)"
+                            className="flex-1 h-10 px-3 rounded-lg border border-white/10 bg-white/5 text-white placeholder-white/20 focus:border-brand-gold/50 focus:outline-none transition text-sm"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const newSpecs = [...(projectForm.specifications || [])];
+                              newSpecs.splice(index, 1);
+                              setProjectForm({ ...projectForm, specifications: newSpecs });
+                            }}
+                            className="p-2 rounded-lg bg-red-500/10 border border-red-500/20 hover:bg-red-500/20 hover:border-red-500/40 text-red-400 transition cursor-pointer shrink-0"
+                            title="Remove"
+                          >
+                            <Trash2 size={14} />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               )}
 
@@ -1181,7 +1252,7 @@ export default function AdminPage() {
                     </div>
                     <div className="flex gap-2">
                       <input
-                        type="url"
+                        type="text"
                         required
                         value={operatorForm.image_url}
                         onChange={(e) => setOperatorForm({ ...operatorForm, image_url: e.target.value })}
