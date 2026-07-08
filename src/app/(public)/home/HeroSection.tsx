@@ -6,12 +6,16 @@ import { MessageSquare } from "lucide-react";
 interface HeroSettings {
   hero_bg_type: "image" | "video";
   hero_bg_url: string;
+  hero_headline_text: string;
+  hero_headline_visible: boolean;
 }
 
 export default function HeroSection() {
   const [settings, setSettings] = useState<HeroSettings>({
     hero_bg_type: "image",
     hero_bg_url: "",
+    hero_headline_text: "Build better.\nBuild faster.\nBuild lighter.",
+    hero_headline_visible: true,
   });
 
   const [videoError, setVideoError] = useState(false);
@@ -23,6 +27,8 @@ export default function HeroSection() {
         setSettings({
           hero_bg_type: data.hero_bg_type || "image",
           hero_bg_url: data.hero_bg_url || "",
+          hero_headline_text: data.hero_headline_text !== undefined ? data.hero_headline_text : "Build better.\nBuild faster.\nBuild lighter.",
+          hero_headline_visible: data.hero_headline_visible !== false,
         });
       })
       .catch(() => {/* silently fall back to defaults */ });
@@ -74,19 +80,19 @@ export default function HeroSection() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-y-6 items-start w-full">
 
             {/* Left — Headline */}
-            <div className="lg:col-span-6 h-full">
-              <h1
-                className="h-full text-[clamp(32px,3.8vw,58px)] leading-[1.05] font-bold font-display m-0 p-0 bg-gradient-to-r from-[#FFE270] to-[#DA8B0C] bg-clip-text text-transparent pb-[clamp(32px,5vh,64px)]"
-              >
-                Build better.<br />
-                Build faster.<br />
-                Build lighter.
-              </h1>
-            </div>
+            {settings.hero_headline_visible && (
+              <div className="lg:col-span-6 h-full">
+                <h1
+                  className="h-full text-[clamp(32px,3.8vw,58px)] leading-[1.05] font-bold font-display m-0 p-0 bg-gradient-to-r from-[#FFE270] to-[#DA8B0C] bg-clip-text text-transparent pb-[clamp(32px,5vh,64px)] whitespace-pre-wrap"
+                >
+                  {settings.hero_headline_text}
+                </h1>
+              </div>
+            )}
 
             {/* Right — Body + Buttons */}
-            <div className="h-full justify-center lg:col-span-5 lg:col-start-8 flex flex-col gap-[clamp(16px,2vh,24px)]">
-              <p className="text-[clamp(13px,1vw,16px)] text-[rgba(255,255,255,0.82)] leading-[1.5] m-0 font-normal tracking-[-0.01em]">
+            <div className={`h-full justify-center ${settings.hero_headline_visible ? 'lg:col-span-5 lg:col-start-8' : 'lg:col-span-6 lg:col-start-1'} flex flex-col gap-[clamp(16px,2vh,24px)]`}>
+              <p className="text-[clamp(16px,1.3vw,20px)] text-[rgba(255,255,255,0.82)] leading-[1.5] m-0 font-normal tracking-[-0.01em]">
                 One factory. One model. One integrated system — for every building type.
                 We combine Light Gauge Steel framing, foam concrete, and an AI
                 design-to-manufacture platform to deliver buildings in weeks, not years.

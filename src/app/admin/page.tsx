@@ -42,7 +42,7 @@ export default function AdminPage() {
   const [loginError, setLoginError] = useState<string>("");
   
   const [activeTab, setActiveTab] = useState<"projects" | "operators" | "hero">("projects");
-  const [heroSettings, setHeroSettings] = useState({ hero_bg_type: "image" as "image" | "video", hero_bg_url: "", saving: false, uploadingHero: false });
+  const [heroSettings, setHeroSettings] = useState({ hero_bg_type: "image" as "image" | "video", hero_bg_url: "", hero_headline_text: "Build better.\nBuild faster.\nBuild lighter.", hero_headline_visible: true, saving: false, uploadingHero: false });
   const [projects, setProjects] = useState<Project[]>([]);
   const [operators, setOperators] = useState<Operator[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -184,6 +184,8 @@ export default function AdminPage() {
         ...prev,
         hero_bg_type: settingsData.hero_bg_type || "image",
         hero_bg_url: settingsData.hero_bg_url || "",
+        hero_headline_text: settingsData.hero_headline_text,
+        hero_headline_visible: settingsData.hero_headline_visible,
       }));
     } catch (err) {
       console.error("Error fetching data:", err);
@@ -199,7 +201,12 @@ export default function AdminPage() {
       await fetch("/api/settings", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ hero_bg_type: merged.hero_bg_type, hero_bg_url: merged.hero_bg_url }),
+        body: JSON.stringify({ 
+          hero_bg_type: merged.hero_bg_type, 
+          hero_bg_url: merged.hero_bg_url,
+          hero_headline_text: merged.hero_headline_text,
+          hero_headline_visible: merged.hero_headline_visible
+        }),
       });
     } catch (err) {
       console.error("Failed to save hero settings:", err);
@@ -683,6 +690,43 @@ export default function AdminPage() {
                   <p className="text-xs text-white/30">Supported: JPG, PNG, WebP, MP4, WebM. File is saved to /public/uploads and the URL is set automatically.</p>
                 </div>
 
+                {/* Headline Text Input */}
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center">
+                    <label className="block text-xs font-semibold text-white/60 uppercase tracking-wider">Headline Text</label>
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        className="hidden"
+                        checked={heroSettings.hero_headline_visible}
+                        onChange={(e) => {
+                          const val = e.target.checked;
+                          setHeroSettings(prev => ({ ...prev, hero_headline_visible: val }));
+                          saveHeroSettings({ hero_headline_visible: val });
+                        }}
+                      />
+                      <div className={`w-8 h-4 rounded-full transition ${heroSettings.hero_headline_visible ? "bg-brand-gold" : "bg-white/10"}`}>
+                        <div className={`w-4 h-4 rounded-full bg-white shadow-sm transform transition ${heroSettings.hero_headline_visible ? "translate-x-4" : "translate-x-0"}`} />
+                      </div>
+                      <span className="text-xs text-white/50">{heroSettings.hero_headline_visible ? "Visible" : "Hidden"}</span>
+                    </label>
+                  </div>
+                  <div className="flex gap-3 items-start">
+                    <textarea
+                      value={heroSettings.hero_headline_text}
+                      onChange={e => setHeroSettings(prev => ({ ...prev, hero_headline_text: e.target.value }))}
+                      className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-brand-gold/50 transition resize-none min-h-[80px]"
+                    />
+                    <button
+                      onClick={() => saveHeroSettings()}
+                      disabled={heroSettings.saving}
+                      className="px-5 py-2.5 rounded-xl bg-brand-gold hover:bg-brand-gold/90 text-black text-xs font-bold transition cursor-pointer disabled:opacity-60"
+                    >
+                      {heroSettings.saving ? "Saving…" : "Save Text"}
+                    </button>
+                  </div>
+                </div>
+
                 {/* Live Preview — matches actual hero exactly */}
                 <div className="space-y-3">
                   <label className="block text-xs font-semibold text-white/60 uppercase tracking-wider">
@@ -725,14 +769,16 @@ export default function AdminPage() {
                     <div className="absolute bottom-0 left-0 right-0 z-[3] p-5">
                       <div className="grid grid-cols-12 gap-3 items-end">
                         {/* Headline */}
-                        <div className="col-span-6">
-                          <h3 className="text-[clamp(14px,2vw,26px)] font-bold leading-tight bg-gradient-to-r from-[#FFE270] to-[#DA8B0C] bg-clip-text text-transparent">
-                            Build better.<br />Build faster.<br />Build lighter.
-                          </h3>
-                        </div>
+                        {heroSettings.hero_headline_visible && (
+                          <div className="col-span-6">
+                            <h3 className="text-[clamp(14px,2vw,26px)] font-bold leading-tight bg-gradient-to-r from-[#FFE270] to-[#DA8B0C] bg-clip-text text-transparent whitespace-pre-wrap">
+                              {heroSettings.hero_headline_text}
+                            </h3>
+                          </div>
+                        )}
                         {/* Body + buttons */}
-                        <div className="col-span-5 col-start-8 flex flex-col gap-2">
-                          <p className="text-[9px] sm:text-[11px] text-white/70 leading-relaxed hidden sm:block">
+                        <div className={`flex flex-col gap-2 ${heroSettings.hero_headline_visible ? 'col-span-5 col-start-8' : 'col-span-6 col-start-1'}`}>
+                          <p className="text-[10px] sm:text-[12px] text-white/70 leading-relaxed hidden sm:block">
                             One factory. One model. One integrated system — for every building type.
                           </p>
                           <div className="flex gap-2 flex-wrap">
