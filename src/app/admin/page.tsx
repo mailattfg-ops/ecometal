@@ -223,13 +223,18 @@ export default function AdminPage() {
     formData.append("file", file);
     try {
       const res = await fetch("/api/upload", { method: "POST", body: formData });
-      if (!res.ok) throw new Error("Upload failed");
+      if (!res.ok) {
+        const errText = await res.text();
+        console.error("Upload error response:", res.status, errText);
+        throw new Error(`Upload failed: ${res.status} ${errText}`);
+      }
       const data = await res.json();
       const newType: "image" | "video" = file.type.startsWith("video") ? "video" : "image";
       setHeroSettings(prev => ({ ...prev, hero_bg_url: data.url, hero_bg_type: newType }));
       await saveHeroSettings({ hero_bg_url: data.url, hero_bg_type: newType });
-    } catch (err) {
-      alert("Hero media upload failed.");
+    } catch (err: any) {
+      console.error(err);
+      alert(err.message || "Hero media upload failed.");
     } finally {
       setHeroSettings(prev => ({ ...prev, uploadingHero: false }));
     }

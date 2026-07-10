@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
+import { supabase } from '@/lib/supabase';
 
 export const dynamic = 'force-dynamic';
 
@@ -15,23 +14,35 @@ export async function POST(req: Request) {
     
     const buffer = Buffer.from(await file.arrayBuffer());
     
-    // Ensure the public/uploads directory exists
-    const uploadsDir = path.join(process.cwd(), 'public', 'uploads');
-    if (!fs.existsSync(uploadsDir)) {
-      fs.mkdirSync(uploadsDir, { recursive: true });
-    }
-    
-    // Sanitize filename to prevent directory traversal or invalid paths
+    // Sanitize filename to prevent invalid characters
     const sanitizedFilename = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
     const uniqueFilename = `${Date.now()}-${sanitizedFilename}`;
-    const filePath = path.join(uploadsDir, uniqueFilename);
     
-    // Write file to target local directory
-    fs.writeFileSync(filePath, buffer);
+    // Upload to Supabase Storage
+    const { data, error } = await supabase.storage
+      .from('ecometal_uploads')
+      .upload(uniqueFilename, buffer, {
+        contentType: file.type,
+        upsert: false
+      });
+
+    if (error) {
+      console.error("Supabase storage error:", error);
+      throw new Error(`Supabase upload error: ${error.message}`);
+    }
     
-    const fileUrl = `/uploads/${uniqueFilename}`;
-    return NextResponse.json({ url: fileUrl });
+    // Get the public URL for the uploaded file
+    const { data: publicUrlData } = supabase.storage
+      .from('ecometal_uploads')
+      .getPublicUrl(uniqueFilename);
+
+    if (!publicUrlData || !publicUrlData.publicUrl) {
+      throw new Error("Failed to generate public URL from Supabase");
+    }
+
+    return NextResponse.json({ url: publicUrlData.publicUrl });
   } catch (err: any) {
+    console.error("Upload route error:", err);
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }
