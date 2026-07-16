@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { usePathname } from "next/navigation";
 
 interface SectionDividerProps {
   title: string;
@@ -8,6 +9,9 @@ interface SectionDividerProps {
 }
 
 export default function SectionDivider({ title, num }: SectionDividerProps) {
+  const pathname = usePathname();
+  const showNum = num && pathname === "/";
+
   return (
     <div className="w-full h-[60px] flex flex-col justify-between mb-12 select-none">
       {/* Top 1px line */}
@@ -18,7 +22,7 @@ export default function SectionDivider({ title, num }: SectionDividerProps) {
         <span className="text-[clamp(11px,0.85vw,14px)] font-sans font-medium text-[#9EA5B4] uppercase tracking-[0.15em]">
           {title}
         </span>
-        {num && (
+        {showNum && (
           <span className="text-[clamp(11px,0.85vw,14px)] font-sans font-medium text-[#9EA5B4] tracking-[0.15em]">
             [{num}]
           </span>

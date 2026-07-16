@@ -64,13 +64,13 @@ export default async function ProjectDetailPage({ params }: PageProps) {
         <div className="max-w-[1000px] w-full mx-auto px-6 relative z-10 space-y-10">
 
           {/* Back Link */}
-          {/* <Link
-            href="/#projects"
+          <Link
+            href="/projects"
             className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-[#001B51] hover:text-brand-gold transition group !no-underline"
           >
             <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform text-[#001B51] group-hover:text-brand-gold" />
             Back to projects
-          </Link> */}
+          </Link>
 
           {/* Case Study Header Block */}
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">

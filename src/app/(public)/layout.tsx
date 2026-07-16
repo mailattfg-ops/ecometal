@@ -30,14 +30,12 @@ export default function PublicLayout({
   }, []);
 
   const navLinks = [
-    { name: "About", href: "#about" },
-    { name: "Market", href: "#market" },
-    { name: "Systems", href: "#systems" },
-    { name: "Process", href: "#process" },
-    { name: "Projects", href: "#projects" },
-    { name: "Team", href: "#team" },
-    { name: "Compliance", href: "#quality" },
-    { name: "FAQ", href: "#faq" },
+    { name: "About", href: "/#about" },
+    { name: "Market", href: "/#market" },
+    { name: "System & Process", href: "/system-process" },
+    { name: "Projects", href: "/projects" },
+    { name: "Resources", href: "/downloads" },
+    { name: "Leadership", href: "/#team" },
   ];
 
   return (
@@ -77,7 +75,7 @@ export default function PublicLayout({
         >
           <nav className="flex items-center gap-1 pl-4">
             {navLinks.map((link) => (
-              <a
+              <Link
                 key={link.name}
                 href={link.href}
                 className={`text-[12px] font-normal px-2.5 py-1 transition-colors duration-200 ${
@@ -89,11 +87,11 @@ export default function PublicLayout({
                 }`}
               >
                 {link.name}
-              </a>
+              </Link>
             ))}
           </nav>
-          <a
-            href="#contact"
+          <Link
+            href="/#contact"
             className={`text-[12px] font-semibold px-4 py-1.5 rounded-full transition select-none shrink-0 ${isScrolled
                 ? "bg-brand-gold text-black hover:bg-brand-gold/90"
                 : isProjectDetailPage
@@ -102,7 +100,7 @@ export default function PublicLayout({
               }`}
           >
             Get In Touch
-          </a>
+          </Link>
         </div>
 
         {/* Mobile Menu Button */}
@@ -130,7 +128,7 @@ export default function PublicLayout({
             } px-6 py-6`}>
             <nav className="flex flex-col space-y-4">
               {navLinks.map((link) => (
-                <a
+                <Link
                   key={link.name}
                   href={link.href}
                   onClick={() => setIsMobileMenuOpen(false)}
@@ -142,10 +140,10 @@ export default function PublicLayout({
                     }`}
                 >
                   {link.name}
-                </a>
+                </Link>
               ))}
-              <a
-                href="#contact"
+              <Link
+                href="/#contact"
                 onClick={() => setIsMobileMenuOpen(false)}
                 className={`inline-flex items-center justify-center w-full px-5 py-3 mt-4 rounded-full text-base font-bold transition-all shadow-md ${isScrolled
                     ? "bg-brand-gold text-black hover:bg-brand-gold/90"
@@ -155,7 +153,7 @@ export default function PublicLayout({
                   }`}
               >
                 Get In Touch
-              </a>
+              </Link>
             </nav>
           </div>
         )}
@@ -187,10 +185,10 @@ export default function PublicLayout({
           <div className="space-y-4">
             <h4 className="text-sm font-semibold text-white tracking-wider">Product</h4>
             <ul className="space-y-2 text-sm text-white/75">
-              <li><Link href="#" className="hover:text-white transition-colors">Home</Link></li>
-              <li><Link href="#about" className="hover:text-white transition-colors">About</Link></li>
-              <li><Link href="#market" className="hover:text-white transition-colors">Market</Link></li>
-              <li><Link href="#systems" className="hover:text-white transition-colors">Systems</Link></li>
+              <li><Link href="/" className="hover:text-white transition-colors">Home</Link></li>
+              <li><Link href="/#about" className="hover:text-white transition-colors">About</Link></li>
+              <li><Link href="/#market" className="hover:text-white transition-colors">Market</Link></li>
+              <li><Link href="/system-process" className="hover:text-white transition-colors">System & Process</Link></li>
             </ul>
           </div>
 
@@ -198,12 +196,11 @@ export default function PublicLayout({
           <div className="space-y-4">
             <h4 className="text-sm font-semibold text-white tracking-wider">Projects and process</h4>
             <ul className="space-y-2 text-sm text-white/75">
-              <li><Link href="#process" className="hover:text-white transition-colors">Process</Link></li>
-              <li><Link href="#projects" className="hover:text-white transition-colors">Projects</Link></li>
-              <li><Link href="#apps" className="hover:text-white transition-colors">Applications</Link></li>
-              <li><Link href="#quality" className="hover:text-white transition-colors">Compliance</Link></li>
-              <li><Link href="#faq" className="hover:text-white transition-colors">FAQ</Link></li>
-              <li><Link href="#resources" className="hover:text-white transition-colors">Resources</Link></li>
+              <li><Link href="/projects" className="hover:text-white transition-colors">Projects</Link></li>
+              <li><Link href="/#quality" className="hover:text-white transition-colors">Compliance</Link></li>
+              <li><Link href="/#faq" className="hover:text-white transition-colors">FAQ</Link></li>
+              <li><Link href="/downloads" className="hover:text-white transition-colors">Resources</Link></li>
+              <li><Link href="/#contact" className="hover:text-white transition-colors">Contact Us</Link></li>
             </ul>
           </div>
 
