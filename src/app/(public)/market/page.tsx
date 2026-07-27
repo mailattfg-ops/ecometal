@@ -1,19 +1,16 @@
 import React from "react";
 import type { Metadata } from "next";
-import SystemsSection from "../home/SystemsSection";
-import ProcessSection from "../home/ProcessSection";
-import PlatformSection from "../home/PlatformSection";
-import CompareSection from "../home/CompareSection";
-import SustainSection from "../home/SustainSection";
+import MarketSection from "../home/MarketSection";
+import ProblemSection from "../home/ProblemSection";
 
 export const metadata: Metadata = {
-  title: "Systems & Process | Ecometal Matrix Engineering",
-  description: "Discover our Light Gauge Steel (LGS) systems integrated with foam concrete, AI-optimized platform, and ESG sustainability metrics.",
+  title: "Market Analysis & Industry Impact | Ecometal Matrix Engineering",
+  description: "Explore the structural shifts in urban construction, government-underwritten demand pipelines, and market opportunity.",
 };
 
-export default function SystemProcessPage() {
+export default function MarketPage() {
   return (
-    <div className="flex flex-col w-full min-h-screen bg-[#FAFBFD]">
+    <div className="flex flex-col w-full min-h-screen bg-white">
       {/* Page Header Banner */}
       <section className="relative w-full bg-[#001B51] text-white pt-32 pb-16 md:pt-40 md:pb-24 flex flex-col items-center overflow-hidden">
         {/* Decorative background and overlay */}
@@ -23,13 +20,13 @@ export default function SystemProcessPage() {
         <div className="relative z-10 w-full max-w-[1857px] mx-auto px-[clamp(20px,4.2vw,81px)]">
           <div className="max-w-[800px] space-y-4">
             <span className="inline-block text-[11px] font-mono tracking-[0.2em] text-brand-gold uppercase font-bold bg-white/5 border border-white/10 px-3 py-1 rounded-full">
-              Technology & Execution
+              Industry Opportunity
             </span>
             <h1 className="text-[clamp(36px,4.5vw,72px)] font-bold leading-[1.05] tracking-tight text-white font-display">
-              System & <span className="text-brand-gold">Process</span>
+              Market & <span className="text-brand-gold">Impact</span>
             </h1>
             <p className="text-[clamp(16px,1.25vw,22px)] leading-relaxed text-white/80 font-sans font-light max-w-[650px]">
-              Discover our Light Gauge Steel framing technology, our AI-optimized execution flow, and how traditional building methods compare.
+              Discover structural shifts in urban construction, government-underwritten demand pipelines, and traditional building friction.
             </p>
           </div>
         </div>
@@ -37,13 +34,9 @@ export default function SystemProcessPage() {
 
       {/* RENDERED SECTIONS */}
       <div className="w-full">
-        <SystemsSection />
-        <ProcessSection />
-        <PlatformSection />
-        <CompareSection />
-        <SustainSection />
+        <MarketSection />
+        <ProblemSection />
       </div>
     </div>
   );
 }
-

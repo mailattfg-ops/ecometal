@@ -1,11 +1,10 @@
 import HeroSection from "./home/HeroSection";
 import AboutSection from "./home/AboutSection";
-import MarketSection from "./home/MarketSection";
-import ProblemSection from "./home/ProblemSection";
-import PlatformSection from "./home/PlatformSection";
-import OperatorsSection from "./home/OperatorsSection";
 import InvestSection from "./home/InvestSection";
-import SustainSection from "./home/SustainSection";
+import SystemsSection from "./home/SystemsSection";
+import VideoSection from "./home/VideoSection";
+import ProjectsSection from "./home/ProjectsSection";
+import OperatorsSection from "./home/OperatorsSection";
 import ComplianceSection from "./home/ComplianceSection";
 import FaqSection from "./home/FaqSection";
 import ContactSection from "./home/ContactSection";
@@ -15,15 +14,19 @@ export default function HomePage() {
     <div className="flex flex-col w-full">
       <HeroSection />
       <AboutSection />
-      <MarketSection />
-      <ProblemSection />
-      <PlatformSection />
-      <OperatorsSection />
       <InvestSection />
-      <SustainSection />
+      <SystemsSection />
+      <VideoSection />
+      <ProjectsSection />
+      <OperatorsSection />
       <ComplianceSection />
       <FaqSection />
       <ContactSection />
     </div>
   );
 }
+
+
+
+
+

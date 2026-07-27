@@ -31,7 +31,7 @@ export default function PublicLayout({
 
   const navLinks = [
     { name: "About", href: "/#about" },
-    { name: "Market", href: "/#market" },
+    { name: "Market", href: "/market" },
     { name: "System & Process", href: "/system-process" },
     { name: "Projects", href: "/projects" },
     { name: "Resources", href: "/downloads" },
