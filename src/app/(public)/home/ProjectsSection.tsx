@@ -183,7 +183,7 @@ export default function ProjectsSection() {
       {/* Full-bleed Image Panel — width fluid up to 1945px, height scales via aspect-ratio
           instead of a fixed 942px, so nothing gets clipped or pushed off-screen on smaller viewports */}
       <div 
-        className="relative w-full max-w-[1945px] aspect-[16/10] sm:aspect-[1945/942] min-h-[450px] sm:min-h-0 overflow-hidden shadow-sm flex flex-col justify-end group"
+        className="relative w-full max-w-[1945px] min-h-[600px] sm:min-h-0 sm:aspect-[1945/942] overflow-hidden shadow-sm flex flex-col justify-end group"
         onTouchStart={onTouchStart}
         onTouchMove={onTouchMove}
         onTouchEnd={onTouchEndHandler}
@@ -194,7 +194,10 @@ export default function ProjectsSection() {
         <div
           className="absolute inset-0 bg-cover bg-center select-none transition-transform duration-[8000ms] group-hover:scale-102"
           style={{
-            backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.85)), url('${activeProject.image_url}')`,
+            // Multi-stop rather than a straight fade: on mobile the caption block
+            // reaches roughly half way up the panel, and a two-stop gradient is
+            // still too light there to read white text over a bright photo.
+            backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.25) 30%, rgba(0,0,0,0.62) 55%, rgba(0,0,0,0.93) 100%), url('${activeProject.image_url}')`,
           }}
         />
 
@@ -237,17 +240,20 @@ export default function ProjectsSection() {
             className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 lg:gap-8 w-full"
           >
             {/* Left: Title & Description */}
-            <div className="flex flex-col gap-2 max-w-[320px] shrink-0 text-left">
-              <h3 className="text-xl sm:text-3xl font-bold font-display text-white tracking-tight leading-tight">
+            <div className="flex flex-col gap-2 w-full lg:w-auto lg:max-w-[320px] shrink-0 text-left">
+              <h3 className="text-2xl sm:text-3xl font-bold font-display text-white tracking-tight leading-tight">
                 {activeProject.title}
               </h3>
-              <p className="text-xs sm:text-sm text-white/60 leading-relaxed font-sans font-normal">
+              {/* Clamped on small screens — the full copy runs to five or six
+                  lines on a phone and crowds out the stats and the CTA. */}
+              <p className="text-[13px] sm:text-sm text-white/75 leading-relaxed font-sans font-normal line-clamp-3 lg:line-clamp-none">
                 {activeProject.description}
               </p>
             </div>
 
-            {/* Center: Stat clusters in a row */}
-            <div className="flex flex-wrap items-center gap-6 sm:gap-8 text-left">
+            {/* Center: stat clusters — even two-column grid on mobile, single
+                row from lg up. Flex-wrap left an orphaned third stat on phones. */}
+            <div className="grid grid-cols-2 gap-x-4 gap-y-5 w-full lg:w-auto lg:flex lg:flex-wrap lg:items-center lg:gap-8 text-left">
               {/* Area */}
               <div className="flex items-center gap-2.5 shrink-0">
                 <Ruler className="w-5 h-5 text-brand-gold shrink-0" />
@@ -287,11 +293,12 @@ export default function ProjectsSection() {
               </div>
             </div>
 
-            {/* Right: View Case Study Button Link */}
-            <div className="shrink-0 flex items-center justify-end w-full lg:w-auto lg:ml-auto">
+            {/* Right: View Case Study Button Link — full width on mobile, where a
+                right-aligned pill reads as detached from the caption above it. */}
+            <div className="shrink-0 flex items-center w-full lg:w-auto lg:ml-auto lg:justify-end">
               <Link
                 href={`/project/${activeProject.id}`}
-                className="inline-flex items-center justify-center px-6 py-2.5 rounded-full border border-brand-gold text-brand-gold hover:bg-brand-gold hover:text-black font-semibold text-xs tracking-wider shrink-0 cursor-pointer pointer-events-auto transition-all duration-300 shadow-md hover:shadow-brand-gold/20 hover:scale-[1.02]"
+                className="inline-flex items-center justify-center w-full lg:w-auto px-6 py-3 lg:py-2.5 rounded-full border border-brand-gold bg-brand-gold/10 lg:bg-transparent backdrop-blur-sm text-brand-gold hover:bg-brand-gold hover:text-black font-semibold text-xs tracking-wider shrink-0 cursor-pointer pointer-events-auto transition-all duration-300 shadow-md hover:shadow-brand-gold/20 lg:hover:scale-[1.02]"
               >
                 View Case Study →
               </Link>
