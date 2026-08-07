@@ -6,7 +6,7 @@ import SectionDivider from "@/components/SectionDivider";
 export default function AboutSection() {
   const tableRows = [
     { label: "Company", value: "Ecometal Matrix Engineering Pvt Ltd" },
-    { label: "Location", value: "SIPCOT Pochampalli, Krishnagiri District, Tamil Nadu" },
+    { label: "Location", value: "SIDCO Industrial Estate, Kallur, Krishnagiri District, Tamil Nadu" },
     { label: "Model", value: "Integrated manufacturing + AI platform + delivery" },
     { label: "Systems", value: "LGS · Foam concrete · HRS · Purlins · Decking" },
     { label: "Standards", value: "IS 811 · 801 · 800 · 1893 · 875 · 2185 · NBC 2016" },

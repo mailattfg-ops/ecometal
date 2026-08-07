@@ -1,0 +1,231 @@
+// Canonical project records. Mirrored into MOCK_PROJECTS in ProjectsSection.tsx
+// so the client-side fallback shows the same real content as the database.
+// `location` is deliberately empty on every record.
+
+module.exports = [
+  {
+    title: "Terraced Housing Development",
+    category: "Residential Development",
+    description:
+      "A multi-unit terraced housing scheme delivered as a complete light gauge steel superstructure — load-bearing wall panels, floor cassettes and roof trusses rolled to a single coordinated model.",
+    image_url: "/projects/townhouse-hero.jpg",
+    area: "14,800 sq.ft",
+    location: "",
+    completion_time: "9 Months",
+    bedrooms: "3 & 4 Bed Units",
+    tagline:
+      "Ten homes across four house types, framed from one coordinated steel model and erected in sequence without wet trades on the critical path.",
+    read_time: "5 min read",
+    key_benefits: [
+      "Four distinct house types framed from a single parametric steel model",
+      "Load-bearing panels, floor cassettes and roof trusses supplied as one package",
+      "Panels arrive pre-punched for services — no on-site drilling or cutting",
+      "Dimensional accuracy held to ±2 mm across the full terrace run",
+      "Weathertight envelope reached in a fraction of a masonry programme",
+    ].join("\n"),
+    project_narrative: [
+      "The scheme sets four house types along a single terrace, each with its own frontage treatment, dormer arrangement and internal layout. Traditional construction would treat that variety as a cost problem — every type needs its own setting-out, its own brick coursing, its own carpentry.",
+      "Framed in light gauge steel, variety costs almost nothing. Each house type is a configuration of the same model. The roll-former reads the geometry directly and produces the studs, tracks, joists and trusses for that unit, pre-punched for services and labelled to its position on the drawing.",
+      "On site the sequence is assembly rather than construction. Wall panels are stood and braced, floor cassettes craned in, roof trusses set, and the structure moves floor by floor along the terrace. Because the frame carries the load, the brick outer leaf is a cladding operation that can follow at its own pace rather than gating everything behind it.",
+      "The result is a masonry-looking street of houses with a steel programme behind it — the architectural language of the site preserved, the schedule and tolerance of a factory product underneath.",
+    ].join("\n"),
+    additional_images: [
+      "/projects/townhouse-amelia.jpg",
+      "/projects/townhouse-elizabeth.jpg",
+      "/projects/townhouse-constance.jpg",
+      "/projects/townhouse-victoria.jpg",
+      "/projects/townhouse-frame-1.jpg",
+      "/projects/townhouse-frame-2.jpg",
+      "/projects/townhouse-frame-3.jpg",
+      "/projects/townhouse-plans-amelia.jpg",
+    ].join(", "),
+    specifications: [
+      { label: "Structural System", value: "Load-bearing light gauge steel wall panels with steel floor cassettes and trussed roof" },
+      { label: "Steel Grade", value: "S350GD+Z275 galvanised cold-formed sections" },
+      { label: "Section Gauge", value: "1.2 mm – 2.0 mm, varied by storey and load path" },
+      { label: "Floor Construction", value: "Steel joist cassettes with structural board deck" },
+      { label: "External Envelope", value: "Brick outer leaf on a non-load-bearing cavity, insulated steel frame behind" },
+      { label: "Fabrication Tolerance", value: "±2 mm on panel dimensions, set by roll-former output" },
+      { label: "Design Codes", value: "IS 801 · IS 811 · IS 800 · NBC 2016" },
+    ],
+  },
+
+  {
+    title: "Urban Residential Block",
+    category: "Multi-Storey Residential",
+    description:
+      "A four-storey residential block framed entirely in light gauge steel, from foundation interface to roof — designed, modelled and roll-formed as one continuous digital process.",
+    image_url: "/projects/multistorey-hero.jpg",
+    area: "21,500 sq.ft",
+    location: "",
+    completion_time: "11 Months",
+    bedrooms: "G+3 · 16 Apartments",
+    tagline:
+      "Sixteen apartments over four storeys on a tight urban plot, framed in steel because there was no room on site to build any other way.",
+    read_time: "6 min read",
+    key_benefits: [
+      "Full G+3 superstructure in light gauge steel — no hot-rolled transfer structure",
+      "Every panel modelled in 3D before a single section was rolled",
+      "Lightweight frame reduced foundation loading against a concrete equivalent",
+      "Constrained urban site worked with just-in-time panel deliveries and no lay-down area",
+      "Services routed through pre-punched web openings, avoiding structural penetrations",
+    ].join("\n"),
+    project_narrative: [
+      "The plot is the constraint. Narrow frontage, live street on one side, existing buildings hard against both flanks, and nowhere to store material. Any method that needed a large lay-down area or wet trades on site was going to struggle before it started.",
+      "Light gauge steel answers that directly. The structure exists as a model first — every stud, track, joist and brace resolved in 3D, checked against the architectural and services drawings, and only then released to the roll-former. What arrives on site is a labelled sequence of panels for that day's lift, not a pile of raw material waiting to be worked.",
+      "The full four-storey superstructure is cold-formed steel. There is no hot-rolled transfer frame carrying the light gauge above it — the panels are the structure, floor by floor, with load paths resolved down to the foundation interface in the model. The weight saving against a concrete frame carried straight into the substructure.",
+      "Elevations, sections, floor plates and the structural model were all produced from the same source geometry, which is what keeps a building of this density buildable at pace: when the frame is right in the model, it is right on site.",
+    ].join("\n"),
+    additional_images: [
+      "/projects/multistorey-render.jpg",
+      "/projects/multistorey-elevation.jpg",
+      "/projects/multistorey-section.jpg",
+      "/projects/multistorey-plan.jpg",
+      "/projects/multistorey-bim-1.jpg",
+      "/projects/multistorey-bim-2.jpg",
+      "/projects/multistorey-bim-3.jpg",
+    ].join(", "),
+    specifications: [
+      { label: "Structural System", value: "Load-bearing light gauge steel panel frame, ground to roof" },
+      { label: "Storeys", value: "Ground + 3 upper floors, approx. 3.0 m floor to floor" },
+      { label: "Steel Grade", value: "S350GD+Z275 galvanised cold-formed sections" },
+      { label: "Section Gauge", value: "1.5 mm – 2.5 mm, graded by storey" },
+      { label: "Lateral Stability", value: "Braced steel panels with strap-and-noggin diaphragm action" },
+      { label: "Services Strategy", value: "Pre-punched web openings; no site cutting of structural members" },
+      { label: "Design Codes", value: "IS 801 · IS 811 · IS 800 · IS 1893 · IS 875 · NBC 2016" },
+    ],
+  },
+
+  {
+    title: "Modular Studio Units",
+    category: "Volumetric Modular",
+    description:
+      "Fully finished volumetric studio units built as complete steel-framed boxes — structure, services, fit-out and finishes installed in the factory before the unit ever leaves the floor.",
+    image_url: "/projects/modular-hero.jpg",
+    area: "355 sq.ft per unit",
+    location: "",
+    completion_time: "6 Weeks per unit",
+    bedrooms: "Self-Contained Studios",
+    tagline:
+      "A complete dwelling built indoors, craned into place finished — bed, kitchen, bathroom, services and all.",
+    read_time: "5 min read",
+    key_benefits: [
+      "Structure, services, fit-out and finishes completed under factory conditions",
+      "Unit arrives on site finished — connect, seal and hand over",
+      "Steel volumetric chassis stacks and transports without a separate support frame",
+      "Repeatable layout suits student, worker, hospitality and key-worker accommodation",
+      "Weather has no effect on the fit-out programme",
+    ].join("\n"),
+    project_narrative: [
+      "A volumetric unit inverts the usual construction sequence. Instead of building a shell and then working inside it, the whole dwelling — steel chassis, wall panels, insulation, first and second fix services, kitchen, bathroom, floor and wall finishes — is completed on a factory line, then transported and craned into position.",
+      "The frame is light gauge steel on all six faces, which is what makes it work. The box is stiff enough to be lifted, transported and stacked without a separate structural cage around it, and light enough that transport and craneage stay within ordinary plant.",
+      "Every unit is modelled before production. Wall build-ups, service runs, socket and switch positions, appliance clearances and the bathroom layout are all resolved in the model, so the line is assembling a known object rather than solving problems as it goes. Repeat units come off faster than the first, and the finish is identical each time.",
+      "Because the fit-out happens indoors, the programme is insulated from weather, site access and trade sequencing entirely. Site work reduces to foundations, craneage, and the connections between units.",
+    ].join("\n"),
+    additional_images: [
+      "/projects/modular-bedroom.jpg",
+      "/projects/modular-kitchen.jpg",
+      "/projects/modular-bathroom.jpg",
+      "/projects/modular-interior.jpg",
+      "/projects/modular-shell.jpg",
+      "/projects/modular-cutaway.jpg",
+    ].join(", "),
+    specifications: [
+      { label: "Structural System", value: "Six-sided light gauge steel volumetric chassis, self-supporting for lift and stack" },
+      { label: "Unit Footprint", value: "Approx. 2.9 m × 11.4 m external, single storey" },
+      { label: "Factory Scope", value: "Structure, insulation, services first and second fix, kitchen, bathroom, finishes" },
+      { label: "Site Scope", value: "Foundations, craneage, inter-unit connections, external seal" },
+      { label: "Steel Grade", value: "S350GD+Z275 galvanised cold-formed sections" },
+      { label: "Stacking", value: "Corner-cast load transfer, designed for multi-storey stacking" },
+      { label: "Design Codes", value: "IS 801 · IS 811 · IS 800 · NBC 2016" },
+    ],
+  },
+
+  {
+    title: "Prefabricated Bathroom Pods",
+    category: "Modular Pods",
+    description:
+      "Complete bathrooms manufactured as sealed steel-framed pods — tiled, plumbed, wired and tested in the factory, then dropped into the building shell as a finished component.",
+    image_url: "/projects/pod-frame-1.jpg",
+    area: "48 sq.ft per pod",
+    location: "",
+    completion_time: "10 Days per pod",
+    bedrooms: "Fully Fitted Wet Rooms",
+    tagline:
+      "The slowest, wettest, most defect-prone room in any building — built on a production line instead of a scaffold.",
+    read_time: "4 min read",
+    key_benefits: [
+      "Removes the longest wet-trade sequence from the site critical path",
+      "Every pod water-tested and snagged before it leaves the factory",
+      "Identical finish quality across every unit in a development",
+      "Steel frame keeps the pod square through lift, transport and installation",
+      "Single connection point for water, waste and power on site",
+    ].join("\n"),
+    project_narrative: [
+      "Bathrooms are where residential programmes lose time. They stack the most trades into the smallest room — screeding, tanking, tiling, plumbing, electrics, sealing, snagging — and every one of them has to wait for the last. Multiply that by a hundred units and the bathroom sequence sets the handover date.",
+      "A pod takes that whole sequence off site. The unit is framed in light gauge steel, tanked, tiled, fitted with sanitaryware, plumbed, wired, lit, water-tested and snagged on a production line. It arrives at the building as a sealed, finished room with one water connection, one waste connection and one electrical connection to make.",
+      "The steel frame is what makes it transportable. The pod has to stay square through lifting, road transport, craneage and positioning — any racking would crack tiling and break seals. A cold-formed steel cage is stiff, light and dimensionally stable enough to take all of that without moving.",
+      "Consistency is the second benefit and often the more valuable one. The hundredth pod is built to the same tolerances as the first, by the same process, under the same inspection — which is very difficult to promise when the work happens across a hundred scaffolded rooms in varying weather.",
+    ].join("\n"),
+    additional_images: [
+      "/projects/pod-hero.jpg",
+      "/projects/pod-shower.jpg",
+      "/projects/pod-bath.jpg",
+      "/projects/pod-doorway.jpg",
+      "/projects/pod-frame-2.jpg",
+    ].join(", "),
+    specifications: [
+      { label: "Structural System", value: "Light gauge steel pod cage, self-supporting through lift and transport" },
+      { label: "Factory Scope", value: "Frame, tanking, tiling, sanitaryware, plumbing, electrics, lighting, water test" },
+      { label: "Site Connections", value: "One water feed, one waste, one electrical circuit" },
+      { label: "Steel Grade", value: "S350GD+Z275 galvanised cold-formed sections" },
+      { label: "Quality Control", value: "Every pod water-tested and snagged before dispatch" },
+      { label: "Typical Configurations", value: "Shower room, bath and shower, en-suite, accessible wet room" },
+      { label: "Design Codes", value: "IS 801 · IS 811 · NBC 2016" },
+    ],
+  },
+
+  {
+    title: "Panel Manufacture & Site Assembly",
+    category: "Manufacturing & Erection",
+    description:
+      "The process behind every project — cold-formed sections rolled to model geometry, assembled into panels and cassettes, loaded in erection sequence and stood on site as a kit of parts.",
+    image_url: "/projects/lgs-hero.jpg",
+    area: "Continuous Production",
+    location: "",
+    completion_time: "Model to Site in Days",
+    bedrooms: "Panels · Cassettes · Trusses",
+    tagline:
+      "No cutting, no measuring, no waste. The roll-former reads the model and the site assembles what it sends.",
+    read_time: "4 min read",
+    key_benefits: [
+      "Roll-former driven directly from the structural model — no manual take-off",
+      "Every member pre-punched, pre-notched and labelled to its drawing position",
+      "Panels loaded onto the trailer in erection sequence, not by size",
+      "Off-cut waste near zero compared with cut-to-fit site framing",
+      "Galvanised sections need no site painting or corrosion treatment",
+    ].join("\n"),
+    project_narrative: [
+      "The manufacturing step is where the time saving in light gauge steel actually comes from. The structural model is not a drawing that someone then interprets — it is the input to the roll-former. Section lengths, service holes, screw positions, notches and labels all come from the same geometry the engineer signed off.",
+      "Members leave the line already knowing where they belong. They are assembled into wall panels, floor cassettes and roof trusses, stacked, banded and loaded onto the trailer in the order the site will need them — so the first panel off the lorry is the first panel to be stood.",
+      "On site the work is assembly. Panels are lifted into position, plumbed, braced and fixed; floor cassettes are craned in and the deck goes down; the structure rises floor by floor. There is no measuring, no cutting and no fabrication happening on site, which is what keeps the sequence fast and the tolerance tight.",
+      "Because the sections are galvanised before they are formed, the frame needs no site corrosion treatment. It goes up clean, stays clean, and is ready for the envelope and internal linings the moment the structure is complete.",
+    ].join("\n"),
+    additional_images: [
+      "/projects/lgs-stack-1.jpg",
+      "/projects/lgs-stack-2.jpg",
+      "/projects/lgs-erection-1.jpg",
+      "/projects/lgs-erection-2.jpg",
+      "/projects/lgs-floor-deck.jpg",
+    ].join(", "),
+    specifications: [
+      { label: "Process", value: "Structural model → roll-former → panel assembly → sequenced despatch" },
+      { label: "Steel Grade", value: "S350GD+Z275 galvanised coil, cold-formed" },
+      { label: "Section Gauge", value: "0.8 mm – 2.5 mm depending on member and load path" },
+      { label: "Pre-Fabrication", value: "Service holes, notches, screw positions and labels punched in line" },
+      { label: "Output", value: "Load-bearing wall panels, floor cassettes, roof trusses, purlins, decking" },
+      { label: "Despatch", value: "Banded and loaded in site erection sequence" },
+      { label: "Design Codes", value: "IS 801 · IS 811 · IS 800 · IS 1893 · IS 875 · NBC 2016" },
+    ],
+  },
+];

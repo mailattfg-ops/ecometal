@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import SectionDivider from "@/components/SectionDivider";
-import { Ruler, MapPin, Calendar, Bed, ArrowRight, ArrowLeft } from "lucide-react";
+import { Ruler, MapPin, Calendar, Layers, ArrowRight, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
 interface Project {
@@ -17,39 +17,63 @@ interface Project {
   bedrooms: string;
 }
 
+// Fallback shown only if /api/projects is unreachable. Kept in step with the
+// seeded database rows so a failed fetch still renders real project content.
 const MOCK_PROJECTS: Project[] = [
   {
     id: 1,
-    title: "Residential\nConstruction",
-    category: "Residential",
-    description: "Modern family home built with premium materials.",
-    image_url: "/project-1.jpg",
-    area: "3,200 sq.ft",
-    location: "Austin, TX",
-    completion_time: "8 Months",
-    bedrooms: "4 Bedrooms"
+    title: "Terraced Housing Development",
+    category: "Residential Development",
+    description: "A multi-unit terraced housing scheme delivered as a complete light gauge steel superstructure — load-bearing wall panels, floor cassettes and roof trusses rolled to a single coordinated model.",
+    image_url: "/projects/townhouse-hero.jpg",
+    area: "14,800 sq.ft",
+    location: "",
+    completion_time: "9 Months",
+    bedrooms: "3 & 4 Bed Units"
   },
   {
     id: 2,
-    title: "Ecometal Logistics Hub",
-    category: "Commercial",
-    description: "Spacious commercial warehouse with high-strength truss systems.",
-    image_url: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=2070&auto=format&fit=crop",
-    area: "45,000 sq.ft",
-    location: "Chennai, TN",
-    completion_time: "8 Months",
-    bedrooms: "Warehouse"
+    title: "Urban Residential Block",
+    category: "Multi-Storey Residential",
+    description: "A four-storey residential block framed entirely in light gauge steel, from foundation interface to roof — designed, modelled and roll-formed as one continuous digital process.",
+    image_url: "/projects/multistorey-hero.jpg",
+    area: "21,500 sq.ft",
+    location: "",
+    completion_time: "11 Months",
+    bedrooms: "G+3 · 16 Apartments"
   },
   {
     id: 3,
-    title: "Apex Innovation Office",
-    category: "Office",
-    description: "Multi-story mixed-use corporate headquarters.",
-    image_url: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop",
-    area: "12,500 sq.ft",
-    location: "Bangalore, KA",
-    completion_time: "5 Months",
-    bedrooms: "3 Floors"
+    title: "Modular Studio Units",
+    category: "Volumetric Modular",
+    description: "Fully finished volumetric studio units built as complete steel-framed boxes — structure, services, fit-out and finishes installed in the factory before the unit ever leaves the floor.",
+    image_url: "/projects/modular-hero.jpg",
+    area: "355 sq.ft per unit",
+    location: "",
+    completion_time: "6 Weeks per unit",
+    bedrooms: "Self-Contained Studios"
+  },
+  {
+    id: 4,
+    title: "Prefabricated Bathroom Pods",
+    category: "Modular Pods",
+    description: "Complete bathrooms manufactured as sealed steel-framed pods — tiled, plumbed, wired and tested in the factory, then dropped into the building shell as a finished component.",
+    image_url: "/projects/pod-frame-1.jpg",
+    area: "48 sq.ft per pod",
+    location: "",
+    completion_time: "10 Days per pod",
+    bedrooms: "Fully Fitted Wet Rooms"
+  },
+  {
+    id: 5,
+    title: "Panel Manufacture & Site Assembly",
+    category: "Manufacturing & Erection",
+    description: "The process behind every project — cold-formed sections rolled to model geometry, assembled into panels and cassettes, loaded in erection sequence and stood on site as a kit of parts.",
+    image_url: "/projects/lgs-hero.jpg",
+    area: "Continuous Production",
+    location: "",
+    completion_time: "Model to Site in Days",
+    bedrooms: "Panels · Cassettes · Trusses"
   }
 ];
 
@@ -233,14 +257,16 @@ export default function ProjectsSection() {
                 </div>
               </div>
 
-              {/* Location */}
-              <div className="flex items-center gap-2.5 shrink-0">
-                <MapPin className="w-5 h-5 text-brand-gold shrink-0" />
-                <div className="leading-tight">
-                  <span className="block text-sm sm:text-base font-bold text-white leading-none">{activeProject.location}</span>
-                  <span className="block text-[10px] text-white/50 tracking-wider font-mono uppercase mt-1">Location</span>
+              {/* Location — omitted unless a project actually carries one */}
+              {activeProject.location && (
+                <div className="flex items-center gap-2.5 shrink-0">
+                  <MapPin className="w-5 h-5 text-brand-gold shrink-0" />
+                  <div className="leading-tight">
+                    <span className="block text-sm sm:text-base font-bold text-white leading-none">{activeProject.location}</span>
+                    <span className="block text-[10px] text-white/50 tracking-wider font-mono uppercase mt-1">Location</span>
+                  </div>
                 </div>
-              </div>
+              )}
 
               {/* Completion */}
               <div className="flex items-center gap-2.5 shrink-0">
@@ -251,9 +277,9 @@ export default function ProjectsSection() {
                 </div>
               </div>
 
-              {/* Bedrooms */}
+              {/* Project type */}
               <div className="flex items-center gap-2.5 shrink-0">
-                <Bed className="w-5 h-5 text-brand-gold shrink-0" />
+                <Layers className="w-5 h-5 text-brand-gold shrink-0" />
                 <div className="leading-tight">
                   <span className="block text-sm sm:text-base font-bold text-white leading-none">{activeProject.bedrooms}</span>
                   <span className="block text-[10px] text-white/50 tracking-wider font-mono uppercase mt-1">Project Type</span>

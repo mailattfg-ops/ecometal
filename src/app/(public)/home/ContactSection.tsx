@@ -5,6 +5,15 @@ import React from "react";
 export default function ContactSection() {
   const CONTAINER = "w-full max-w-[1857px] mx-auto px-[clamp(20px,4.2vw,81px)]";
 
+  // Works address, and the surveyed pin for it. The map and the directions link
+  // both use the coordinates rather than a geocode of the address: the estate
+  // sits on a village road that Google resolves only approximately, whereas
+  // these coordinates land on the site itself.
+  const FACTORY_ADDRESS =
+    "Ecometal Matrix Engineering, Plot 49-59, SIDCO Industrial Estate, Kallali Road, Kallur, Krishnagiri District, Tamil Nadu 635207";
+  const FACTORY_COORDS = "12.252305,78.521411";
+  const FACTORY_MAP_LABEL = encodeURIComponent(`${FACTORY_COORDS} (${FACTORY_ADDRESS})`);
+
   return (
     <section id="contact" className="w-full bg-[#001B51] text-white pt-[clamp(48px,8vw,96px)] pb-[clamp(24px,4vw,48px)] scroll-mt-20 flex flex-col items-center">
       <div className={CONTAINER}>
@@ -94,9 +103,10 @@ export default function ContactSection() {
                 </svg>
                 <div>
                   <strong className="text-white">Works / Registered Factory:</strong><br />
-                  Plot 49-50, SIDCO Industrial Estate,<br />
-                  Uthangarai, Krishnagiri District,<br />
-                  Tamil Nadu
+                  Plot 49-59, SIDCO Industrial Estate,<br />
+                  Kallali Road, Kallur,<br />
+                  Krishnagiri District,<br />
+                  Tamil Nadu - 635207
                 </div>
               </div>
 
@@ -113,7 +123,7 @@ export default function ContactSection() {
 
             {/* Directions Button */}
             <a
-              href="https://maps.app.goo.gl/Z16fA1guiC2BfACBA"
+              href={`https://www.google.com/maps/dir/?api=1&destination=${FACTORY_COORDS}`}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-gradient-to-r from-[#FFE270] to-[#DA8B0C] text-[#1a1a1a] font-semibold text-sm transition-all duration-200 hover:opacity-90 active:scale-98"
@@ -128,7 +138,7 @@ export default function ContactSection() {
           {/* Right: Embedded Google Maps */}
           <div className="lg:col-span-8 h-[320px] md:h-[400px] rounded-3xl overflow-hidden border border-white/10 shadow-lg relative bg-white/5">
             <iframe
-              src="https://maps.google.com/maps?q=12%C2%B015'08.3%22N+78%C2%B031'17.1%22E&t=&z=13&ie=UTF8&iwloc=&output=embed"
+              src={`https://maps.google.com/maps?q=${FACTORY_MAP_LABEL}&t=&z=14&ie=UTF8&iwloc=&output=embed`}
               className="w-full h-full border-0 grayscale opacity-85 hover:grayscale-0 hover:opacity-100 transition-all duration-500"
               allowFullScreen
               loading="lazy"

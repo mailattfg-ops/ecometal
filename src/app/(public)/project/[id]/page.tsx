@@ -1,7 +1,7 @@
 import React from "react";
 import { query } from "@/lib/db";
 import { notFound } from "next/navigation";
-import { Ruler, MapPin, Calendar, Bed, ArrowLeft, FileText, Cpu, ShieldCheck } from "lucide-react";
+import { ArrowLeft, FileText } from "lucide-react";
 import Link from "next/link";
 
 interface PageProps {
@@ -107,7 +107,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
             {/* Main Cover Image */}
             <div className="aspect-[16/9] sm:aspect-[21/9] w-full rounded-3xl overflow-hidden border border-gray-200 shadow-xl relative bg-white">
               <img
-                src={project.image_url || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop"}
+                src={project.image_url || "/projects/lgs-hero.jpg"}
                 alt={project.title}
                 className="w-full h-full object-cover grayscale brightness-95 opacity-90 hover:grayscale-0 hover:opacity-100 hover:brightness-100 transition-all duration-500 cursor-pointer"
               />
@@ -115,7 +115,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
 
             {/* Secondary Gallery Grid */}
             {galleryImages.length > 0 && (
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                 {galleryImages.map((imgUrl: string, index: number) => (
                   <div key={index} className="aspect-[16/10] rounded-2xl overflow-hidden border border-gray-200 relative bg-white shadow-sm">
                     <img
@@ -143,23 +143,29 @@ export default async function ProjectDetailPage({ params }: PageProps) {
                     <span className="block font-semibold text-gray-800">{project.client_name || project.title}</span>
                   </div>
 
-                  <div className="py-4 space-y-1">
-                    <span className="block text-xs text-gray-400 font-mono uppercase tracking-wider">Location</span>
-                    <span className="block font-semibold text-gray-800">{project.location}</span>
-                  </div>
+                  {/* Location and Client are only shown when the record carries
+                      them — an empty row reads as missing data, not as omitted. */}
+                  {project.location && (
+                    <div className="py-4 space-y-1">
+                      <span className="block text-xs text-gray-400 font-mono uppercase tracking-wider">Location</span>
+                      <span className="block font-semibold text-gray-800">{project.location}</span>
+                    </div>
+                  )}
 
-                  <div className="py-4 space-y-1">
-                    <span className="block text-xs text-gray-400 font-mono uppercase tracking-wider">Client</span>
-                    <span className="block font-semibold text-gray-700">
-                      {project.client_link ? (
-                        <a href={project.client_link} target="_blank" rel="noopener noreferrer" className="hover:text-brand-gold text-[#001B51] underline transition-colors">
-                          {project.client_name || "Enquire"}
-                        </a>
-                      ) : (
-                        project.client_name || "N/A"
-                      )}
-                    </span>
-                  </div>
+                  {project.client_name && (
+                    <div className="py-4 space-y-1">
+                      <span className="block text-xs text-gray-400 font-mono uppercase tracking-wider">Client</span>
+                      <span className="block font-semibold text-gray-700">
+                        {project.client_link ? (
+                          <a href={project.client_link} target="_blank" rel="noopener noreferrer" className="hover:text-brand-gold text-[#001B51] underline transition-colors">
+                            {project.client_name}
+                          </a>
+                        ) : (
+                          project.client_name
+                        )}
+                      </span>
+                    </div>
+                  )}
 
                   <div className="py-4 space-y-1">
                     <span className="block text-xs text-gray-400 font-mono uppercase tracking-wider">Built Area</span>
@@ -302,7 +308,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
                   {/* Card Image */}
                   <div className="aspect-[16/10] w-full rounded-2xl overflow-hidden border border-white/10 relative bg-white/5 shadow-md">
                     <img
-                      src={otherProj.image_url || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=600&auto=format&fit=crop"}
+                      src={otherProj.image_url || "/projects/lgs-hero.jpg"}
                       alt={otherProj.title}
                       className="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition duration-300"
                     />
