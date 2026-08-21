@@ -12,7 +12,7 @@ interface Operator {
 }
 
 /** Below this count the row is rendered statically (centered, no marquee). */
-const MARQUEE_THRESHOLD = 5;
+const MARQUEE_THRESHOLD = 3;
 
 function OperatorCard({ op, hideImage }: { op: Operator; hideImage: boolean }) {
   if (hideImage || !op.image_url) {
@@ -153,7 +153,7 @@ export default function OperatorsSection() {
         </div>
       </div>
 
-      {/* Card row — static grid under 5 operators, infinite marquee at 5+ */}
+      {/* Card row — static grid under 3 operators, infinite marquee at 3+ */}
       {operators.length > 0 && (
         isMarquee ? (
           <div className="w-full overflow-hidden relative">

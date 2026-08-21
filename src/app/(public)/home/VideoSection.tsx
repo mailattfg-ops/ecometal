@@ -24,7 +24,7 @@ export default function VideoSection({
   const embedUrl = getEmbedUrl(youtubeUrl);
 
   return (
-    <section id="video-showcase" className="w-full bg-[#001B51] text-white py-16 md:py-24 flex flex-col items-center overflow-x-hidden relative border-t border-b border-white/10">
+    <section id="video-showcase" className="w-full bg-[#001B51] text-white py-16 md:py-24 flex flex-col items-center overflow-x-hidden relative border-b border-white/10">
       {/* Background overlay effect */}
       <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:24px_24px]" />
 

@@ -37,6 +37,17 @@ interface Operator {
   image_url: string;
 }
 
+/** Initials stand in for a missing/broken avatar instead of a stock photo of a stranger. */
+function getInitials(name: string) {
+  return (name || "")
+    .trim()
+    .split(/[\s.]+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase() || "")
+    .join("") || "?";
+}
+
 export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [password, setPassword] = useState<string>("");
@@ -1120,14 +1131,20 @@ export default function AdminPage() {
                         <tr key={op.id} className="hover:bg-white/5 transition-colors">
                           <td className="p-4">
                             <div className="w-12 h-12 rounded-full overflow-hidden border border-white/10 relative bg-white/5">
-                              <img
-                                src={op.image_url}
-                                alt={op.name}
-                                className="w-full h-full object-cover grayscale opacity-80"
-                                onError={(e) => {
-                                  (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=150";
-                                }}
-                              />
+                              <span className="absolute inset-0 flex items-center justify-center text-[11px] font-bold text-white/50 font-mono">
+                                {getInitials(op.name)}
+                              </span>
+                              {op.image_url ? (
+                                <img
+                                  src={op.image_url}
+                                  alt={op.name}
+                                  className="relative w-full h-full object-cover grayscale opacity-80"
+                                  onError={(e) => {
+                                    // Fall through to the initials underneath.
+                                    (e.target as HTMLImageElement).style.display = "none";
+                                  }}
+                                />
+                              ) : null}
                             </div>
                           </td>
                           <td className="p-4 font-bold text-white">
