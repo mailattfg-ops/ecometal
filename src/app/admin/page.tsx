@@ -1,8 +1,9 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Plus, Edit, Trash2, LogOut, Loader2, ArrowLeft, Image as ImageIcon, Check, X, ShieldAlert } from "lucide-react";
+import { Plus, Edit, Trash2, LogOut, Loader2, ArrowLeft, Image as ImageIcon, Check, X, ShieldAlert, Activity, Database, RefreshCw, Zap, ShieldCheck } from "lucide-react";
 import Link from "next/link";
+import { supabase } from "@/lib/supabase";
 
 interface Project {
   id: string | number;
@@ -41,8 +42,8 @@ export default function AdminPage() {
   const [password, setPassword] = useState<string>("");
   const [loginError, setLoginError] = useState<string>("");
   
-  const [activeTab, setActiveTab] = useState<"projects" | "operators" | "hero">("projects");
-  const [heroSettings, setHeroSettings] = useState({ hero_bg_type: "image" as "image" | "video", hero_bg_url: "", hero_headline_text: "Build better.\nBuild faster.\nBuild lighter.", hero_headline_visible: true, saving: false, uploadingHero: false });
+  const [activeTab, setActiveTab] = useState<"projects" | "operators" | "hero" | "ping">("projects");
+  const [heroSettings, setHeroSettings] = useState({ hero_bg_type: "image" as "image" | "video", hero_bg_url: "", hero_poster_url: "", hero_headline_text: "Build better.\nBuild faster.\nBuild lighter.", hero_headline_visible: true, saving: false, uploadingHero: false });
   const [projects, setProjects] = useState<Project[]>([]);
   const [operators, setOperators] = useState<Operator[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -50,9 +51,62 @@ export default function AdminPage() {
   const [uploadingField, setUploadingField] = useState<string | null>(null);
   const [hideTeamImages, setHideTeamImages] = useState<boolean>(false);
 
+  // Database Ping state
+  const [pingMetrics, setPingMetrics] = useState<{
+    lastPingAt: string | null;
+    lastLatencyMs: number | null;
+    lastMethod: string | null;
+    status: string;
+    totalPings: number;
+  }>({
+    lastPingAt: null,
+    lastLatencyMs: null,
+    lastMethod: null,
+    status: "active",
+    totalPings: 0,
+  });
+  const [pingLoading, setPingLoading] = useState<boolean>(false);
+  const [pingStatusMsg, setPingStatusMsg] = useState<string | null>(null);
+
+  const fetchPingMetrics = async () => {
+    try {
+      const res = await fetch("/api/ping");
+      const data = await res.json();
+      if (data.metrics) {
+        setPingMetrics(data.metrics);
+      }
+    } catch (e) {
+      console.warn("Failed to fetch ping metrics:", e);
+    }
+  };
+
+  const handleTriggerPing = async () => {
+    setPingLoading(true);
+    setPingStatusMsg(null);
+    try {
+      const res = await fetch("/api/ping", { method: "POST" });
+      const data = await res.json();
+      if (res.ok) {
+        setPingStatusMsg(`Ping successful! (${data.ping?.latencyMs}ms - reset keep-alive timer)`);
+        if (data.metrics) {
+          setPingMetrics(data.metrics);
+        }
+      } else {
+        setPingStatusMsg(`Ping error: ${data.error || "Failed to reach database"}`);
+      }
+    } catch (err: any) {
+      setPingStatusMsg(`Error: ${err.message}`);
+    } finally {
+      setPingLoading(false);
+    }
+  };
+
   const toggleHideTeamImages = async () => {
     const newValue = !hideTeamImages;
     setHideTeamImages(newValue);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("hide_team_images", String(newValue));
+    }
     try {
       await fetch("/api/settings", {
         method: "POST",
@@ -64,37 +118,69 @@ export default function AdminPage() {
     }
   };
 
+  const uploadMediaFile = async (file: File): Promise<string> => {
+    const sanitizedFilename = file.name.replace(/[^a-zA-Z0-9.-]/g, "_");
+    const uniqueFilename = `${Date.now()}-${sanitizedFilename}`;
+
+    // 1. Try direct Supabase client storage upload (supports large videos up to 100MB)
+    try {
+      const { data, error } = await supabase.storage
+        .from("ecometal_uploads")
+        .upload(uniqueFilename, file, {
+          contentType: file.type,
+          cacheControl: "31536000",
+          upsert: false,
+        });
+
+      if (!error && data) {
+        const { data: publicUrlData } = supabase.storage
+          .from("ecometal_uploads")
+          .getPublicUrl(uniqueFilename);
+
+        if (publicUrlData?.publicUrl) {
+          return publicUrlData.publicUrl;
+        }
+      } else if (error) {
+        console.warn("Direct Supabase client upload failed, attempting API route fallback:", error.message);
+      }
+    } catch (e) {
+      console.warn("Direct upload error, attempting API route fallback:", e);
+    }
+
+    // 2. Fallback to API route /api/upload
+    const formData = new FormData();
+    formData.append("file", file);
+    const res = await fetch("/api/upload", { method: "POST", body: formData });
+    const data = await res.json();
+    if (!res.ok) {
+      throw new Error(data.error || `Upload failed with status ${res.status}`);
+    }
+    return data.url;
+  };
+
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>, field: "image_url" | "additional_images" | "operator_image") => {
     const file = e.target.files?.[0];
     if (!file) return;
 
     setUploadingField(field);
-    const formData = new FormData();
-    formData.append("file", file);
 
     try {
-      const res = await fetch("/api/upload", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (!res.ok) throw new Error("Upload failed");
-      const data = await res.json();
+      const fileUrl = await uploadMediaFile(file);
 
       if (field === "image_url") {
-        setProjectForm((prev) => ({ ...prev, image_url: data.url }));
+        setProjectForm((prev) => ({ ...prev, image_url: fileUrl }));
       } else if (field === "additional_images") {
         setProjectForm((prev) => {
           const current = prev.additional_images ? prev.additional_images.trim() : "";
-          const updated = current ? `${current}, ${data.url}` : data.url;
+          const updated = current ? `${current}, ${fileUrl}` : fileUrl;
           return { ...prev, additional_images: updated };
         });
       } else if (field === "operator_image") {
-        setOperatorForm((prev) => ({ ...prev, image_url: data.url }));
+        setOperatorForm((prev) => ({ ...prev, image_url: fileUrl }));
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
-      alert("Failed to upload image. Please try again.");
+      alert(err.message || "Failed to upload file. Please try again.");
     } finally {
       setUploadingField(null);
     }
@@ -179,14 +265,20 @@ export default function AdminPage() {
       
       setProjects(Array.isArray(projData) ? projData : []);
       setOperators(Array.isArray(opData) ? opData : []);
-      setHideTeamImages(!!settingsData.hide_team_images);
+      const isHidden = !!settingsData.hide_team_images;
+      setHideTeamImages(isHidden);
+      if (typeof window !== "undefined") {
+        localStorage.setItem("hide_team_images", String(isHidden));
+      }
       setHeroSettings(prev => ({
         ...prev,
         hero_bg_type: settingsData.hero_bg_type || "image",
         hero_bg_url: settingsData.hero_bg_url || "",
+        hero_poster_url: settingsData.hero_poster_url || "",
         hero_headline_text: settingsData.hero_headline_text,
         hero_headline_visible: settingsData.hero_headline_visible,
       }));
+      fetchPingMetrics();
     } catch (err) {
       console.error("Error fetching data:", err);
     } finally {
@@ -197,6 +289,15 @@ export default function AdminPage() {
   const saveHeroSettings = async (overrides?: Partial<typeof heroSettings>) => {
     const merged = { ...heroSettings, ...overrides };
     setHeroSettings(prev => ({ ...prev, saving: true }));
+    if (typeof window !== "undefined") {
+      localStorage.setItem("hero_settings", JSON.stringify({
+        hero_bg_type: merged.hero_bg_type,
+        hero_bg_url: merged.hero_bg_url,
+        hero_poster_url: merged.hero_poster_url,
+        hero_headline_text: merged.hero_headline_text,
+        hero_headline_visible: merged.hero_headline_visible,
+      }));
+    }
     try {
       await fetch("/api/settings", {
         method: "POST",
@@ -204,6 +305,7 @@ export default function AdminPage() {
         body: JSON.stringify({ 
           hero_bg_type: merged.hero_bg_type, 
           hero_bg_url: merged.hero_bg_url,
+          hero_poster_url: merged.hero_poster_url,
           hero_headline_text: merged.hero_headline_text,
           hero_headline_visible: merged.hero_headline_visible
         }),
@@ -215,26 +317,82 @@ export default function AdminPage() {
     }
   };
 
+  /**
+   * Grab a still frame from a hero video so the section can paint instantly
+   * while the video itself is still streaming in.
+   */
+  const capturePosterFrame = (file: File): Promise<File | null> =>
+    new Promise((resolve) => {
+      try {
+        const objectUrl = URL.createObjectURL(file);
+        const video = document.createElement("video");
+        let settled = false;
+        const finish = (result: File | null) => {
+          if (settled) return;
+          settled = true;
+          URL.revokeObjectURL(objectUrl);
+          resolve(result);
+        };
+
+        video.muted = true;
+        video.playsInline = true;
+        video.preload = "auto";
+        video.src = objectUrl;
+
+        video.onloadeddata = () => {
+          // Seek slightly in — frame 0 is often black on fade-in intros.
+          video.currentTime = Math.min(0.4, (video.duration || 1) / 4);
+        };
+        video.onseeked = () => {
+          const canvas = document.createElement("canvas");
+          const scale = Math.min(1, 1600 / (video.videoWidth || 1600));
+          canvas.width = Math.round((video.videoWidth || 1600) * scale);
+          canvas.height = Math.round((video.videoHeight || 900) * scale);
+          const ctx = canvas.getContext("2d");
+          if (!ctx) return finish(null);
+          ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+          canvas.toBlob(
+            (blob) => finish(blob ? new File([blob], "hero-poster.jpg", { type: "image/jpeg" }) : null),
+            "image/jpeg",
+            0.72
+          );
+        };
+        video.onerror = () => finish(null);
+        // Never let poster generation hold up the actual upload.
+        setTimeout(() => finish(null), 15000);
+      } catch (err) {
+        console.warn("Poster capture failed:", err);
+        resolve(null);
+      }
+    });
+
   const handleHeroBgUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
     setHeroSettings(prev => ({ ...prev, uploadingHero: true }));
-    const formData = new FormData();
-    formData.append("file", file);
     try {
-      const res = await fetch("/api/upload", { method: "POST", body: formData });
-      if (!res.ok) {
-        const errText = await res.text();
-        console.error("Upload error response:", res.status, errText);
-        throw new Error(`Upload failed: ${res.status} ${errText}`);
-      }
-      const data = await res.json();
+      const fileUrl = await uploadMediaFile(file);
       const newType: "image" | "video" = file.type.startsWith("video") ? "video" : "image";
-      setHeroSettings(prev => ({ ...prev, hero_bg_url: data.url, hero_bg_type: newType }));
-      await saveHeroSettings({ hero_bg_url: data.url, hero_bg_type: newType });
+
+      // A stale poster from a previous video would be worse than none at all,
+      // so it is always replaced (video) or cleared (image).
+      let posterUrl = "";
+      if (newType === "video") {
+        const posterFile = await capturePosterFrame(file);
+        if (posterFile) {
+          try {
+            posterUrl = await uploadMediaFile(posterFile);
+          } catch (posterErr) {
+            console.warn("Poster upload failed, continuing without one:", posterErr);
+          }
+        }
+      }
+
+      setHeroSettings(prev => ({ ...prev, hero_bg_url: fileUrl, hero_bg_type: newType, hero_poster_url: posterUrl }));
+      await saveHeroSettings({ hero_bg_url: fileUrl, hero_bg_type: newType, hero_poster_url: posterUrl });
     } catch (err: any) {
-      console.error(err);
-      alert(err.message || "Hero media upload failed.");
+      console.error("Hero upload error:", err);
+      alert(err.message || "Hero media upload failed. Please try again.");
     } finally {
       setHeroSettings(prev => ({ ...prev, uploadingHero: false }));
     }
@@ -508,6 +666,20 @@ export default function AdminPage() {
               >
                 Hero Banner
               </button>
+              <button
+                onClick={() => {
+                  setActiveTab("ping");
+                  fetchPingMetrics();
+                }}
+                className={`px-5 py-2 rounded-lg text-xs font-bold transition select-none cursor-pointer flex items-center gap-1.5 ${
+                  activeTab === "ping"
+                    ? "bg-gradient-to-r from-[#FFE270] to-[#DA8B0C] text-[#1a1a1a]"
+                    : "text-white/60 hover:text-white"
+                }`}
+              >
+                <Activity size={14} />
+                Database Keep-Alive
+              </button>
             </div>
 
             {/* Global Settings Toggle for Operators */}
@@ -755,7 +927,7 @@ export default function AdminPage() {
                         />
                       )
                     ) : (
-                      <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/hero-bg.jpg')" }} />
+                      <div className="absolute inset-0 bg-[#050811] bg-gradient-to-b from-[#001B51] via-[#050811] to-[#050811]" />
                     )}
 
                     {/* 2 — Radial blur vignette */}
@@ -805,7 +977,120 @@ export default function AdminPage() {
                       </span>
                     </div>
                   </div>
-                  <p className="text-[10px] text-white/25 font-mono truncate">{heroSettings.hero_bg_url || "/hero-bg.jpg (default)"}</p>
+                  <p className="text-[10px] text-white/25 font-mono truncate">{heroSettings.hero_bg_url || "/hero-bg.mp4 (default video)"}</p>
+                </div>
+              </div>
+            )}
+
+            {/* ── DATABASE KEEP-ALIVE TAB ── */}
+            {activeTab === "ping" && (
+              <div className="space-y-6">
+                {/* Health Overview Card */}
+                <div className="p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-3">
+                      <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400">
+                        <Database size={24} />
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <h2 className="text-xl font-bold text-white">Supabase Keep-Alive Status</h2>
+                          <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center gap-1">
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                            NEVER PAUSE ACTIVE
+                          </span>
+                        </div>
+                        <p className="text-xs text-white/60">
+                          Automated pings prevent Supabase database auto-pausing continuously.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={handleTriggerPing}
+                    disabled={pingLoading}
+                    className="px-6 py-3 rounded-xl bg-gradient-to-r from-[#FFE270] to-[#DA8B0C] text-[#1a1a1a] font-bold text-xs hover:opacity-90 active:scale-98 transition select-none flex items-center gap-2 cursor-pointer disabled:opacity-50"
+                  >
+                    <RefreshCw size={14} className={pingLoading ? "animate-spin" : ""} />
+                    {pingLoading ? "Pinging Database…" : "Ping Database Now"}
+                  </button>
+                </div>
+
+                {pingStatusMsg && (
+                  <div className={`p-4 rounded-xl text-xs font-semibold flex items-center gap-2 ${
+                    pingStatusMsg.includes("successful")
+                      ? "bg-emerald-500/10 border border-emerald-500/30 text-emerald-300"
+                      : "bg-red-500/10 border border-red-500/30 text-red-300"
+                  }`}>
+                    <ShieldCheck size={16} />
+                    {pingStatusMsg}
+                  </div>
+                )}
+
+                {/* Status Metrics Cards */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                  <div className="p-5 rounded-2xl bg-white/5 border border-white/10 space-y-1">
+                    <span className="text-xs text-white/50 font-mono uppercase tracking-wider">Last Ping Latency</span>
+                    <p className="text-2xl font-bold text-white font-mono">
+                      {pingMetrics.lastLatencyMs !== null ? `${pingMetrics.lastLatencyMs} ms` : "—"}
+                    </p>
+                    <p className="text-[11px] text-emerald-400 flex items-center gap-1">
+                      <Zap size={12} /> Response speed
+                    </p>
+                  </div>
+
+                  <div className="p-5 rounded-2xl bg-white/5 border border-white/10 space-y-1">
+                    <span className="text-xs text-white/50 font-mono uppercase tracking-wider">Total Keep-Alive Pings</span>
+                    <p className="text-2xl font-bold text-white font-mono">{pingMetrics.totalPings}</p>
+                    <p className="text-[11px] text-white/40">Registered executions</p>
+                  </div>
+
+                  <div className="p-5 rounded-2xl bg-white/5 border border-white/10 space-y-1">
+                    <span className="text-xs text-white/50 font-mono uppercase tracking-wider">Last Ping Timestamp</span>
+                    <p className="text-sm font-semibold text-white font-mono truncate">
+                      {pingMetrics.lastPingAt
+                        ? new Date(pingMetrics.lastPingAt).toLocaleString()
+                        : "Not pinged yet"}
+                    </p>
+                    <p className="text-[11px] text-white/40">Method: {pingMetrics.lastMethod || "pg"}</p>
+                  </div>
+
+                  <div className="p-5 rounded-2xl bg-white/5 border border-white/10 space-y-1">
+                    <span className="text-xs text-white/50 font-mono uppercase tracking-wider">Database Status</span>
+                    <p className="text-lg font-bold text-emerald-400 uppercase font-mono">ONLINE</p>
+                    <p className="text-[11px] text-white/40">Continuous active mode</p>
+                  </div>
+                </div>
+
+                {/* Automated Setup Guides */}
+                <div className="p-6 rounded-2xl bg-white/5 border border-white/10 space-y-4">
+                  <h3 className="text-base font-bold text-white flex items-center gap-2">
+                    <Zap className="text-brand-gold" size={18} />
+                    Automated Keep-Alive Methods Setup
+                  </h3>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                    <div className="p-4 rounded-xl bg-white/5 border border-white/10 space-y-2">
+                      <span className="font-bold text-brand-gold uppercase tracking-wider block">1. Vercel Cron</span>
+                      <p className="text-white/70">
+                        Automatically pings <code className="bg-black/40 px-1 py-0.5 rounded text-emerald-400">/api/ping</code> every day at midnight when deployed to Vercel (pre-configured in <code className="bg-black/40 px-1 py-0.5 rounded">vercel.json</code>).
+                      </p>
+                    </div>
+
+                    <div className="p-4 rounded-xl bg-white/5 border border-white/10 space-y-2">
+                      <span className="font-bold text-brand-gold uppercase tracking-wider block">2. GitHub Action</span>
+                      <p className="text-white/70">
+                        Pre-configured in <code className="bg-black/40 px-1 py-0.5 rounded">.github/workflows/keep-alive.yml</code>. Pings Supabase DB every 3 days automatically for free.
+                      </p>
+                    </div>
+
+                    <div className="p-4 rounded-xl bg-white/5 border border-white/10 space-y-2">
+                      <span className="font-bold text-brand-gold uppercase tracking-wider block">3. CLI / Cron Script</span>
+                      <p className="text-white/70">
+                        Run <code className="bg-black/40 px-1 py-0.5 rounded text-emerald-400">npm run db:ping</code> from any server, computer, or scheduled task runner to keep your database active.
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
             )}
@@ -1298,16 +1583,15 @@ export default function AdminPage() {
 
                   <div className="sm:col-span-2 space-y-1.5">
                     <div className="flex justify-between items-center text-xs font-sans text-white/70">
-                      <span>Avatar Image URL</span>
+                      <span>Avatar Image URL <span className="text-white/40 normal-case">(Optional)</span></span>
                       <span className="text-[10px] text-white/40">or upload a local file</span>
                     </div>
                     <div className="flex gap-2">
                       <input
                         type="text"
-                        required
                         value={operatorForm.image_url}
                         onChange={(e) => setOperatorForm({ ...operatorForm, image_url: e.target.value })}
-                        placeholder="https://images.unsplash.com/photo-..."
+                        placeholder="https://images.unsplash.com/photo- (Optional)"
                         className="flex-1 h-11 px-4 rounded-xl border border-white/10 bg-white/5 text-white placeholder-white/20 focus:border-brand-gold/50 focus:outline-none transition text-sm"
                       />
                       <label className="h-11 px-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 text-white flex items-center justify-center cursor-pointer select-none text-xs font-semibold gap-1.5 shrink-0 transition">

@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
 
 export const dynamic = 'force-dynamic';
+export const maxDuration = 60; // Allow up to 60s for large media file uploads
 
 export async function POST(req: Request) {
   try {
@@ -23,12 +24,16 @@ export async function POST(req: Request) {
       .from('ecometal_uploads')
       .upload(uniqueFilename, buffer, {
         contentType: file.type,
+        cacheControl: '31536000',
         upsert: false
       });
 
     if (error) {
       console.error("Supabase storage error:", error);
-      throw new Error(`Supabase upload error: ${error.message}`);
+      return NextResponse.json(
+        { error: `Supabase upload error: ${error.message}` },
+        { status: 400 }
+      );
     }
     
     // Get the public URL for the uploaded file
@@ -37,12 +42,18 @@ export async function POST(req: Request) {
       .getPublicUrl(uniqueFilename);
 
     if (!publicUrlData || !publicUrlData.publicUrl) {
-      throw new Error("Failed to generate public URL from Supabase");
+      return NextResponse.json(
+        { error: "Failed to generate public URL from Supabase" },
+        { status: 500 }
+      );
     }
 
     return NextResponse.json({ url: publicUrlData.publicUrl });
   } catch (err: any) {
     console.error("Upload route error:", err);
-    return NextResponse.json({ error: err.message }, { status: 500 });
+    return NextResponse.json(
+      { error: err.message || 'Failed to process file upload' },
+      { status: 500 }
+    );
   }
 }

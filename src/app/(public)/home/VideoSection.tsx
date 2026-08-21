@@ -60,6 +60,7 @@ export default function VideoSection({
             className="w-full h-full object-cover rounded-none"
             src={embedUrl}
             title="Ecometal Matrix Engineering Video Showcase"
+            loading="lazy"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowFullScreen
           />

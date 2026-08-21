@@ -1,4 +1,5 @@
 import HeroSection from "./home/HeroSection";
+import { getHeroSettings } from "@/lib/heroSettings.server";
 import AboutSection from "./home/AboutSection";
 import InvestSection from "./home/InvestSection";
 import SystemsSection from "./home/SystemsSection";
@@ -9,10 +10,16 @@ import ComplianceSection from "./home/ComplianceSection";
 import FaqSection from "./home/FaqSection";
 import ContactSection from "./home/ContactSection";
 
-export default function HomePage() {
+// Regenerate the cached HTML at most once a minute so the hero video URL is
+// already in the markup (no client round-trip) while admin edits still land fast.
+export const revalidate = 60;
+
+export default async function HomePage() {
+  const heroSettings = await getHeroSettings();
+
   return (
     <div className="flex flex-col w-full">
-      <HeroSection />
+      <HeroSection initialSettings={heroSettings} />
       <AboutSection />
       <InvestSection />
       <SystemsSection />

@@ -2,62 +2,82 @@
 
 import React, { useState, useEffect } from "react";
 import { MessageSquare } from "lucide-react";
+import { DEFAULT_HERO_SETTINGS, type HeroSettings } from "@/lib/heroSettings";
 
-interface HeroSettings {
-  hero_bg_type: "image" | "video";
-  hero_bg_url: string;
-  hero_headline_text: string;
-  hero_headline_visible: boolean;
+interface HeroSectionProps {
+  /** Rendered on the server so the video URL is in the initial HTML. */
+  initialSettings?: HeroSettings;
 }
 
-export default function HeroSection() {
-  const [settings, setSettings] = useState<HeroSettings>({
-    hero_bg_type: "image",
-    hero_bg_url: "",
-    hero_headline_text: "Build better.\nBuild faster.\nBuild lighter.",
-    hero_headline_visible: true,
-  });
+export default function HeroSection({ initialSettings }: HeroSectionProps) {
+  const [settings, setSettings] = useState<HeroSettings>(initialSettings || DEFAULT_HERO_SETTINGS);
 
   const [videoError, setVideoError] = useState(false);
+  const [videoLoaded, setVideoLoaded] = useState(false);
 
   useEffect(() => {
+    // Background refresh so admin changes show up before the page cache rolls over.
     fetch("/api/settings")
       .then((r) => r.json())
       .then((data) => {
-        setSettings({
-          hero_bg_type: data.hero_bg_type || "image",
-          hero_bg_url: data.hero_bg_url || "",
-          hero_headline_text: data.hero_headline_text !== undefined ? data.hero_headline_text : "Build better.\nBuild faster.\nBuild lighter.",
+        const newSettings: HeroSettings = {
+          hero_bg_type: data.hero_bg_type || "video",
+          hero_bg_url: data.hero_bg_url || (data.hero_bg_type === "image" ? "" : "/hero-bg.mp4"),
+          hero_poster_url: data.hero_poster_url || "",
+          hero_headline_text: data.hero_headline_text !== undefined ? data.hero_headline_text : DEFAULT_HERO_SETTINGS.hero_headline_text,
           hero_headline_visible: data.hero_headline_visible !== false,
-        });
+        };
+        // Only re-render when something actually changed — a needless state swap
+        // remounts the <video> and restarts the download.
+        setSettings((prev) =>
+          JSON.stringify(prev) === JSON.stringify(newSettings) ? prev : newSettings
+        );
       })
-      .catch(() => {/* silently fall back to defaults */ });
+      .catch(() => {/* fall back to the server-rendered settings */ });
   }, []);
 
-  const bgUrl = settings.hero_bg_url || "/hero-bg.jpg";
-  const isVideo = settings.hero_bg_type === "video" && !!settings.hero_bg_url && !videoError;
+  const bgUrl = settings.hero_bg_url || (settings.hero_bg_type === "video" ? "/hero-bg.mp4" : "");
+  const isVideo = (settings.hero_bg_type === "video" || bgUrl.endsWith(".mp4") || bgUrl.endsWith(".webm") || bgUrl.includes("video")) && !!bgUrl && !videoError;
+  const posterUrl = settings.hero_poster_url || "";
 
   return (
-    <section className="relative w-full h-[100dvh] min-h-[600px] flex flex-col justify-end bg-brand-navy overflow-hidden">
+    <section className="relative w-full h-[100dvh] min-h-[600px] flex flex-col justify-end bg-[#050811] overflow-hidden">
+      {/* Poster paints immediately while the video streams in behind it */}
+      {isVideo && posterUrl && (
+        <link rel="preload" href={posterUrl} as="image" fetchPriority="high" />
+      )}
 
       {/* ── Full-bleed background ── */}
       {isVideo ? (
         <video
           key={bgUrl}
           src={bgUrl}
+          poster={posterUrl || undefined}
           autoPlay
           loop
           muted
           playsInline
-          poster="/hero-bg.jpg"
+          preload="auto"
+          onLoadedData={(e) => {
+            setVideoLoaded(true);
+            e.currentTarget.play().catch(() => {});
+          }}
+          onCanPlay={(e) => {
+            setVideoLoaded(true);
+            e.currentTarget.play().catch(() => {});
+          }}
           onError={() => setVideoError(true)}
-          className="absolute inset-0 z-0 w-full h-full object-cover object-center"
+          className={`absolute inset-0 z-0 w-full h-full object-cover object-center transition-opacity duration-300 ${
+            videoLoaded || posterUrl ? "opacity-100" : "opacity-90"
+          }`}
         />
-      ) : (
+      ) : bgUrl ? (
         <div
           className="absolute inset-0 z-0 bg-cover bg-[center_38%] bg-no-repeat"
           style={{ backgroundImage: `url('${bgUrl}')` }}
         />
+      ) : (
+        <div className="absolute inset-0 z-0 bg-[#050811] bg-gradient-to-b from-[#001B51] via-[#050811] to-[#050811]" />
       )}
 
       {/* ── Radial blur vignette overlay ── */}

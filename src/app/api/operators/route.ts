@@ -22,7 +22,7 @@ export async function POST(req: Request) {
     const res = await query(
       `INSERT INTO public.operators (name, role, badge, image_url)
        VALUES ($1, $2, $3, $4) RETURNING *`,
-      [name, role, badge, image_url]
+      [name, role, badge, image_url || '']
     );
     return NextResponse.json(res[0]);
   } catch (err: any) {
@@ -40,7 +40,7 @@ export async function PUT(req: Request) {
       `UPDATE public.operators 
        SET name = $1, role = $2, badge = $3, image_url = $4
        WHERE id = $5 RETURNING *`,
-      [name, role, badge, image_url, id]
+      [name, role, badge, image_url || '', id]
     );
     return NextResponse.json(res[0]);
   } catch (err: any) {

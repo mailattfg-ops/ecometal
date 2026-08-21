@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "db:ping": "node scripts/ping-supabase.js"
   },
   "dependencies": {
     "@fontsource/cal-sans": "^5.2.3",
