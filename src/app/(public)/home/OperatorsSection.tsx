@@ -2,14 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import SectionDivider from "@/components/SectionDivider";
-
-interface Operator {
-  id: string | number;
-  name: string;
-  role: string;
-  badge: string;
-  image_url: string;
-}
+import { EMPTY_OPERATORS_DATA, type Operator, type OperatorsSectionData } from "@/lib/operators";
 
 /** Below this count the row is rendered statically (centered, no marquee). */
 const MARQUEE_THRESHOLD = 3;
@@ -70,20 +63,20 @@ function OperatorCard({ op, hideImage }: { op: Operator; hideImage: boolean }) {
   );
 }
 
-export default function OperatorsSection() {
-  const [operators, setOperators] = useState<Operator[]>([]);
-  const [hideTeamImages, setHideTeamImages] = useState<boolean>(() => {
-    if (typeof window !== "undefined") {
-      const stored = localStorage.getItem("hide_team_images");
-      if (stored !== null) return stored === "true";
-    }
-    return true; // Default to true (hidden) to prevent photo flashing before API settings load
-  });
+interface OperatorsSectionProps {
+  /** Rendered on the server so the cards are in the initial HTML. */
+  initialData?: OperatorsSectionData;
+}
+
+export default function OperatorsSection({ initialData }: OperatorsSectionProps) {
+  const data = initialData || EMPTY_OPERATORS_DATA;
+  const [operators, setOperators] = useState<Operator[]>(data.operators);
+  const [hideTeamImages, setHideTeamImages] = useState<boolean>(data.hideTeamImages);
 
   useEffect(() => {
     async function getData() {
       try {
-        // Fetch setting and operator records in parallel
+        // Background refresh so admin edits land before the page cache rolls over.
         const [opsRes, settingsRes] = await Promise.all([
           fetch("/api/operators"),
           fetch("/api/settings")
@@ -92,16 +85,15 @@ export default function OperatorsSection() {
         if (opsRes.ok) {
           const opsData = await opsRes.json();
           // Show exactly what the database holds — deletions must disappear immediately.
-          setOperators(Array.isArray(opsData) ? opsData : []);
+          const next: Operator[] = Array.isArray(opsData) ? opsData : [];
+          setOperators((prev) =>
+            JSON.stringify(prev) === JSON.stringify(next) ? prev : next
+          );
         }
 
         if (settingsRes.ok) {
           const settingsData = await settingsRes.json();
-          const isHidden = !!settingsData.hide_team_images;
-          setHideTeamImages(isHidden);
-          if (typeof window !== "undefined") {
-            localStorage.setItem("hide_team_images", String(isHidden));
-          }
+          setHideTeamImages(!!settingsData.hide_team_images);
         }
       } catch (err) {
         console.warn("Database Operators fetch failed:", err);

@@ -1,5 +1,6 @@
 import HeroSection from "./home/HeroSection";
 import { getHeroSettings } from "@/lib/heroSettings.server";
+import { getOperatorsSectionData } from "@/lib/operators.server";
 import AboutSection from "./home/AboutSection";
 import InvestSection from "./home/InvestSection";
 import SystemsSection from "./home/SystemsSection";
@@ -15,7 +16,10 @@ import ContactSection from "./home/ContactSection";
 export const revalidate = 60;
 
 export default async function HomePage() {
-  const heroSettings = await getHeroSettings();
+  const [heroSettings, operatorsData] = await Promise.all([
+    getHeroSettings(),
+    getOperatorsSectionData(),
+  ]);
 
   return (
     <div className="flex flex-col w-full">
@@ -25,7 +29,7 @@ export default async function HomePage() {
       <SystemsSection />
       <VideoSection />
       <ProjectsSection />
-      <OperatorsSection />
+      <OperatorsSection initialData={operatorsData} />
       <ComplianceSection />
       <FaqSection />
       <ContactSection />
