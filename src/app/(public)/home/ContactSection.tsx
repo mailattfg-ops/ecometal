@@ -10,7 +10,7 @@ export default function ContactSection() {
   // sits on a village road that Google resolves only approximately, whereas
   // these coordinates land on the site itself.
   const FACTORY_ADDRESS =
-    "Ecometal Matrix Engineering, Plot 49-59, SIDCO Industrial Estate, Kallali Road, Kallur, Krishnagiri District, Tamil Nadu 635207";
+    "Ecometal Matrix Engineering, Plot 49-59, SIDCO Industrial Estate, Kallavi Road, Kallur, Krishnagiri District, Tamil Nadu 635207";
   const FACTORY_COORDS = "12.252305,78.521411";
   const FACTORY_MAP_LABEL = encodeURIComponent(`${FACTORY_COORDS} (${FACTORY_ADDRESS})`);
 
@@ -41,6 +41,18 @@ export default function ContactSection() {
                 className="block text-[clamp(16px,1.2vw,22px)] font-sans font-semibold text-white hover:text-white/80 transition-colors"
               >
                 info@ecometalmatrix.com
+              </a>
+              <a
+                href="mailto:gangaivendan@ecometalmatrix.com"
+                className="block text-[clamp(13px,1vw,15px)] font-sans text-white/70 hover:text-white transition-colors"
+              >
+                gangaivendan@ecometalmatrix.com
+              </a>
+              <a
+                href="mailto:mohandoss@ecometalmatrix.com"
+                className="block text-[clamp(13px,1vw,15px)] font-sans text-white/70 hover:text-white transition-colors"
+              >
+                mohandoss@ecometalmatrix.com
               </a>
               <p className="text-[clamp(13px,1vw,16px)] font-sans font-normal text-white/70 leading-relaxed pt-2">
                 Assistance hours:
@@ -104,7 +116,7 @@ export default function ContactSection() {
                 <div>
                   <strong className="text-white">Works / Registered Factory:</strong><br />
                   Plot 49-59, SIDCO Industrial Estate,<br />
-                  Kallali Road, Kallur,<br />
+                  Kallavi Road, Kallur,<br />
                   Krishnagiri District,<br />
                   Tamil Nadu - 635207
                 </div>
