@@ -130,23 +130,22 @@ export default function ProjectsSection({ initialProjects }: ProjectsSectionProp
       {/* Full-bleed Image Panel — width fluid up to 1945px, height scales via aspect-ratio
           instead of a fixed 942px, so nothing gets clipped or pushed off-screen on smaller viewports */}
       <div 
-        className="relative w-full max-w-[1945px] min-h-[600px] sm:min-h-0 sm:aspect-[1945/942] overflow-hidden shadow-sm flex flex-col justify-end group"
+        className="relative w-full max-w-[1945px] sm:aspect-[1945/942] overflow-hidden shadow-sm flex flex-col sm:justify-end group bg-[#001B51]"
         onTouchStart={onTouchStart}
         onTouchMove={onTouchMove}
         onTouchEnd={onTouchEndHandler}
       >
 
-        {/* Photographic background fill — select-none lives here only, so it stops the
-            photo itself from being drag-selected without blocking the text/links below */}
+        {/* Phones: the image is a 16:10 card above the caption, so nothing is cropped away
+            or hidden under text. From sm up it becomes the full-bleed background again.
+            select-none stops the photo itself from being drag-selected. */}
         <div
-          className="absolute inset-0 bg-cover bg-center select-none transition-transform duration-[8000ms] group-hover:scale-102"
-          style={{
-            // Multi-stop rather than a straight fade: on mobile the caption block
-            // reaches roughly half way up the panel, and a two-stop gradient is
-            // still too light there to read white text over a bright photo.
-            backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.25) 30%, rgba(0,0,0,0.62) 55%, rgba(0,0,0,0.93) 100%), url('${activeProject.image_url}')`,
-          }}
+          className="relative w-full aspect-[16/10] sm:absolute sm:inset-0 sm:aspect-auto bg-cover bg-center select-none transition-transform duration-[8000ms] group-hover:scale-102"
+          style={{ backgroundImage: `url('${activeProject.image_url}')` }}
         />
+        {/* Readability gradient under the overlaid caption — only needed where it overlays (sm+).
+            Multi-stop rather than a straight fade so the lower half is dark enough for white text. */}
+        <div className="hidden sm:block absolute inset-0 pointer-events-none bg-[linear-gradient(to_bottom,rgba(0,0,0,0.15)_0%,rgba(0,0,0,0.25)_30%,rgba(0,0,0,0.62)_55%,rgba(0,0,0,0.93)_100%)]" />
 
         {/* Navigation Arrows */}
         <div className="absolute top-1/2 -translate-y-1/2 left-[clamp(12px,2vw,32px)] right-[clamp(12px,2vw,32px)] hidden lg:flex justify-between z-20 pointer-events-none">
