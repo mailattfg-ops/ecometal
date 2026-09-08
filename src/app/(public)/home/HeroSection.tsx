@@ -52,6 +52,15 @@ export default function HeroSection({ initialSettings }: HeroSectionProps) {
 
       {/* ── Full-bleed background ── */}
       {isVideo ? (
+        <>
+          {/* Phones: the landscape video is letterboxed (object-contain) over a blurred copy of its
+              own poster, so the whole frame is visible instead of a zoomed-in crop. Desktop keeps cover. */}
+          {posterUrl && (
+            <div
+              className="absolute inset-0 z-0 lg:hidden bg-cover bg-center scale-110 blur-2xl"
+              style={{ backgroundImage: `url('${posterUrl}')` }}
+            />
+          )}
         <video
           key={bgUrl}
           src={bgUrl}
@@ -70,10 +79,11 @@ export default function HeroSection({ initialSettings }: HeroSectionProps) {
             e.currentTarget.play().catch(() => {});
           }}
           onError={() => setVideoError(true)}
-          className={`absolute inset-0 z-0 w-full h-full object-cover object-center transition-opacity duration-300 ${
+          className={`absolute inset-0 z-0 w-full h-full object-contain lg:object-cover object-center transition-opacity duration-300 ${
             videoLoaded || posterUrl ? "opacity-100" : "opacity-90"
           }`}
         />
+        </>
       ) : bgUrl ? (
         <div
           className="absolute inset-0 z-0 bg-cover bg-[center_38%] bg-no-repeat"
