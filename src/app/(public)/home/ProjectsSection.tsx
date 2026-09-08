@@ -186,13 +186,13 @@ export default function ProjectsSection({ initialProjects }: ProjectsSectionProp
             className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 lg:gap-8 w-full"
           >
             {/* Left: Title & Description */}
-            <div className="flex flex-col gap-2 w-full lg:w-auto lg:max-w-[320px] shrink-0 text-left">
+            <div className="flex flex-col gap-2 w-full lg:w-auto lg:max-w-[440px] shrink-0 text-left">
               <h3 className="text-2xl sm:text-3xl font-bold font-display text-white tracking-tight leading-tight">
                 {activeProject.title}
               </h3>
-              {/* Clamped on small screens — the full copy runs to five or six
-                  lines on a phone and crowds out the stats and the CTA. */}
-              <p className="text-[13px] sm:text-sm text-white/75 leading-relaxed font-sans font-normal line-clamp-3 lg:line-clamp-none">
+              {/* Always clamped: the full copy is the intro on the case-study page. Unclamped it
+                  ran to eight lines under a long title and covered half the image on desktop. */}
+              <p className="text-[13px] sm:text-sm text-white/75 leading-relaxed font-sans font-normal line-clamp-3">
                 {activeProject.description}
               </p>
             </div>
