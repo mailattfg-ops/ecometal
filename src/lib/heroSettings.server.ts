@@ -10,7 +10,7 @@ import { DEFAULT_HERO_SETTINGS, type HeroSettings } from '@/lib/heroSettings';
 export async function getHeroSettings(): Promise<HeroSettings> {
   try {
     const rows = await query(
-      "SELECT key, value FROM public.settings WHERE key IN ('hero_bg_type', 'hero_bg_url', 'hero_poster_url', 'hero_headline_text', 'hero_headline_visible')"
+      "SELECT key, value FROM public.settings WHERE key IN ('hero_bg_type', 'hero_bg_url', 'hero_poster_url', 'hero_headline_text', 'hero_headline_visible', 'hero_text_mobile_visible')"
     );
     const map: Record<string, string> = {};
     for (const row of rows || []) map[row.key] = row.value;
@@ -25,6 +25,7 @@ export async function getHeroSettings(): Promise<HeroSettings> {
           ? map['hero_headline_text']
           : DEFAULT_HERO_SETTINGS.hero_headline_text,
       hero_headline_visible: map['hero_headline_visible'] !== 'false',
+      hero_text_mobile_visible: map['hero_text_mobile_visible'] === 'true',
     };
   } catch (err) {
     // Never let a cold/unreachable database block the page from rendering.

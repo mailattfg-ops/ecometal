@@ -54,7 +54,7 @@ export default function AdminPage() {
   const [loginError, setLoginError] = useState<string>("");
   
   const [activeTab, setActiveTab] = useState<"projects" | "operators" | "hero" | "ping">("projects");
-  const [heroSettings, setHeroSettings] = useState({ hero_bg_type: "image" as "image" | "video", hero_bg_url: "", hero_poster_url: "", hero_headline_text: "Build better.\nBuild faster.\nBuild lighter.", hero_headline_visible: true, saving: false, uploadingHero: false });
+  const [heroSettings, setHeroSettings] = useState({ hero_bg_type: "image" as "image" | "video", hero_bg_url: "", hero_poster_url: "", hero_headline_text: "Build better.\nBuild faster.\nBuild lighter.", hero_headline_visible: true, hero_text_mobile_visible: false, saving: false, uploadingHero: false });
   const [projects, setProjects] = useState<Project[]>([]);
   const [operators, setOperators] = useState<Operator[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -288,6 +288,7 @@ export default function AdminPage() {
         hero_poster_url: settingsData.hero_poster_url || "",
         hero_headline_text: settingsData.hero_headline_text,
         hero_headline_visible: settingsData.hero_headline_visible,
+        hero_text_mobile_visible: !!settingsData.hero_text_mobile_visible,
       }));
       fetchPingMetrics();
     } catch (err) {
@@ -307,6 +308,7 @@ export default function AdminPage() {
         hero_poster_url: merged.hero_poster_url,
         hero_headline_text: merged.hero_headline_text,
         hero_headline_visible: merged.hero_headline_visible,
+        hero_text_mobile_visible: merged.hero_text_mobile_visible,
       }));
     }
     try {
@@ -318,7 +320,8 @@ export default function AdminPage() {
           hero_bg_url: merged.hero_bg_url,
           hero_poster_url: merged.hero_poster_url,
           hero_headline_text: merged.hero_headline_text,
-          hero_headline_visible: merged.hero_headline_visible
+          hero_headline_visible: merged.hero_headline_visible,
+          hero_text_mobile_visible: merged.hero_text_mobile_visible,
         }),
       });
     } catch (err) {
@@ -899,6 +902,23 @@ export default function AdminPage() {
                       <span className="text-xs text-white/50">{heroSettings.hero_headline_visible ? "Visible" : "Hidden"}</span>
                     </label>
                   </div>
+                  {/* Phones: headline + intro paragraph off by default, buttons stay */}
+                  <label className="flex items-center gap-2 cursor-pointer w-fit">
+                    <input
+                      type="checkbox"
+                      className="hidden"
+                      checked={heroSettings.hero_text_mobile_visible}
+                      onChange={(e) => {
+                        const val = e.target.checked;
+                        setHeroSettings(prev => ({ ...prev, hero_text_mobile_visible: val }));
+                        saveHeroSettings({ hero_text_mobile_visible: val });
+                      }}
+                    />
+                    <div className={`w-8 h-4 rounded-full transition ${heroSettings.hero_text_mobile_visible ? "bg-brand-gold" : "bg-white/10"}`}>
+                      <div className={`w-4 h-4 rounded-full bg-white shadow-sm transform transition ${heroSettings.hero_text_mobile_visible ? "translate-x-4" : "translate-x-0"}`} />
+                    </div>
+                    <span className="text-xs text-white/50">Headline &amp; intro text on mobile: {heroSettings.hero_text_mobile_visible ? "Shown" : "Hidden"}</span>
+                  </label>
                   <div className="flex gap-3 items-start">
                     <textarea
                       value={heroSettings.hero_headline_text}

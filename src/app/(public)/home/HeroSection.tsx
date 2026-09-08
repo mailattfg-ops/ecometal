@@ -26,6 +26,7 @@ export default function HeroSection({ initialSettings }: HeroSectionProps) {
           hero_poster_url: data.hero_poster_url || "",
           hero_headline_text: data.hero_headline_text !== undefined ? data.hero_headline_text : DEFAULT_HERO_SETTINGS.hero_headline_text,
           hero_headline_visible: data.hero_headline_visible !== false,
+          hero_text_mobile_visible: data.hero_text_mobile_visible === true,
         };
         // Only re-render when something actually changed — a needless state swap
         // remounts the <video> and restarts the download.
@@ -39,6 +40,8 @@ export default function HeroSection({ initialSettings }: HeroSectionProps) {
   const bgUrl = settings.hero_bg_url || (settings.hero_bg_type === "video" ? "/hero-bg.mp4" : "");
   const isVideo = (settings.hero_bg_type === "video" || bgUrl.endsWith(".mp4") || bgUrl.endsWith(".webm") || bgUrl.includes("video")) && !!bgUrl && !videoError;
   const posterUrl = settings.hero_poster_url || "";
+  // Phones show only the buttons unless the admin turns the text on for mobile.
+  const mobileText = settings.hero_text_mobile_visible ? "" : "hidden lg:block";
 
   return (
     <section className="relative w-full h-[100dvh] min-h-[600px] flex flex-col justify-end bg-[#050811] overflow-hidden">
@@ -101,7 +104,7 @@ export default function HeroSection({ initialSettings }: HeroSectionProps) {
 
             {/* Left — Headline */}
             {settings.hero_headline_visible && (
-              <div className="lg:col-span-6 h-full">
+              <div className={`lg:col-span-6 h-full ${mobileText}`}>
                 <h1
                   className="h-full text-[clamp(32px,3.8vw,58px)] leading-[1.05] font-bold font-display m-0 p-0 bg-gradient-to-r from-[#FFE270] to-[#DA8B0C] bg-clip-text text-transparent pb-[clamp(32px,5vh,64px)] whitespace-pre-wrap"
                 >
@@ -112,7 +115,7 @@ export default function HeroSection({ initialSettings }: HeroSectionProps) {
 
             {/* Right — Body + Buttons */}
             <div className={`h-full justify-center ${settings.hero_headline_visible ? 'lg:col-span-5 lg:col-start-8' : 'lg:col-span-6 lg:col-start-1'} flex flex-col gap-[clamp(16px,2vh,24px)]`}>
-              <p className="text-[clamp(16px,1.3vw,20px)] text-[rgba(255,255,255,0.82)] leading-[1.5] m-0 font-normal tracking-[-0.01em]">
+              <p className={`text-[clamp(16px,1.3vw,20px)] text-[rgba(255,255,255,0.82)] leading-[1.5] m-0 font-normal tracking-[-0.01em] ${mobileText}`}>
                 One factory. One model. One integrated system — for every building type.
                 We combine Light Gauge Steel framing, foam concrete, and an AI
                 design-to-manufacture platform to deliver buildings in weeks, not years.

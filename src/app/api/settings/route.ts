@@ -5,7 +5,7 @@ export const revalidate = 0; // Disable static caching
 
 export async function GET() {
   try {
-    const res = await query("SELECT key, value FROM public.settings WHERE key IN ('hide_team_images', 'hero_bg_type', 'hero_bg_url', 'hero_poster_url', 'hero_headline_text', 'hero_headline_visible')");
+    const res = await query("SELECT key, value FROM public.settings WHERE key IN ('hide_team_images', 'hero_bg_type', 'hero_bg_url', 'hero_poster_url', 'hero_headline_text', 'hero_headline_visible', 'hero_text_mobile_visible')");
     const map: Record<string, string> = {};
     if (res && res.length > 0) {
       for (const row of res) { map[row.key] = row.value; }
@@ -17,6 +17,7 @@ export async function GET() {
       hero_poster_url: map['hero_poster_url'] || '',
       hero_headline_text: map['hero_headline_text'] !== undefined ? map['hero_headline_text'] : "Build better.\nBuild faster.\nBuild lighter.",
       hero_headline_visible: map['hero_headline_visible'] !== 'false',
+      hero_text_mobile_visible: map['hero_text_mobile_visible'] === 'true',
     });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });
@@ -46,6 +47,9 @@ export async function POST(req: Request) {
     }
     if (body.hero_headline_visible !== undefined) {
       updates.push(['hero_headline_visible', body.hero_headline_visible ? 'true' : 'false']);
+    }
+    if (body.hero_text_mobile_visible !== undefined) {
+      updates.push(['hero_text_mobile_visible', body.hero_text_mobile_visible ? 'true' : 'false']);
     }
 
     for (const [key, value] of updates) {

@@ -9,6 +9,8 @@ export interface HeroSettings {
   hero_poster_url: string;
   hero_headline_text: string;
   hero_headline_visible: boolean;
+  /** Show the headline and intro paragraph on phones (they always show from lg up). */
+  hero_text_mobile_visible: boolean;
 }
 
 export const DEFAULT_HERO_SETTINGS: HeroSettings = {
@@ -17,4 +19,5 @@ export const DEFAULT_HERO_SETTINGS: HeroSettings = {
   hero_poster_url: "",
   hero_headline_text: "Build better.\nBuild faster.\nBuild lighter.",
   hero_headline_visible: true,
+  hero_text_mobile_visible: false,
 };
