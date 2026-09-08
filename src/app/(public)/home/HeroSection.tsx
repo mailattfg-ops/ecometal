@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { MessageSquare } from "lucide-react";
 import { DEFAULT_HERO_SETTINGS, type HeroSettings } from "@/lib/heroSettings";
 
@@ -12,6 +12,7 @@ interface HeroSectionProps {
 export default function HeroSection({ initialSettings }: HeroSectionProps) {
   const [settings, setSettings] = useState<HeroSettings>(initialSettings || DEFAULT_HERO_SETTINGS);
 
+  const videoRef = useRef<HTMLVideoElement>(null);
   const [videoError, setVideoError] = useState(false);
   const [videoLoaded, setVideoLoaded] = useState(false);
 
@@ -42,6 +43,26 @@ export default function HeroSection({ initialSettings }: HeroSectionProps) {
   const isVideo = (settings.hero_bg_type === "video" || bgUrl.endsWith(".mp4") || bgUrl.endsWith(".webm") || bgUrl.includes("video")) && !!bgUrl && !videoError;
   const posterUrl = settings.hero_poster_url || "";
   const mobileUrl = settings.hero_bg_url_mobile || "";
+
+  // Belt and braces for the <source media> switch: some browsers ignore the media
+  // attribute on video sources, so once the element has picked a file, make sure a
+  // phone got the portrait cut (and desktop the landscape one). Only touches src
+  // when the wrong file was chosen, so there is no double download otherwise.
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v || !mobileUrl) return;
+    const want = window.matchMedia("(max-width: 1023px)").matches ? mobileUrl : bgUrl;
+    const enforce = () => {
+      if (v.currentSrc && v.currentSrc !== want) {
+        v.src = want;
+        v.load();
+        v.play().catch(() => {});
+      }
+    };
+    enforce();
+    v.addEventListener("loadedmetadata", enforce, { once: true });
+    return () => v.removeEventListener("loadedmetadata", enforce);
+  }, [bgUrl, mobileUrl]);
   // Phones show only the buttons unless the admin turns the text on for mobile.
   const mobileText = settings.hero_text_mobile_visible ? "" : "hidden lg:block";
 
@@ -55,6 +76,7 @@ export default function HeroSection({ initialSettings }: HeroSectionProps) {
       {/* ── Full-bleed background ── */}
       {isVideo ? (
         <video
+          ref={videoRef}
           key={bgUrl + mobileUrl}
           poster={posterUrl || undefined}
           autoPlay
