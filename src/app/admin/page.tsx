@@ -54,7 +54,7 @@ export default function AdminPage() {
   const [loginError, setLoginError] = useState<string>("");
   
   const [activeTab, setActiveTab] = useState<"projects" | "operators" | "hero" | "ping">("projects");
-  const [heroSettings, setHeroSettings] = useState({ hero_bg_type: "image" as "image" | "video", hero_bg_url: "", hero_poster_url: "", hero_headline_text: "Build better.\nBuild faster.\nBuild lighter.", hero_headline_visible: true, hero_text_mobile_visible: false, saving: false, uploadingHero: false });
+  const [heroSettings, setHeroSettings] = useState({ hero_bg_type: "image" as "image" | "video", hero_bg_url: "", hero_bg_url_mobile: "", hero_poster_url: "", hero_headline_text: "Build better.\nBuild faster.\nBuild lighter.", hero_headline_visible: true, hero_text_mobile_visible: false, saving: false, uploadingHero: false });
   const [projects, setProjects] = useState<Project[]>([]);
   const [operators, setOperators] = useState<Operator[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -285,6 +285,7 @@ export default function AdminPage() {
         ...prev,
         hero_bg_type: settingsData.hero_bg_type || "image",
         hero_bg_url: settingsData.hero_bg_url || "",
+        hero_bg_url_mobile: settingsData.hero_bg_url_mobile || "",
         hero_poster_url: settingsData.hero_poster_url || "",
         hero_headline_text: settingsData.hero_headline_text,
         hero_headline_visible: settingsData.hero_headline_visible,
@@ -305,6 +306,7 @@ export default function AdminPage() {
       localStorage.setItem("hero_settings", JSON.stringify({
         hero_bg_type: merged.hero_bg_type,
         hero_bg_url: merged.hero_bg_url,
+        hero_bg_url_mobile: merged.hero_bg_url_mobile,
         hero_poster_url: merged.hero_poster_url,
         hero_headline_text: merged.hero_headline_text,
         hero_headline_visible: merged.hero_headline_visible,
@@ -318,6 +320,7 @@ export default function AdminPage() {
         body: JSON.stringify({ 
           hero_bg_type: merged.hero_bg_type, 
           hero_bg_url: merged.hero_bg_url,
+          hero_bg_url_mobile: merged.hero_bg_url_mobile,
           hero_poster_url: merged.hero_poster_url,
           hero_headline_text: merged.hero_headline_text,
           hero_headline_visible: merged.hero_headline_visible,
@@ -402,8 +405,8 @@ export default function AdminPage() {
         }
       }
 
-      setHeroSettings(prev => ({ ...prev, hero_bg_url: fileUrl, hero_bg_type: newType, hero_poster_url: posterUrl }));
-      await saveHeroSettings({ hero_bg_url: fileUrl, hero_bg_type: newType, hero_poster_url: posterUrl });
+      setHeroSettings(prev => ({ ...prev, hero_bg_url: fileUrl, hero_bg_type: newType, hero_poster_url: posterUrl, hero_bg_url_mobile: "" }));
+      await saveHeroSettings({ hero_bg_url: fileUrl, hero_bg_type: newType, hero_poster_url: posterUrl, hero_bg_url_mobile: "" });
     } catch (err: any) {
       console.error("Hero upload error:", err);
       alert(err.message || "Hero media upload failed. Please try again.");
@@ -858,6 +861,24 @@ export default function AdminPage() {
                       {heroSettings.saving ? "Saving…" : "Save URL"}
                     </button>
                   </div>
+                  {heroSettings.hero_bg_type === "video" && (
+                    <div className="flex gap-3 items-center">
+                      <input
+                        type="text"
+                        value={heroSettings.hero_bg_url_mobile}
+                        onChange={e => setHeroSettings(prev => ({ ...prev, hero_bg_url_mobile: e.target.value }))}
+                        placeholder="Optional portrait (9:16) video URL for phones"
+                        className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-brand-gold/50 transition"
+                      />
+                      <button
+                        onClick={() => saveHeroSettings()}
+                        disabled={heroSettings.saving}
+                        className="px-5 py-2.5 rounded-xl border border-white/15 hover:border-brand-gold/60 text-white/80 text-xs font-bold transition cursor-pointer disabled:opacity-60"
+                      >
+                        Save Mobile URL
+                      </button>
+                    </div>
+                  )}
                 </div>
 
                 {/* File Upload */}

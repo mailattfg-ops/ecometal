@@ -23,6 +23,7 @@ export default function HeroSection({ initialSettings }: HeroSectionProps) {
         const newSettings: HeroSettings = {
           hero_bg_type: data.hero_bg_type || "video",
           hero_bg_url: data.hero_bg_url || (data.hero_bg_type === "image" ? "" : "/hero-bg.mp4"),
+          hero_bg_url_mobile: data.hero_bg_url_mobile || "",
           hero_poster_url: data.hero_poster_url || "",
           hero_headline_text: data.hero_headline_text !== undefined ? data.hero_headline_text : DEFAULT_HERO_SETTINGS.hero_headline_text,
           hero_headline_visible: data.hero_headline_visible !== false,
@@ -40,6 +41,7 @@ export default function HeroSection({ initialSettings }: HeroSectionProps) {
   const bgUrl = settings.hero_bg_url || (settings.hero_bg_type === "video" ? "/hero-bg.mp4" : "");
   const isVideo = (settings.hero_bg_type === "video" || bgUrl.endsWith(".mp4") || bgUrl.endsWith(".webm") || bgUrl.includes("video")) && !!bgUrl && !videoError;
   const posterUrl = settings.hero_poster_url || "";
+  const mobileUrl = settings.hero_bg_url_mobile || "";
   // Phones show only the buttons unless the admin turns the text on for mobile.
   const mobileText = settings.hero_text_mobile_visible ? "" : "hidden lg:block";
 
@@ -52,18 +54,8 @@ export default function HeroSection({ initialSettings }: HeroSectionProps) {
 
       {/* ── Full-bleed background ── */}
       {isVideo ? (
-        <>
-          {/* Phones: the landscape video is letterboxed (object-contain) over a blurred copy of its
-              own poster, so the whole frame is visible instead of a zoomed-in crop. Desktop keeps cover. */}
-          {posterUrl && (
-            <div
-              className="absolute inset-0 z-0 lg:hidden bg-cover bg-center scale-110 blur-2xl"
-              style={{ backgroundImage: `url('${posterUrl}')` }}
-            />
-          )}
         <video
-          key={bgUrl}
-          src={bgUrl}
+          key={bgUrl + mobileUrl}
           poster={posterUrl || undefined}
           autoPlay
           loop
@@ -79,11 +71,15 @@ export default function HeroSection({ initialSettings }: HeroSectionProps) {
             e.currentTarget.play().catch(() => {});
           }}
           onError={() => setVideoError(true)}
-          className={`absolute inset-0 z-0 w-full h-full object-contain lg:object-cover object-center transition-opacity duration-300 ${
+          className={`absolute inset-0 z-0 w-full h-full object-cover object-center transition-opacity duration-300 ${
             videoLoaded || posterUrl ? "opacity-100" : "opacity-90"
           }`}
-        />
-        </>
+        >
+          {/* Browsers pick a <source> at load time; the plain one at the end is the fallback. */}
+          {mobileUrl && <source src={bgUrl} media="(min-width: 1024px)" />}
+          {mobileUrl && <source src={mobileUrl} media="(max-width: 1023px)" />}
+          <source src={bgUrl} />
+        </video>
       ) : bgUrl ? (
         <div
           className="absolute inset-0 z-0 bg-cover bg-[center_38%] bg-no-repeat"

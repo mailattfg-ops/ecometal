@@ -10,7 +10,7 @@ import { DEFAULT_HERO_SETTINGS, type HeroSettings } from '@/lib/heroSettings';
 export async function getHeroSettings(): Promise<HeroSettings> {
   try {
     const rows = await query(
-      "SELECT key, value FROM public.settings WHERE key IN ('hero_bg_type', 'hero_bg_url', 'hero_poster_url', 'hero_headline_text', 'hero_headline_visible', 'hero_text_mobile_visible')"
+      "SELECT key, value FROM public.settings WHERE key IN ('hero_bg_type', 'hero_bg_url', 'hero_bg_url_mobile', 'hero_poster_url', 'hero_headline_text', 'hero_headline_visible', 'hero_text_mobile_visible')"
     );
     const map: Record<string, string> = {};
     for (const row of rows || []) map[row.key] = row.value;
@@ -19,6 +19,7 @@ export async function getHeroSettings(): Promise<HeroSettings> {
     return {
       hero_bg_type: type,
       hero_bg_url: map['hero_bg_url'] || (type === 'image' ? '' : '/hero-bg.mp4'),
+      hero_bg_url_mobile: map['hero_bg_url_mobile'] || '',
       hero_poster_url: map['hero_poster_url'] || '',
       hero_headline_text:
         map['hero_headline_text'] !== undefined
