@@ -1,6 +1,7 @@
 import HeroSection from "./home/HeroSection";
 import { getHeroSettings } from "@/lib/heroSettings.server";
 import { getOperatorsSectionData } from "@/lib/operators.server";
+import { getProjects } from "@/lib/projects.server";
 import AboutSection from "./home/AboutSection";
 import InvestSection from "./home/InvestSection";
 import SystemsSection from "./home/SystemsSection";
@@ -16,9 +17,10 @@ import ContactSection from "./home/ContactSection";
 export const revalidate = 60;
 
 export default async function HomePage() {
-  const [heroSettings, operatorsData] = await Promise.all([
+  const [heroSettings, operatorsData, projects] = await Promise.all([
     getHeroSettings(),
     getOperatorsSectionData(),
+    getProjects(),
   ]);
 
   return (
@@ -28,7 +30,7 @@ export default async function HomePage() {
       <InvestSection />
       <SystemsSection />
       <VideoSection />
-      <ProjectsSection />
+      <ProjectsSection initialProjects={projects} />
       <OperatorsSection initialData={operatorsData} />
       <ComplianceSection />
       <FaqSection />

@@ -5,7 +5,7 @@ import SectionDivider from "@/components/SectionDivider";
 import { Ruler, MapPin, Calendar, Layers, ArrowRight, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
-interface Project {
+export interface Project {
   id: string | number;
   title: string;
   category: string;
@@ -17,68 +17,13 @@ interface Project {
   bedrooms: string;
 }
 
-// Fallback shown only if /api/projects is unreachable. Kept in step with the
-// seeded database rows so a failed fetch still renders real project content.
-const MOCK_PROJECTS: Project[] = [
-  {
-    id: 1,
-    title: "Terraced Housing Development",
-    category: "Residential Development",
-    description: "A multi-unit terraced housing scheme delivered as a complete light gauge steel superstructure — load-bearing wall panels, floor cassettes and roof trusses rolled to a single coordinated model.",
-    image_url: "/projects/townhouse-hero.jpg",
-    area: "14,800 sq.ft",
-    location: "",
-    completion_time: "9 Months",
-    bedrooms: "3 & 4 Bed Units"
-  },
-  {
-    id: 2,
-    title: "Urban Residential Block",
-    category: "Multi-Storey Residential",
-    description: "A four-storey residential block framed entirely in light gauge steel, from foundation interface to roof — designed, modelled and roll-formed as one continuous digital process.",
-    image_url: "/projects/multistorey-hero.jpg",
-    area: "21,500 sq.ft",
-    location: "",
-    completion_time: "11 Months",
-    bedrooms: "G+3 · 16 Apartments"
-  },
-  {
-    id: 3,
-    title: "Modular Studio Units",
-    category: "Volumetric Modular",
-    description: "Fully finished volumetric studio units built as complete steel-framed boxes — structure, services, fit-out and finishes installed in the factory before the unit ever leaves the floor.",
-    image_url: "/projects/modular-hero.jpg",
-    area: "355 sq.ft per unit",
-    location: "",
-    completion_time: "6 Weeks per unit",
-    bedrooms: "Self-Contained Studios"
-  },
-  {
-    id: 4,
-    title: "Prefabricated Bathroom Pods",
-    category: "Modular Pods",
-    description: "Complete bathrooms manufactured as sealed steel-framed pods — tiled, plumbed, wired and tested in the factory, then dropped into the building shell as a finished component.",
-    image_url: "/projects/pod-frame-1.jpg",
-    area: "48 sq.ft per pod",
-    location: "",
-    completion_time: "10 Days per pod",
-    bedrooms: "Fully Fitted Wet Rooms"
-  },
-  {
-    id: 5,
-    title: "Panel Manufacture & Site Assembly",
-    category: "Manufacturing & Erection",
-    description: "The process behind every project — cold-formed sections rolled to model geometry, assembled into panels and cassettes, loaded in erection sequence and stood on site as a kit of parts.",
-    image_url: "/projects/lgs-hero.jpg",
-    area: "Continuous Production",
-    location: "",
-    completion_time: "Model to Site in Days",
-    bedrooms: "Panels · Cassettes · Trusses"
-  }
-];
+interface ProjectsSectionProps {
+  /** Rendered on the server so the carousel is in the initial HTML. */
+  initialProjects?: Project[];
+}
 
-export default function ProjectsSection() {
-  const [projects, setProjects] = useState<Project[]>(MOCK_PROJECTS);
+export default function ProjectsSection({ initialProjects }: ProjectsSectionProps) {
+  const [projects, setProjects] = useState<Project[]>(initialProjects || []);
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
   
@@ -95,11 +40,11 @@ export default function ProjectsSection() {
         }
         const data = await res.json();
 
-        if (data && data.length > 0) {
-          setProjects(data);
+        if (Array.isArray(data) && data.length > 0) {
+          setProjects((prev) => (JSON.stringify(prev) === JSON.stringify(data) ? prev : data));
         }
       } catch (err) {
-        console.warn("Database Projects fetch failed, using fallback mock data:", err);
+        console.warn("Database Projects fetch failed, keeping server-rendered data:", err);
       } finally {
         setLoading(false);
       }
@@ -117,7 +62,7 @@ export default function ProjectsSection() {
     return () => clearInterval(timer);
   }, [projects.length]);
 
-  const activeProject = projects[activeIndex] || MOCK_PROJECTS[0];
+  const activeProject = projects[activeIndex];
 
   const handleNext = () => {
     setActiveIndex((prev) => (prev + 1) % projects.length);
@@ -154,6 +99,8 @@ export default function ProjectsSection() {
   // Shared horizontal padding used across the title block and the overlay content
   // so both align to the same left/right edges regardless of viewport width.
   const CONTAINER = "w-full max-w-[1857px] mx-auto px-[clamp(20px,4.2vw,81px)]";
+
+  if (!activeProject) return null;
 
   return (
     <section id="projects" className="w-full bg-white text-gray-800 pt-15 pb-15 scroll-mt-20 flex flex-col items-center overflow-x-hidden">

@@ -33,10 +33,14 @@ export default async function ProjectDetailPage({ params }: PageProps) {
     notFound();
   }
 
-  // Parse multi-value strings
-  const galleryImages = project.additional_images
+  // Parse multi-value strings. Gallery entries are images, plus any short site
+  // clips (by extension) which render as a full-width player below the grid.
+  const galleryItems: string[] = project.additional_images
     ? project.additional_images.split(',').map((img: string) => img.trim()).filter(Boolean)
     : [];
+  const isVideo = (url: string) => /\.(mp4|webm|mov)(\?.*)?$/i.test(url);
+  const galleryImages = galleryItems.filter((url) => !isVideo(url));
+  const galleryVideos = galleryItems.filter(isVideo);
 
   const benefits = project.key_benefits
     ? project.key_benefits.split('\n').map((b: string) => b.trim()).filter(Boolean)
@@ -127,6 +131,13 @@ export default async function ProjectDetailPage({ params }: PageProps) {
                 ))}
               </div>
             )}
+
+            {/* Site clips — metadata only until played, so they cost nothing on page load */}
+            {galleryVideos.map((src) => (
+              <div key={src} className="aspect-video w-full rounded-3xl overflow-hidden border border-gray-200 shadow-sm bg-black">
+                <video src={src} controls playsInline preload="metadata" className="w-full h-full object-cover" />
+              </div>
+            ))}
           </div>
 
           {/* 2-Column Content Structure */}

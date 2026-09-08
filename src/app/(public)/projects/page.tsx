@@ -1,6 +1,7 @@
 import React from "react";
 import type { Metadata } from "next";
 import ProjectsSection from "../home/ProjectsSection";
+import { getProjects } from "@/lib/projects.server";
 import { ShieldCheck, Ruler, Calendar, MessageSquare } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -8,7 +9,11 @@ export const metadata: Metadata = {
   description: "View our completed and pilot construction projects showcasing scale, dimensional accuracy, and record completion times.",
 };
 
-export default function ProjectsPage() {
+export const revalidate = 60;
+
+export default async function ProjectsPage() {
+  const projects = await getProjects();
+
   return (
     <div className="flex flex-col w-full min-h-screen bg-white">
       {/* Page Header Banner */}
@@ -34,7 +39,7 @@ export default function ProjectsPage() {
 
       {/* PROJECTS SECTION CAROUSEL */}
       <div className="w-full">
-        <ProjectsSection />
+        <ProjectsSection initialProjects={projects} />
       </div>
 
       {/* PREMIUM DESCRIPTION & PORTFOLIO DETAILS */}
