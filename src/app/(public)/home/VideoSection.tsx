@@ -9,13 +9,13 @@ interface VideoSectionProps {
 }
 
 export default function VideoSection({
-  youtubeUrl = "https://www.youtube.com/embed/ScMzIvxBSi4", // Light Gauge Steel Framing Construction Showcase
+  youtubeUrl = "https://www.youtube.com/embed/5as5H43eiSI", // Ecometal showcase video
 }: VideoSectionProps) {
   const CONTAINER = "w-full max-w-[1857px] mx-auto px-[clamp(20px,4.2vw,81px)]";
 
   // Helper to ensure proper embed URL format
   const getEmbedUrl = (url: string) => {
-    if (!url) return "https://www.youtube.com/embed/ScMzIvxBSi4";
+    if (!url) return "https://www.youtube.com/embed/5as5H43eiSI";
     if (url.includes("embed/")) return url;
     const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
     return match ? `https://www.youtube.com/embed/${match[1]}` : url;

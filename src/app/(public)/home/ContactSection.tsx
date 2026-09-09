@@ -42,18 +42,6 @@ export default function ContactSection() {
               >
                 info@ecometalmatrix.com
               </a>
-              <a
-                href="mailto:gangaivendan@ecometalmatrix.com"
-                className="block text-[clamp(13px,1vw,15px)] font-sans text-white/70 hover:text-white transition-colors"
-              >
-                gangaivendan@ecometalmatrix.com
-              </a>
-              <a
-                href="mailto:mohandoss@ecometalmatrix.com"
-                className="block text-[clamp(13px,1vw,15px)] font-sans text-white/70 hover:text-white transition-colors"
-              >
-                mohandoss@ecometalmatrix.com
-              </a>
               <p className="text-[clamp(13px,1vw,16px)] font-sans font-normal text-white/70 leading-relaxed pt-2">
                 Assistance hours:
                 <br />
