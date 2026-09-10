@@ -17,10 +17,9 @@ export const metadata: Metadata = {
     url: "/",
     title: "Ecometal Matrix Engineering - Build better, faster, lighter",
     description: "Light Gauge Steel framing, foam concrete and an AI design-to-manufacture platform. Buildings delivered in weeks, not years.",
-    // Kept deliberately minimal, matching cards that reliably render as a large
-    // preview: bare og:image with no width/height/secure_url hints for scrapers
-    // to second-guess. The file itself is 1280x640 baseline JPEG.
-    images: ["/og-image.jpg"],
+    // 1200x630 baseline JPEG. Width and height are declared so Facebook and
+    // LinkedIn can lay the card out on first scrape, before fetching the file.
+    images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "Ecometal Matrix Engineering Pvt. Ltd." }],
   },
   twitter: {
     card: "summary_large_image",
