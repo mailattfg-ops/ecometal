@@ -17,15 +17,10 @@ export const metadata: Metadata = {
     url: "/",
     title: "Ecometal Matrix Engineering - Build better, faster, lighter",
     description: "Light Gauge Steel framing, foam concrete and an AI design-to-manufacture platform. Buildings delivered in weeks, not years.",
-    images: [{
-      // metadataBase resolves `url`, but not secureUrl — that one has to be absolute.
-      url: "/og-image.jpg",
-      secureUrl: `${siteUrl}/og-image.jpg`,
-      type: "image/jpeg",
-      width: 1600,
-      height: 840,
-      alt: "Ecometal Matrix Engineering Pvt. Ltd.",
-    }],
+    // Kept deliberately minimal, matching cards that reliably render as a large
+    // preview: bare og:image with no width/height/secure_url hints for scrapers
+    // to second-guess. The file itself is 1280x640 baseline JPEG.
+    images: ["/og-image.jpg"],
   },
   twitter: {
     card: "summary_large_image",
