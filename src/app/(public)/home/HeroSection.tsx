@@ -56,7 +56,7 @@ export default function HeroSection({ initialSettings }: HeroSectionProps) {
       if (v.currentSrc && v.currentSrc !== want) {
         v.src = want;
         v.load();
-        v.play().catch(() => {});
+        v.play().catch(() => { });
       }
     };
     enforce();
@@ -86,16 +86,15 @@ export default function HeroSection({ initialSettings }: HeroSectionProps) {
           preload="auto"
           onLoadedData={(e) => {
             setVideoLoaded(true);
-            e.currentTarget.play().catch(() => {});
+            e.currentTarget.play().catch(() => { });
           }}
           onCanPlay={(e) => {
             setVideoLoaded(true);
-            e.currentTarget.play().catch(() => {});
+            e.currentTarget.play().catch(() => { });
           }}
           onError={() => setVideoError(true)}
-          className={`absolute inset-0 z-0 w-full h-full object-cover object-center transition-opacity duration-300 ${
-            videoLoaded || posterUrl ? "opacity-100" : "opacity-90"
-          }`}
+          className={`absolute inset-0 z-0 w-full h-full object-cover object-center transition-opacity duration-300 ${videoLoaded || posterUrl ? "opacity-100" : "opacity-90"
+            }`}
         >
           {/* Browsers pick a <source> at load time; the plain one at the end is the fallback. */}
           {mobileUrl && <source src={bgUrl} media="(min-width: 1024px)" />}
@@ -113,7 +112,7 @@ export default function HeroSection({ initialSettings }: HeroSectionProps) {
 
       {/* ── Radial blur vignette overlay ── */}
       <div
-        className="absolute inset-0 z-[1] pointer-events-none backdrop-blur-[10px]"
+        className="hidden absolute inset-0 z-[1] pointer-events-none backdrop-blur-[4px]"
         style={{
           maskImage: "radial-gradient(circle at 50% 45%, transparent 35%, black 80%)",
           WebkitMaskImage: "radial-gradient(circle at 50% 45%, transparent 35%, black 80%)"
