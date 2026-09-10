@@ -16,13 +16,21 @@ export const metadata: Metadata = {
     locale: "en_GB",
     url: "/",
     title: "Ecometal Matrix Engineering - Build better, faster, lighter",
-    description: "A vertically integrated, AI-native steel construction platform. Light Gauge Steel framing, foam concrete and design-to-manufacture, delivering buildings in weeks.",
-    images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "Ecometal Matrix Engineering Pvt. Ltd." }],
+    description: "Light Gauge Steel framing, foam concrete and an AI design-to-manufacture platform. Buildings delivered in weeks, not years.",
+    images: [{
+      // metadataBase resolves `url`, but not secureUrl — that one has to be absolute.
+      url: "/og-image.jpg",
+      secureUrl: `${siteUrl}/og-image.jpg`,
+      type: "image/jpeg",
+      width: 1600,
+      height: 840,
+      alt: "Ecometal Matrix Engineering Pvt. Ltd.",
+    }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Ecometal Matrix Engineering - Build better, faster, lighter",
-    description: "A vertically integrated, AI-native steel construction platform. Light Gauge Steel framing, foam concrete and design-to-manufacture, delivering buildings in weeks.",
+    description: "Light Gauge Steel framing, foam concrete and an AI design-to-manufacture platform. Buildings delivered in weeks, not years.",
     images: ["/og-image.jpg"],
   },
 };
