@@ -1,4 +1,5 @@
 import React from "react";
+import type { Metadata } from "next";
 import { query } from "@/lib/db";
 import { notFound } from "next/navigation";
 import { ArrowLeft, FileText } from "lucide-react";
@@ -8,6 +9,41 @@ interface PageProps {
   params: Promise<{
     id: string;
   }>;
+}
+
+/** Every case study had been inheriting the homepage title and card — this gives
+ *  each one its own title, description and social image (its hero photo). */
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { id } = await params;
+  let project: any = null;
+  try {
+    const rows = await query(
+      "SELECT title, tagline, description, image_url FROM public.projects WHERE id = $1",
+      [id]
+    );
+    project = rows?.[0] || null;
+  } catch (err) {
+    console.warn("generateMetadata: project query failed:", err);
+  }
+  if (!project) return { title: "Case Study | Ecometal Matrix Engineering" };
+
+  const title = `${project.title} | Ecometal Matrix Engineering`;
+  const description = (project.tagline || project.description || "").replace(/\s+/g, " ").trim().slice(0, 200);
+  const image = project.image_url || "/og-image.jpg";
+
+  return {
+    title,
+    description,
+    alternates: { canonical: `/project/${id}` },
+    openGraph: {
+      type: "article",
+      url: `/project/${id}`,
+      title,
+      description,
+      images: [{ url: image, alt: project.title }],
+    },
+    twitter: { card: "summary_large_image", title, description, images: [image] },
+  };
 }
 
 export default async function ProjectDetailPage({ params }: PageProps) {

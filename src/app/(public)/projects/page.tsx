@@ -7,6 +7,9 @@ import { ShieldCheck, Ruler, Calendar, MessageSquare } from "lucide-react";
 export const metadata: Metadata = {
   title: "Projects & Case Studies | Ecometal Matrix Engineering",
   description: "View our completed and pilot construction projects showcasing scale, dimensional accuracy, and record completion times.",
+  alternates: { canonical: "/projects" },
+  openGraph: { url: "/projects", title: "Projects & Case Studies | Ecometal Matrix Engineering", description: "View our completed and pilot construction projects showcasing scale, dimensional accuracy, and record completion times.", images: ["/og-image.jpg"] },
+  twitter: { card: "summary_large_image", title: "Projects & Case Studies | Ecometal Matrix Engineering", description: "View our completed and pilot construction projects showcasing scale, dimensional accuracy, and record completion times.", images: ["/og-image.jpg"] },
 };
 
 export const revalidate = 60;
