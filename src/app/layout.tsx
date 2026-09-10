@@ -2,8 +2,11 @@ import "@fontsource/cal-sans";
 import "@fontsource/geist";
 import type { Metadata } from "next";
 import "./globals.css";
+import { siteUrl } from "@/lib/siteUrl";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
+  alternates: { canonical: "/" },
   title: "Ecometal Matrix Engineering - Build better, faster, lighter",
   description: "Ecometal Matrix Engineering is a construction technology company building a vertically integrated, AI-native steel construction platform.",
   keywords: ["Eco Metal", "LGS construction", "Light Gauge Steel", "Steel Framing", "AI Construction"],
