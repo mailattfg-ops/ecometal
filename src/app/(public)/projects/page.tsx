@@ -8,8 +8,8 @@ export const metadata: Metadata = {
   title: "Projects & Case Studies | Ecometal Matrix Engineering",
   description: "View our completed and pilot construction projects showcasing scale, dimensional accuracy, and record completion times.",
   alternates: { canonical: "/projects" },
-  openGraph: { url: "/projects", title: "Projects & Case Studies | Ecometal Matrix Engineering", description: "View our completed and pilot construction projects showcasing scale, dimensional accuracy, and record completion times.", images: ["/og-image.jpg"] },
-  twitter: { card: "summary_large_image", title: "Projects & Case Studies | Ecometal Matrix Engineering", description: "View our completed and pilot construction projects showcasing scale, dimensional accuracy, and record completion times.", images: ["/og-image.jpg"] },
+  openGraph: { url: "/projects", title: "Projects & Case Studies | Ecometal Matrix Engineering", description: "View our completed and pilot construction projects showcasing scale, dimensional accuracy, and record completion times.", images: ["/og-image.png"] },
+  twitter: { card: "summary_large_image", title: "Projects & Case Studies | Ecometal Matrix Engineering", description: "View our completed and pilot construction projects showcasing scale, dimensional accuracy, and record completion times.", images: ["/og-image.png"] },
 };
 
 export const revalidate = 60;

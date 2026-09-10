@@ -10,8 +10,8 @@ export const metadata: Metadata = {
   title: "Systems & Process | Ecometal Matrix Engineering",
   description: "Discover our Light Gauge Steel (LGS) systems integrated with foam concrete, AI-optimized platform, and ESG sustainability metrics.",
   alternates: { canonical: "/system-process" },
-  openGraph: { url: "/system-process", title: "Systems & Process | Ecometal Matrix Engineering", description: "Discover our Light Gauge Steel (LGS) systems integrated with foam concrete, AI-optimized platform, and ESG sustainability metrics.", images: ["/og-image.jpg"] },
-  twitter: { card: "summary_large_image", title: "Systems & Process | Ecometal Matrix Engineering", description: "Discover our Light Gauge Steel (LGS) systems integrated with foam concrete, AI-optimized platform, and ESG sustainability metrics.", images: ["/og-image.jpg"] },
+  openGraph: { url: "/system-process", title: "Systems & Process | Ecometal Matrix Engineering", description: "Discover our Light Gauge Steel (LGS) systems integrated with foam concrete, AI-optimized platform, and ESG sustainability metrics.", images: ["/og-image.png"] },
+  twitter: { card: "summary_large_image", title: "Systems & Process | Ecometal Matrix Engineering", description: "Discover our Light Gauge Steel (LGS) systems integrated with foam concrete, AI-optimized platform, and ESG sustainability metrics.", images: ["/og-image.png"] },
 };
 
 export default function SystemProcessPage() {

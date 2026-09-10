@@ -6,8 +6,8 @@ export const metadata: Metadata = {
   title: "Downloads & Technical Brochures | Ecometal Matrix Engineering",
   description: "Download Ecometal Matrix brochures, technical datasheets, specifications, and building layouts.",
   alternates: { canonical: "/downloads" },
-  openGraph: { url: "/downloads", title: "Downloads & Technical Brochures | Ecometal Matrix Engineering", description: "Download Ecometal Matrix brochures, technical datasheets, specifications, and building layouts.", images: ["/og-image.jpg"] },
-  twitter: { card: "summary_large_image", title: "Downloads & Technical Brochures | Ecometal Matrix Engineering", description: "Download Ecometal Matrix brochures, technical datasheets, specifications, and building layouts.", images: ["/og-image.jpg"] },
+  openGraph: { url: "/downloads", title: "Downloads & Technical Brochures | Ecometal Matrix Engineering", description: "Download Ecometal Matrix brochures, technical datasheets, specifications, and building layouts.", images: ["/og-image.png"] },
+  twitter: { card: "summary_large_image", title: "Downloads & Technical Brochures | Ecometal Matrix Engineering", description: "Download Ecometal Matrix brochures, technical datasheets, specifications, and building layouts.", images: ["/og-image.png"] },
 };
 
 export default function DownloadsPage() {

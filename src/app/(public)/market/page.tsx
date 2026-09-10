@@ -7,8 +7,8 @@ export const metadata: Metadata = {
   title: "Market Analysis & Industry Impact | Ecometal Matrix Engineering",
   description: "Explore the structural shifts in urban construction, government-underwritten demand pipelines, and market opportunity.",
   alternates: { canonical: "/market" },
-  openGraph: { url: "/market", title: "Market Analysis & Industry Impact | Ecometal Matrix Engineering", description: "Explore the structural shifts in urban construction, government-underwritten demand pipelines, and market opportunity.", images: ["/og-image.jpg"] },
-  twitter: { card: "summary_large_image", title: "Market Analysis & Industry Impact | Ecometal Matrix Engineering", description: "Explore the structural shifts in urban construction, government-underwritten demand pipelines, and market opportunity.", images: ["/og-image.jpg"] },
+  openGraph: { url: "/market", title: "Market Analysis & Industry Impact | Ecometal Matrix Engineering", description: "Explore the structural shifts in urban construction, government-underwritten demand pipelines, and market opportunity.", images: ["/og-image.png"] },
+  twitter: { card: "summary_large_image", title: "Market Analysis & Industry Impact | Ecometal Matrix Engineering", description: "Explore the structural shifts in urban construction, government-underwritten demand pipelines, and market opportunity.", images: ["/og-image.png"] },
 };
 
 export default function MarketPage() {
