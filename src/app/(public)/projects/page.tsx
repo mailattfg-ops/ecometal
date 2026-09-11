@@ -156,7 +156,7 @@ export default async function ProjectsPage() {
 
             <div className="relative z-10 shrink-0 self-start md:self-center">
               <a
-                href="https://wa.me/919080802406?text=Hi!%20I%20have%20an%20enquiry%20about%20starting%20an%20LGS%20project%20build."
+                href="https://wa.me/918438124471?text=Hi!%20I%20have%20an%20enquiry%20about%20starting%20an%20LGS%20project%20build."
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2.5 px-8 py-4 rounded-xl bg-gradient-to-r from-[#FFE270] to-[#DA8B0C] text-[#1a1a1a] font-bold text-sm hover:opacity-90 hover:scale-[1.02] transition-all duration-300 shadow-lg shadow-brand-gold/10"

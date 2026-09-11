@@ -315,7 +315,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
                   Connect directly with our South India engineering base. We provide automated calculations, structural optimizations, and fast-track LGS manufacturing schedules.
                 </p>
                 <a
-                  href={`https://wa.me/919080802406?text=Hi!%20I%27m%20interested%20in%20building%20a%20project%20similar%20to%20${encodeURIComponent(project.title)}.`}
+                  href={`https://wa.me/918438124471?text=Hi!%20I%27m%20interested%20in%20building%20a%20project%20similar%20to%20${encodeURIComponent(project.title)}.`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center justify-center gap-2 px-8 py-3 rounded-xl bg-gradient-to-r from-[#FFE270] to-[#DA8B0C] text-[#1a1a1a] text-sm font-bold transition hover:opacity-90 active:scale-98 cursor-pointer select-none"

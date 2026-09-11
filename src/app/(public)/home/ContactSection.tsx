@@ -56,10 +56,10 @@ export default function ContactSection() {
               </h4>
               <div className="text-[clamp(14px,1.1vw,18px)] text-white/50">—</div>
               <a 
-                href="tel:+919080802406" 
+                href="tel:+918438124471" 
                 className="block text-[clamp(16px,1.2vw,22px)] font-sans font-semibold text-white hover:text-white/80 transition-colors"
               >
-                +91 90808 02406
+                +91 84381 24471
               </a>
               <p className="text-[clamp(13px,1vw,16px)] font-sans font-normal text-white/70 leading-relaxed pt-2">
                 Assistance hours:
