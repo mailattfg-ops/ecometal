@@ -18,13 +18,6 @@ export default function ComplianceSection() {
     { code: "State bye-laws", desc: "FSI, setbacks, height limits per location" },
   ];
 
-  const trusts = [
-    { title: "Company registration", desc: "[ Add CIN / Udyam / registration details ]" },
-    { title: "Independent testing", desc: "[ Add test reports & appraisals once signed ]" },
-    { title: "Quality management", desc: "[ Add QMS / certification once in place ]" },
-    { title: "Insurance & warranty", desc: "[ Add cover and warranty terms ]" },
-  ];
-
   return (
     <section
       id="quality"
@@ -42,7 +35,7 @@ export default function ComplianceSection() {
 
       {/* Section Divider */}
       <div className={`${CONTAINER} relative z-10`}>
-        <SectionDivider title="Compliance & Trust" num="09" />
+        <SectionDivider title="Compliance & Trust" num="07" />
       </div>
 
       {/* Main Title Block */}
@@ -74,25 +67,6 @@ export default function ComplianceSection() {
               </div>
               <p className="text-[13px] md:text-[14px] font-sans font-normal text-white/70">
                 {item.desc}
-              </p>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Trust Blocks */}
-      <div className={`${CONTAINER} relative z-10 mb-12`}>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {trusts.map((trust, idx) => (
-            <div
-              key={idx}
-              className="bg-[#00000029] p-6 rounded-2xl border border-dashed border-white/20 hover:border-brand-gold hover:bg-white/5 transition-all duration-300 text-center flex flex-col justify-center min-h-[140px]"
-            >
-              <h4 className="text-[14px] font-sans font-bold text-white mb-2">
-                {trust.title}
-              </h4>
-              <p className="text-[12px] font-sans font-normal text-white/65 leading-relaxed">
-                {trust.desc}
               </p>
             </div>
           ))}

@@ -126,7 +126,7 @@ export default function OperatorsSection({ initialData }: OperatorsSectionProps)
 
       {/* Section Divider */}
       <div className={CONTAINER}>
-        <SectionDivider title="Leadership" num="07" />
+        <SectionDivider title="Leadership" num="06" />
       </div>
 
       {/* Main Title Block */}

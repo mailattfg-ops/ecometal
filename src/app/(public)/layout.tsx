@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-import { Menu, X, PhoneCall, Globe, Linkedin, Instagram, ArrowUp } from "lucide-react";
+import { Menu, X, PhoneCall, Linkedin, Instagram, Youtube, ArrowUp } from "lucide-react";
 
 export default function PublicLayout({
   children,
@@ -213,14 +213,14 @@ export default function PublicLayout({
 
               {/* Inline Social Icons */}
               <div className="flex items-center space-x-3 pt-3">
-                <a href="#" className="p-2 rounded-full bg-white/5 hover:bg-white/15 text-white/80 hover:text-white transition-all flex items-center justify-center border border-white/10" aria-label="Website">
-                  <Globe size={16} />
-                </a>
                 <a href="#" className="p-2 rounded-full bg-white/5 hover:bg-white/15 text-white/80 hover:text-white transition-all flex items-center justify-center border border-white/10" aria-label="LinkedIn">
                   <Linkedin size={16} />
                 </a>
                 <a href="#" className="p-2 rounded-full bg-white/5 hover:bg-white/15 text-white/80 hover:text-white transition-all flex items-center justify-center border border-white/10" aria-label="Instagram">
                   <Instagram size={16} />
+                </a>
+                <a href="https://www.youtube.com/@EcometalMatrixEngineering" target="_blank" rel="noopener noreferrer" className="p-2 rounded-full bg-white/5 hover:bg-white/15 text-white/80 hover:text-white transition-all flex items-center justify-center border border-white/10" aria-label="YouTube">
+                  <Youtube size={16} />
                 </a>
               </div>
             </div>

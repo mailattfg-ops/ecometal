@@ -30,7 +30,7 @@ export default function VideoSection({
 
       {/* Section Divider */}
       <div className={CONTAINER}>
-        <SectionDivider title="Video Showcase" />
+        <SectionDivider title="Video Showcase" num="04" />
       </div>
 
       {/* Title & Description Header */}

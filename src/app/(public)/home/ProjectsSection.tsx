@@ -106,7 +106,7 @@ export default function ProjectsSection({ initialProjects }: ProjectsSectionProp
     <section id="projects" className="w-full bg-white text-gray-800 pt-15 pb-15 scroll-mt-20 flex flex-col items-center overflow-x-hidden">
       {/* Section Divider (06) */}
       <div className={CONTAINER}>
-        <SectionDivider title="Projects & Case Studies" num="06" />
+        <SectionDivider title="Projects & Case Studies" num="05" />
       </div>
 
       {/* Main Title Block */}
